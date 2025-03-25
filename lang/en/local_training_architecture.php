@@ -160,6 +160,8 @@ Example:
 A training plan with 1 level : Module > Course.
 A training plan with 2 levels : Block > Module > Course.';
 
+$string['createTrainingGranularityLevel'] = 'Create a granularity level for training';
+
 // Errors.
 $string['nameAlreadyExists'] = 'This name is already taken.';
 $string['shortNameAlreadyExists'] = 'This shortname is already taken.';

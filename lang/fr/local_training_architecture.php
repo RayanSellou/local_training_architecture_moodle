@@ -160,6 +160,8 @@ Exemple :
 Un plan de formation à 1 niveau : Module > Cours.
 Un plan de formation à 2 niveaux : Bloc > Module > Cours.';
 
+$string['createTrainingGranularityLevel'] = 'Créer un niveau de granularité de la formation';
+
 // Errors.
 $string['nameAlreadyExists'] = 'Ce nom est déjà pris.';
 $string['shortNameAlreadyExists'] = 'Ce nom abrégé est déjà pris.';
