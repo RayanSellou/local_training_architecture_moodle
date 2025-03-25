@@ -104,7 +104,7 @@ class training_links extends moodleform {
 
         $tableId = 'training-links-table-container';
 
-        $mform->addElement('html', '<div class="custom-collapsible">
+        $mform->addElement('html', '<div class="trainingarchitecture-collapsible">
             <span class="trainingarchitecture-show-hide-table-title">' . get_string('collapse', 'local_training_architecture') . '</span>
             <input type="text" class="trainingarchitecture-search-input" id="search-input-training_links" data-table-id="' . $tableId . '" placeholder="' . get_string('search') . '">
             <div id="'. $tableId .'" class="table-container-training-architecture" style="display: block;"></div>
