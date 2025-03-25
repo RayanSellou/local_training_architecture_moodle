@@ -489,8 +489,8 @@ $coursesNotInArchitectureTable->head = [
 ];
 $coursesNotInArchitectureTable->data = $coursesNotInArchitectureFormData;
 
-echo html_writer::start_tag('div', ['class' => 'btn-container']);
-echo '<button id="delete-selected-courses-not-in-architecture" class="delete-selection btn">' . get_string('deleteSelection', 'local_training_architecture') . '</button>';
+echo html_writer::start_tag('div', ['class' => 'trainingarchitecture-btn-container']);
+echo '<button id="delete-selected-courses-not-in-architecture" class="trainingarchitecture-delete-selection btn">' . get_string('deleteSelection', 'local_training_architecture') . '</button>';
 echo html_writer::end_tag('div');
 
 // Output JavaScript to replace content with table.
@@ -583,8 +583,8 @@ $training_links_table->head = [
 ];
 $training_links_table->data = $trainingLinksData;
 
-echo html_writer::start_tag('div', ['class' => 'btn-container']);
-echo '<button id="delete-selected-training-links" class="delete-selection btn">' . get_string('deleteSelection', 'local_training_architecture') . '</button>';
+echo html_writer::start_tag('div', ['class' => 'trainingarchitecture-btn-container']);
+echo '<button id="delete-selected-training-links" class="trainingarchitecture-delete-selection btn">' . get_string('deleteSelection', 'local_training_architecture') . '</button>';
 echo html_writer::end_tag('div');
 
 // Output JavaScript to replace content with training links table.
@@ -673,8 +673,8 @@ $lu_to_lu_table->head = [
 ];
 $lu_to_lu_table->data = $luToluData;
 
-echo html_writer::start_tag('div', ['class' => 'btn-container']);
-echo '<button id="delete-selected-lu-to-lu" class="delete-selection btn">' . get_string('deleteSelection', 'local_training_architecture') . '</button>';
+echo html_writer::start_tag('div', ['class' => 'trainingarchitecture-btn-container']);
+echo '<button id="delete-selected-lu-to-lu" class="trainingarchitecture-delete-selection btn">' . get_string('deleteSelection', 'local_training_architecture') . '</button>';
 echo html_writer::end_tag('div');
 
 // Output JavaScript to replace content with LU to LU table.

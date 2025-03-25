@@ -1,29 +1,54 @@
-ul {
+/* ul {
+    list-style: none;
+    margin-left: -20px;
+} */
+
+body.path-mod-trainingarchitecture .trainingarchitecture-container ul {
     list-style: none;
     margin-left: -20px;
 }
 
-.delete-selection{
+/* .delete-selection{
     color: white;
     background-color: #ca3120;
 
     &:hover {
         color: white;
     }
+} */
+
+body.path-mod-trainingarchitecture .trainingarchitecture-delete-selection {
+    color: white;
+    background-color: #ca3120;
 }
 
-.delete-selection:not([disabled]):hover {
+body.path-mod-trainingarchitecture .trainingarchitecture-delete-selection:hover {
+    color: white;
+}
+
+/* .delete-selection:not([disabled]):hover {
+    background-color: #ac2b1d;
+    color: white;
+} */
+
+body.path-mod-trainingarchitecture .trainingarchitecture-delete-selection:not([disabled]):hover {
     background-color: #ac2b1d;
     color: white;
 }
 
-.btn-container {
+/* .btn-container {
+    display: flex;
+    justify-content: end;
+    margin-bottom: 20px;
+} */
+
+body.path-mod-trainingarchitecture .trainingarchitecture-btn-container {
     display: flex;
     justify-content: end;
     margin-bottom: 20px;
 }
 
-.tr-selected-lu {
+/* .tr-selected-lu {
     background-color: #d48282 !important;
     color: black !important;
 
@@ -31,9 +56,19 @@ ul {
         background-color: #d48282 !important;
         color: black !important;
     }
+} */
+
+body.path-mod-trainingarchitecture .trainingarchitecture-tr-selected-lu {
+    background-color: #d48282 !important;
+    color: black !important;
 }
 
-.tr-linked-lu {
+body.path-mod-trainingarchitecture .trainingarchitecture-tr-selected-lu:hover {
+    background-color: #d48282 !important;
+    color: black !important;
+}
+
+/* .tr-linked-lu {
     color: #ec3737 !important;
     font-weight: bold;
 
@@ -41,21 +76,44 @@ ul {
         color: #ec3737 !important;
         font-weight: bold !important;
     }
+} */
+
+body.path-mod-trainingarchitecture .trainingarchitecture-tr-linked-lu {
+    color: #ec3737 !important;
+    font-weight: bold;
 }
 
-.custom-collapsible h4 {
+body.path-mod-trainingarchitecture .trainingarchitecture-tr-linked-lu:hover {
+    color: #ec3737 !important;
+    font-weight: bold !important;
+}
+
+/* .custom-collapsible h4 {
+    cursor: pointer;
+} */
+
+body.path-mod-trainingarchitecture .trainingarchitecture-collapsible h4 {
     cursor: pointer;
 }
 
-.custom-collapsible div {
+/* .custom-collapsible div {
+    display: block;
+} */
+
+body.path-mod-trainingarchitecture .trainingarchitecture-collapsible div {
     display: block;
 }
 
-.custom-collapsible h4.active + div {
+/* .custom-collapsible h4.active + div {
+    display: block;
+} */
+
+body.path-mod-trainingarchitecture .trainingarchitecture-collapsible h4.active + div {
     display: block;
 }
 
-.show-hide-table-title {
+
+/* .show-hide-table-title {
     display: inline-block;
     color: #0f6cbf;
 
@@ -63,9 +121,28 @@ ul {
         text-decoration: underline;
         cursor: pointer;
     }
+} */
+
+body.path-mod-trainingarchitecture .trainingarchitecture-show-hide-table-title {
+    display: inline-block;
+    color: #0f6cbf;
 }
 
-.search-input-training-architecture {
+body.path-mod-trainingarchitecture .trainingarchitecture-show-hide-table-title:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+/* .search-input-training-architecture {
+    margin-bottom: 10px;
+    float: right;
+    border-radius: 10px;
+    border: 1px solid gray;
+    padding-left: 10px;
+    height: 35px;
+} */
+
+body.path-mod-trainingarchitecture .trainingarchitecture-search-input{
     margin-bottom: 10px;
     float: right;
     border-radius: 10px;

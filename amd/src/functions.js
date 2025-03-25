@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function() {
         data: {},
         success: function(response) {
             
-            var headers = document.querySelectorAll(".custom-collapsible span");
+            var headers = document.querySelectorAll(".trainingarchitecture-collapsible span");
             headers.forEach(function(header) {
                 header.addEventListener("click", function() {
                     this.classList.toggle("active");
@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function() {
 // Handle search
 document.addEventListener('DOMContentLoaded', function() {
 
-    var searchInputs = document.querySelectorAll('.search-input-training-architecture');
+    var searchInputs = document.querySelectorAll('.trainingarchitecture-search-input');
     searchInputs.forEach(function(searchInput) {
         searchInput.addEventListener('keyup', function() {
             var filter = removeAccents(searchInput.value);

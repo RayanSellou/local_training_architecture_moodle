@@ -34,7 +34,7 @@ allCheckboxesLinks.forEach(function(allCheckboxes) {
 
     // Highlight selected links
     var parentTR = allCheckboxes.closest('tr');
-    parentTR.classList.toggle('tr-selected-lu', allCheckboxes.checked);
+    parentTR.classList.toggle('trainingarchitecture-tr-selected-lu', allCheckboxes.checked);
   });
 });
 
@@ -50,7 +50,7 @@ allCheckboxesCourses.forEach(function(allCheckboxes) {
 
     // Highlight selected courses
     var parentTR = allCheckboxes.closest('tr');
-    parentTR.classList.toggle('tr-selected-lu', allCheckboxes.checked);
+    parentTR.classList.toggle('trainingarchitecture-tr-selected-lu', allCheckboxes.checked);
   });
 });
 
@@ -58,7 +58,7 @@ allCheckboxesCourses.forEach(function(allCheckboxes) {
 allCheckboxesLu.forEach(function(checkbox) {
   checkbox.addEventListener('change', function() {
     var parentTR = checkbox.closest('tr');
-    parentTR.classList.toggle('tr-selected-lu', checkbox.checked);
+    parentTR.classList.toggle('trainingarchitecture-tr-selected-lu', checkbox.checked);
 
     var trainingId = checkbox.getAttribute('data-trainingid');
     var luId2 = checkbox.getAttribute('data-luid2');
@@ -75,7 +75,7 @@ allCheckboxesLu.forEach(function(checkbox) {
           checkbox.getAttribute('data-isluid2course') == 'true') {
 
             var linkedTR = checkbox.closest('tr');
-            linkedTR.classList.add('tr-linked-lu');
+            linkedTR.classList.add('trainingarchitecture-tr-linked-lu');
 
           }
         });
@@ -102,7 +102,7 @@ allCheckboxesLu.forEach(function(checkbox) {
             checkbox.getAttribute('data-isluid2course') == 'true') {
               
               var linkedTRChild = checkbox.closest('tr');
-              linkedTRChild.classList.remove("tr-linked-lu");
+              linkedTRChild.classList.remove("trainingarchitecture-tr-linked-lu");
             }
           });
         }

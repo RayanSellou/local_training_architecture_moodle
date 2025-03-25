@@ -54,8 +54,8 @@ class create_level extends moodleform {
         $tableId = 'levels-table-container';
 
         $mform->addElement('html', '<div class="custom-collapsible">
-            <span class="show-hide-table-title">' . get_string('collapse', 'local_training_architecture') . '</span>
-            <input type="text" class="search-input-training-architecture" id="search-input-level" data-table-id="' . $tableId . '" placeholder="' . get_string('search') . '">
+            <span class="trainingarchitecture-show-hide-table-title">' . get_string('collapse', 'local_training_architecture') . '</span>
+            <input type="text" class="trainingarchitecture-search-input" id="search-input-level" data-table-id="' . $tableId . '" placeholder="' . get_string('search') . '">
             <div id="'. $tableId .'" class="table-container-training-architecture" style="display: block;"></div>
         </div>');
 
