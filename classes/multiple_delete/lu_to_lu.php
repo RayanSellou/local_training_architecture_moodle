@@ -67,8 +67,8 @@ require_login();
 $context = context_system::instance();
 require_capability('local/training_architecture:manage',$context);
 $PAGE->set_context($context);
-$PAGE->set_title(get_string('deleteLuLuTitle', 'local_training_architecture'));
-$PAGE->set_heading(get_string('deleteLuLuTitle', 'local_training_architecture'));
+$PAGE->set_title(get_string('deletelulutitle', 'local_training_architecture'));
+$PAGE->set_heading(get_string('deletelulutitle', 'local_training_architecture'));
 $PAGE->set_pagelayout('admin');
 
 // DELETE
@@ -78,13 +78,13 @@ if ($ids) {
     foreach ($ids as $id) {
         if ($luFunctions->isLinkAlreadyUsedMultiple($id, $ids)) {
             $PAGE->set_title(get_string('deletemultipletitle1', 'local_training_architecture') . 
-            count($ids) . get_string('deleteMultipleLuLuTitle2', 'local_training_architecture'));
+            count($ids) . get_string('deletemultiplelulutitle2', 'local_training_architecture'));
 
             $PAGE->set_heading(get_string('deletemultipletitle1', 'local_training_architecture') . 
-            count($ids) . get_string('deleteMultipleLuLuTitle2', 'local_training_architecture'));
+            count($ids) . get_string('deletemultiplelulutitle2', 'local_training_architecture'));
             
             echo $OUTPUT->header();        
-            echo $OUTPUT->notification(get_string('notifyErrorMultipleLuToLu', 'local_training_architecture'), 'notifyproblem');
+            echo $OUTPUT->notification(get_string('notifyerrormultiplelutolu', 'local_training_architecture'), 'notifyproblem');
             echo $OUTPUT->continue_button(new moodle_url('/local/training_architecture/index.php'));
             echo $OUTPUT->footer();
             die;
@@ -93,10 +93,10 @@ if ($ids) {
 
     if (!$confirm) { // Cancel
         $PAGE->set_title(get_string('deletemultipletitle1', 'local_training_architecture') . 
-        count($ids) . get_string('deleteMultipleLuLuTitle2', 'local_training_architecture'));
+        count($ids) . get_string('deletemultiplelulutitle2', 'local_training_architecture'));
 
         $PAGE->set_heading(get_string('deletemultipletitle1', 'local_training_architecture') . 
-        count($ids) . get_string('deleteMultipleLuLuTitle2', 'local_training_architecture'));
+        count($ids) . get_string('deletemultiplelulutitle2', 'local_training_architecture'));
 
         echo $OUTPUT->header();
 
@@ -104,7 +104,7 @@ if ($ids) {
         $formcontinue = new single_button(new moodle_url($optionsYes), get_string('confirmyes', 'local_training_architecture'), 'get');
         
         $formcancel = new single_button(new moodle_url('/local/training_architecture/index.php'), get_string('confirmno', 'local_training_architecture'), 'get');
-        echo $OUTPUT->confirm(get_string('deleteMultipleWarning', 'local_training_architecture'), $formcontinue, $formcancel);
+        echo $OUTPUT->confirm(get_string('deletemultiplewarning', 'local_training_architecture'), $formcontinue, $formcancel);
         echo $OUTPUT->footer();
         die;
 

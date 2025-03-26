@@ -83,7 +83,7 @@ class edit_lu extends moodleform {
         // Handle duplicates values
         if (!empty($data['luIDNumber'])) {
             if ($DB->record_exists_select('local_training_architecture_lu', 'idnumber = ? AND id!= ?', [str_replace(' ', '', $data['luIDNumber']), $data['id']])) {
-                $errors['luIDNumber'] = get_string('IDNumberAlreadyExists', 'local_training_architecture');
+                $errors['luIDNumber'] = get_string('idnumberalreadyexists', 'local_training_architecture');
             }        
         }
 
@@ -92,13 +92,13 @@ class edit_lu extends moodleform {
             /*$sql = 'LOWER(fullname) = LOWER(?) AND id != ?';
             $params = [trim($data['luFullName']), $data['id']];
             if ($DB->record_exists_select('local_training_architecture_lu', $sql, $params)) {
-                $errors['luFullName'] = get_string('nameAlreadyExists', 'local_training_architecture');
+                $errors['luFullName'] = get_string('namealreadyexists', 'local_training_architecture');
             }*/
 
             $sql = 'LOWER(shortname) = LOWER(?) AND id != ?';
             $params = [trim($data['luShortName']), $data['id']];
             if ($DB->record_exists_select('local_training_architecture_lu', $sql, $params)) {
-                $errors['luShortName'] = get_string('shortNameAlreadyExists', 'local_training_architecture');
+                $errors['luShortName'] = get_string('shortnamealreadyexists', 'local_training_architecture');
             }
 
             if ($errors) {

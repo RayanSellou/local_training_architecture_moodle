@@ -36,7 +36,7 @@ class cohort_sync_task extends \core\task\scheduled_task {
      * @return string the name of the task
      */
     public function get_name() {
-         return get_string('cohortTask', 'local_training_architecture');
+         return get_string('cohorttask', 'local_training_architecture');
     }
 
     /**

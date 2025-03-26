@@ -84,13 +84,13 @@ class edit_level extends moodleform {
             $sql = 'LOWER(fullname) = LOWER(?) AND id != ?';
             $params = [trim($data['levelFullName']), $data['id']];
             if ($DB->record_exists_select('local_training_architecture_level_names', $sql, $params)) {
-                $errors['levelFullName'] = get_string('nameAlreadyExists', 'local_training_architecture');
+                $errors['levelFullName'] = get_string('namealreadyexists', 'local_training_architecture');
             }
 
             $sql = 'LOWER(shortname) = LOWER(?) AND id != ?';
             $params = [trim($data['levelShortName']), $data['id']];
             if ($DB->record_exists_select('local_training_architecture_level_names', $sql, $params)) {
-                $errors['levelShortName'] = get_string('shortNameAlreadyExists', 'local_training_architecture');
+                $errors['levelShortName'] = get_string('shortnamealreadyexists', 'local_training_architecture');
             }
 
             if ($errors) {

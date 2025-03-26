@@ -103,7 +103,7 @@ class edit_training extends moodleform {
         // Handle duplicates values
         if (!empty($data['trainingIDNumber'])) {
             if ($DB->record_exists_select('local_training_architecture_training', 'idnumber = ? AND id!= ?', [str_replace(' ', '', $data['trainingIDNumber']), $data['id']])) {
-                $errors['trainingIDNumber'] = get_string('IDNumberAlreadyExists', 'local_training_architecture');
+                $errors['trainingIDNumber'] = get_string('idnumberalreadyexists', 'local_training_architecture');
             }        
         }
         
@@ -124,7 +124,7 @@ class edit_training extends moodleform {
                     'trainingid = ? ', 
                     [$oldTraining->id]
                 )) {
-                    $errors['trainingSemester'] = get_string('errorEditSemester', 'local_training_architecture');
+                    $errors['trainingSemester'] = get_string('erroreditsemester', 'local_training_architecture');
                 }
             }
 
@@ -147,7 +147,7 @@ class edit_training extends moodleform {
                 );
 
                 if ($referencesExist) {
-                    $errors['trainingLevel'] = get_string('errorEditLevel', 'local_training_architecture');
+                    $errors['trainingLevel'] = get_string('erroreditlevel', 'local_training_architecture');
                 }
             }
         }
@@ -157,13 +157,13 @@ class edit_training extends moodleform {
             /*$sql = 'LOWER(fullname) = LOWER(?) AND id != ?';
             $params = [trim($data['trainingFullName']), $data['id']];
             if ($DB->record_exists_select('local_training_architecture_training', $sql, $params)) {
-                $errors['trainingFullName'] = get_string('nameAlreadyExists', 'local_training_architecture');
+                $errors['trainingFullName'] = get_string('namealreadyexists', 'local_training_architecture');
             }*/
 
             $sql = 'LOWER(shortname) = LOWER(?) AND id != ?';
             $params = [trim($data['trainingShortName']), $data['id']];
             if ($DB->record_exists_select('local_training_architecture_training', $sql, $params)) {
-                $errors['trainingShortName'] = get_string('shortNameAlreadyExists', 'local_training_architecture');
+                $errors['trainingShortName'] = get_string('shortnamealreadyexists', 'local_training_architecture');
             }
 
             if ($errors) {

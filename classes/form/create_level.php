@@ -89,11 +89,11 @@ class create_level extends moodleform {
         if(empty($errors)) {
 
             if ($DB->record_exists_select('local_training_architecture_level_names', 'LOWER(fullname) = LOWER(?)', [trim($data['levelFullName'])])) {
-                $errors['levelFullName'] = get_string('nameAlreadyExists', 'local_training_architecture');
+                $errors['levelFullName'] = get_string('namealreadyexists', 'local_training_architecture');
             }
 
             if ($DB->record_exists_select('local_training_architecture_level_names', 'LOWER(shortname) = LOWER(?)', [trim($data['levelShortName'])])) {
-                $errors['levelShortName'] = get_string('shortNameAlreadyExists', 'local_training_architecture');
+                $errors['levelShortName'] = get_string('shortnamealreadyexists', 'local_training_architecture');
             }
 
             if($errors) {

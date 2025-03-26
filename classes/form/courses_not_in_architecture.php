@@ -119,7 +119,7 @@ class courses_not_in_architecture extends moodleform {
                         [$data['coursesNotInArchitectureTrainingId'], $courseId, 'true']
                     )) {
                         $coursesAlreadyInArchitecture.= ' ' . $commonFunctions->getCourseFullName($courseId);
-                        $errors['coursesNotInArchitectureCourseId'] = get_string('courseAlreadyInArchitecture', 'local_training_architecture') . ' : ' . $coursesAlreadyInArchitecture;
+                        $errors['coursesNotInArchitectureCourseId'] = get_string('coursealreadyinarchitecture', 'local_training_architecture') . ' : ' . $coursesAlreadyInArchitecture;
                     }
                 }
             }

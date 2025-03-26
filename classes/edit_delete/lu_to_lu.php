@@ -61,23 +61,23 @@ if ($id and $delete) {
 
     // LU to LU link has references
     if ($luFunctions->isLinkAlreadyUsed($id)) {
-        $PAGE->set_title(get_string('deleteLuLuTitle', 'local_training_architecture'));
-        $PAGE->set_heading(get_string('deleteLuLuTitle', 'local_training_architecture'));
+        $PAGE->set_title(get_string('deletelulutitle', 'local_training_architecture'));
+        $PAGE->set_heading(get_string('deletelulutitle', 'local_training_architecture'));
         echo $OUTPUT->header();        
-        echo $OUTPUT->notification(get_string('notifyErrorLuToLu', 'local_training_architecture'), 'notifyproblem');
+        echo $OUTPUT->notification(get_string('notifyerrorlutolu', 'local_training_architecture'), 'notifyproblem');
         echo $OUTPUT->continue_button(new moodle_url('/local/training_architecture/index.php'));
         echo $OUTPUT->footer();
         die;
     }
 
     if (!$confirm) { // Cancel
-        $PAGE->set_title(get_string('deleteLuLuTitle', 'local_training_architecture'));
-        $PAGE->set_heading(get_string('deleteLuLuTitle', 'local_training_architecture'));
+        $PAGE->set_title(get_string('deletelulutitle', 'local_training_architecture'));
+        $PAGE->set_heading(get_string('deletelulutitle', 'local_training_architecture'));
         echo $OUTPUT->header();
         $optionsYes = ['id' => $id, 'delete' => 1, 'sesskey' => sesskey(), 'confirm' => 1];
         $formcontinue = new single_button(new moodle_url('/local/training_architecture/classes/edit_delete/lu_to_lu.php', $optionsYes), get_string('confirmyes', 'local_training_architecture'), 'get');
         $formcancel = new single_button(new moodle_url('/local/training_architecture/index.php'), get_string('confirmno', 'local_training_architecture'), 'get');
-        echo $OUTPUT->confirm(get_string('deleteLinkWarning', 'local_training_architecture'), $formcontinue, $formcancel);
+        echo $OUTPUT->confirm(get_string('deletelinkwarning', 'local_training_architecture'), $formcontinue, $formcancel);
         echo $OUTPUT->footer();
         die;
 

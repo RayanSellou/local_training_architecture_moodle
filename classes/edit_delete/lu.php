@@ -69,7 +69,7 @@ if ($id and $delete) {
         $PAGE->set_title(get_string('deletelutitle', 'local_training_architecture'));
         $PAGE->set_heading(get_string('deletelutitle', 'local_training_architecture') . " " . $commonFunctions->getLuFullName($id));
         echo $OUTPUT->header();        
-        echo $OUTPUT->notification(get_string('notifyErrorLu', 'local_training_architecture'), 'notifyproblem');
+        echo $OUTPUT->notification(get_string('notifyerrorlu', 'local_training_architecture'), 'notifyproblem');
         echo $OUTPUT->continue_button(new moodle_url('/local/training_architecture/index.php'));
         echo $OUTPUT->footer();
         die;
@@ -82,7 +82,7 @@ if ($id and $delete) {
         $optionsYes = ['id' => $id, 'delete' => 1, 'sesskey' => sesskey(), 'confirm' => 1];
         $formcontinue = new single_button(new moodle_url('/local/training_architecture/classes/edit_delete/lu.php', $optionsYes), get_string('confirmyes', 'local_training_architecture'), 'get');
         $formcancel = new single_button(new moodle_url('/local/training_architecture/index.php'), get_string('confirmno', 'local_training_architecture'), 'get');
-        echo $OUTPUT->confirm(get_string('deleteLuWarning', 'local_training_architecture'), $formcontinue, $formcancel);
+        echo $OUTPUT->confirm(get_string('deleteluwarning', 'local_training_architecture'), $formcontinue, $formcancel);
         echo $OUTPUT->footer();
         die;
 

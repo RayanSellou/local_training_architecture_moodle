@@ -155,7 +155,7 @@ class training_links extends moodleform {
             }
 
             if((int)$data['level'] > $granularityLevel + 1) {
-                $errors['level'] = get_string('levelTooHigh', 'local_training_architecture');   
+                $errors['level'] = get_string('leveltoohigh', 'local_training_architecture');   
             }
 
         }
@@ -182,7 +182,7 @@ class training_links extends moodleform {
                         [$data['trainingId2'], $luId]
                     )) {
                         $luExists.= ' ' . $common_functions->getLuFullName($luId);
-                        $errors['luId'] = get_string('associationAlreadyExists', 'local_training_architecture') . ' : ' . $luExists;
+                        $errors['luId'] = get_string('associationalreadyexists', 'local_training_architecture') . ' : ' . $luExists;
                     }
                 }
             }
@@ -202,12 +202,12 @@ class training_links extends moodleform {
                             'trainingid = ? AND level = ? AND courseid = ? AND semester = ?', 
                             [$data['trainingId2'], $data['level'], $courseId, $data['semester']]
                         )) {
-                            $errors['trainingId2'] = get_string('associationAlreadyExists', 'local_training_architecture');
-                            $errors['level'] = get_string('associationAlreadyExists', 'local_training_architecture');
-                            $errors['semester'] = get_string('associationAlreadyExists', 'local_training_architecture');
+                            $errors['trainingId2'] = get_string('associationalreadyexists', 'local_training_architecture');
+                            $errors['level'] = get_string('associationalreadyexists', 'local_training_architecture');
+                            $errors['semester'] = get_string('associationalreadyexists', 'local_training_architecture');
 
                             $courseExists.= ' ' . $common_functions->getCourseFullName($courseId);
-                            $errors['courseId'] = get_string('associationAlreadyExists', 'local_training_architecture') . ' : ' . $courseExists;
+                            $errors['courseId'] = get_string('associationalreadyexists', 'local_training_architecture') . ' : ' . $courseExists;
                         }
                     }
                 }
@@ -221,7 +221,7 @@ class training_links extends moodleform {
                             [$data['trainingId2'], $data['level'], $courseId]
                         )) {
                             $courseExists.= ' ' . $common_functions->getCourseFullName($courseId);
-                            $errors['courseId'] = get_string('associationAlreadyExists', 'local_training_architecture') . ' : ' . $courseExists;
+                            $errors['courseId'] = get_string('associationalreadyexists', 'local_training_architecture') . ' : ' . $courseExists;
                         }
                     }
                 }

@@ -65,7 +65,7 @@ class lu_to_lu extends moodleform {
         $options = ['multiple' => false];
 
         for ($i = 1; $i <= 2; $i++) {
-            $mform->addElement('autocomplete', 'luToLuId' . $i, get_string('luLevel', 'local_training_architecture') . $i, $allLus, $options);
+            $mform->addElement('autocomplete', 'luToLuId' . $i, get_string('lulevel', 'local_training_architecture') . $i, $allLus, $options);
             $mform->addRule('luToLuId' . $i, get_string('required'), 'required');
             $mform->setType('luToLuId' . $i, PARAM_INT);
         }
@@ -129,7 +129,7 @@ class lu_to_lu extends moodleform {
                     $errors[$fieldName] = get_string('required');
                 }
                 elseif (in_array($luId, $luIds)) {
-                    $errors[$fieldName] = get_string('luDuplicate', 'local_training_architecture');
+                    $errors[$fieldName] = get_string('luduplicate', 'local_training_architecture');
                 } else {
                     $luIds[] = $luId;
                 }
@@ -146,7 +146,7 @@ class lu_to_lu extends moodleform {
                     'trainingid = ? AND luid2 = ? AND isluid2course = ?', 
                     [$data['luToLuTrainingId'], $data['luToLuId1'], 'false']
                 )) {
-                    $errors['luToLuId1'] = get_string('lu1AlreadyAsLu2', 'local_training_architecture');
+                    $errors['luToLuId1'] = get_string('lu1alreadyaslu2', 'local_training_architecture');
                 }
 
                 if ($DB->record_exists_select(
@@ -154,7 +154,7 @@ class lu_to_lu extends moodleform {
                     'trainingid = ? AND luid1 = ? AND isluid2course = ?', 
                     [$data['luToLuTrainingId'], $data['luToLuId2'], 'false']
                 )) {
-                    $errors['luToLuId2'] = get_string('lu2AlreadyAsLu1', 'local_training_architecture');
+                    $errors['luToLuId2'] = get_string('lu2alreadyaslu1', 'local_training_architecture');
                 }
             }
         }
@@ -172,7 +172,7 @@ class lu_to_lu extends moodleform {
                     'trainingid = ? AND luid = ?', 
                     [$data['luToLuTrainingId'], $luId]
                 )) {
-                    $errors[$fieldName] = get_string('luNotRelated', 'local_training_architecture');
+                    $errors[$fieldName] = get_string('lunotrelated', 'local_training_architecture');
                 }
             }
             // Course
@@ -187,7 +187,7 @@ class lu_to_lu extends moodleform {
                         [$data['luToLuTrainingId'], $courseId]
                     )) {
                         $coursesNotLinked.= ' ' . $commonFunctions->getCourseFullName($courseId);
-                        $errors['luToLuCourseId'] = get_string('courseNotRelated', 'local_training_architecture') . ' : ' . $coursesNotLinked;
+                        $errors['luToLuCourseId'] = get_string('coursenotrelated', 'local_training_architecture') . ' : ' . $coursesNotLinked;
                     }
                 }
             }
@@ -200,7 +200,7 @@ class lu_to_lu extends moodleform {
                         [$data['luToLuTrainingId'], $courseId]
                     )) {
                         $coursesAlreadyOutsideArchitecture.= ' ' . $commonFunctions->getCourseFullName($courseId);
-                        $errors['luToLuCourseId'] = get_string('courseAlreadyNotInArchitecture', 'local_training_architecture') . ' : ' . $coursesAlreadyOutsideArchitecture;
+                        $errors['luToLuCourseId'] = get_string('coursealreadynotinarchitecture', 'local_training_architecture') . ' : ' . $coursesAlreadyOutsideArchitecture;
                     }
                 }
             }

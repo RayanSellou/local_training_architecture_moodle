@@ -86,7 +86,7 @@ if ($ids) {
             count($ids) . get_string('deletemultipletraininglinkstitle2', 'local_training_architecture'));
             
             echo $OUTPUT->header();        
-            echo $OUTPUT->notification(get_string('notifyErrorMultipleTrainingLinks', 'local_training_architecture'), 'notifyproblem');
+            echo $OUTPUT->notification(get_string('notifyerrormultipletraininglinks', 'local_training_architecture'), 'notifyproblem');
             echo $OUTPUT->continue_button(new moodle_url('/local/training_architecture/index.php'));
             echo $OUTPUT->footer();
             die;
@@ -106,7 +106,7 @@ if ($ids) {
         $formcontinue = new single_button(new moodle_url($optionsYes), get_string('confirmyes', 'local_training_architecture'), 'get');
         
         $formcancel = new single_button(new moodle_url('/local/training_architecture/index.php'), get_string('confirmno', 'local_training_architecture'), 'get');
-        echo $OUTPUT->confirm(get_string('deleteMultipleWarning', 'local_training_architecture'), $formcontinue, $formcancel);
+        echo $OUTPUT->confirm(get_string('deletemultiplewarning', 'local_training_architecture'), $formcontinue, $formcancel);
         echo $OUTPUT->footer();
         die;
 

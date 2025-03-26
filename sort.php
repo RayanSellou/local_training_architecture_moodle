@@ -59,8 +59,8 @@ require_login();
 $context = context_system::instance();
 require_capability('local/training_architecture:manage',$context);
 $PAGE->set_context($context);
-$PAGE->set_title(get_string('sortLuTitle', 'local_training_architecture'));
-$PAGE->set_heading(get_string('sortLu', 'local_training_architecture') . $commonFunctions->getTrainingFullName($trainingid));
+$PAGE->set_title(get_string('sortlutitle', 'local_training_architecture'));
+$PAGE->set_heading(get_string('sortlu', 'local_training_architecture') . $commonFunctions->getTrainingFullName($trainingid));
 $PAGE->set_pagelayout('admin');
 $PAGE->requires->js('/local/training_architecture/amd/src/sort.js');
 $PAGE->requires->js('/local/training_architecture/amd/src/functions.js');
@@ -228,7 +228,7 @@ if($lu1_data) {
     echo html_writer::end_tag('div');
 }
 else {
-    echo get_string('noLus', 'local_training_architecture');
+    echo get_string('nolus', 'local_training_architecture');
 }
 
 // Displaying LU2 table if trainingid and luid are provided.
@@ -240,7 +240,7 @@ if($trainingid and $luid) {
 
 // Displaying order information and back button.
 echo html_writer::start_tag('div', ['style' => 'clear: both;']);
-echo get_string('orderInformations', 'local_training_architecture');
+echo get_string('orderinformations', 'local_training_architecture');
 echo $OUTPUT->single_button(new moodle_url('/local/training_architecture/index.php'), get_string('back', 'local_training_architecture'), 'POST', ['style' => 'margin-top: 20px; margin-left: 20px;']);
 echo html_writer::end_tag('div');
 echo $OUTPUT->footer();

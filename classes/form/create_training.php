@@ -112,17 +112,17 @@ class create_training extends moodleform {
         // Handle duplicates values
         if (!empty($data['trainingIDNumber'])) {
             if ($DB->record_exists_select('local_training_architecture_training', 'idnumber = ?', [str_replace(' ', '', $data['trainingIDNumber'])])) {
-                $errors['trainingIDNumber'] = get_string('IDNumberAlreadyExists', 'local_training_architecture');
+                $errors['trainingIDNumber'] = get_string('idnumberalreadyexists', 'local_training_architecture');
             }        
         }
 
         if(empty($errors)) {
 
             /*if ($DB->record_exists_select('local_training_architecture_training', 'LOWER(fullname) = LOWER(?)', [trim($data['trainingFullName'])])) {
-                $errors['trainingFullName'] = get_string('nameAlreadyExists', 'local_training_architecture');
+                $errors['trainingFullName'] = get_string('namealreadyexists', 'local_training_architecture');
             }*/
             if ($DB->record_exists_select('local_training_architecture_training', 'LOWER(shortname) = LOWER(?)', [trim($data['trainingShortName'])])) {
-                $errors['trainingShortName'] = get_string('shortNameAlreadyExists', 'local_training_architecture');
+                $errors['trainingShortName'] = get_string('shortnamealreadyexists', 'local_training_architecture');
             }
             if($errors) {
                 return $errors;

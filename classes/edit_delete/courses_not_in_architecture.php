@@ -66,7 +66,7 @@ if ($id and $delete) {
         $optionsYes = ['id' => $id, 'delete' => 1, 'sesskey' => sesskey(), 'confirm' => 1];
         $formcontinue = new single_button(new moodle_url('/local/training_architecture/classes/edit_delete/courses_not_in_architecture.php', $optionsYes), get_string('confirmyes', 'local_training_architecture'), 'get');
         $formcancel = new single_button(new moodle_url('/local/training_architecture/index.php'), get_string('confirmno', 'local_training_architecture'), 'get');
-        echo $OUTPUT->confirm(get_string('deleteLinkWarning', 'local_training_architecture'), $formcontinue, $formcancel);
+        echo $OUTPUT->confirm(get_string('deletelinkwarning', 'local_training_architecture'), $formcontinue, $formcancel);
         echo $OUTPUT->footer();
         die;
 

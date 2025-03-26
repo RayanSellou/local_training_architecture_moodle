@@ -37,7 +37,7 @@ class course_sync_task extends \core\task\scheduled_task {
      * @return string the name of the task
      */
     public function get_name() {
-         return get_string('courseTask', 'local_training_architecture');
+         return get_string('coursetask', 'local_training_architecture');
     }
 
     /**

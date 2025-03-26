@@ -87,7 +87,7 @@ if ($ids) {
         $formcontinue = new single_button(new moodle_url($optionsYes), get_string('confirmyes', 'local_training_architecture'), 'get');
     
         $formcancel = new single_button(new moodle_url('/local/training_architecture/index.php'), get_string('confirmno', 'local_training_architecture'), 'get');
-        echo $OUTPUT->confirm(get_string('deleteMultipleWarning', 'local_training_architecture'), $formcontinue, $formcancel);
+        echo $OUTPUT->confirm(get_string('deletemultiplewarning', 'local_training_architecture'), $formcontinue, $formcancel);
         echo $OUTPUT->footer();
         die;
 

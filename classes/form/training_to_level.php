@@ -116,7 +116,7 @@ class training_level extends moodleform {
                 }
                 else {
                     if (in_array($data[$str], $levelValues)) {
-                        $errors[$str] = get_string('selectDifferentLevel', 'local_training_architecture');
+                        $errors[$str] = get_string('selectdifferentlevel', 'local_training_architecture');
                     } else {
                         $levelValues[] = $data[$str];
                     }
@@ -134,7 +134,7 @@ class training_level extends moodleform {
                 'local_training_architecture_level_names_to_training', 
                 'trainingid = ?', [$data['trainingId3']])) {
 
-                $errors['trainingId3'] = get_string('trainingLevelAlreadyExists', 'local_training_architecture');
+                $errors['trainingId3'] = get_string('traininglevelalreadyexists', 'local_training_architecture');
             }
             if($errors) {
                 return $errors;

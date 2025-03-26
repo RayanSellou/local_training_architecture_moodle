@@ -98,25 +98,25 @@ $string['traininglinks'] = 'Association des caractéristiques d\'une formation';
 $string['semester'] = 'Semestre';
 $string['selectsemester'] = 'Choisir un semestre';
 $string['deletetraininglinks'] = 'Supprimer les caractéristiques de la formation';
-$string['deleteMultipleTrainingLinksTitle2'] = ' lien(s) de caractéristiques de la formation';
+$string['deletemultipletraininglinkstitle2'] = ' lien(s) de caractéristiques de la formation';
 
 // LU to LU.
-$string['luToLu'] = 'Association des Unités d\'Apprentissage';
-$string['luLevel'] = 'Unité d\'Apprentissage de niveau ';
-$string['deleteLuLuTitle'] = 'Supprimer l\'association d\'Unités d\'Apprentissage';
-$string['deleteMultipleLuLuTitle2'] = ' association(s) d\'Unités d\'Apprentissage';
+$string['lutolu'] = 'Association des Unités d\'Apprentissage';
+$string['lulevel'] = 'Unité d\'Apprentissage de niveau ';
+$string['deletelulutitle'] = 'Supprimer l\'association d\'Unités d\'Apprentissage';
+$string['deletemultiplelulutitle2'] = ' association(s) d\'Unités d\'Apprentissage';
 
 // Sort order LU.
-$string['sortLuTitle'] = 'Gérer l\'ordre des Unités d\'Apprentissage';
-$string['sortLu'] = 'Gérer l\'ordre des Unités d\'Apprentissage de ';
-$string['noLus'] = 'Cette formation n\'a pas encore d\'Unités d\'Apprentissage.';
-$string['orderInformations'] = 'Cette page sert à ordonner les Unités d\'Apprentissage (UA) d\'une formation. 
+$string['sortlutitle'] = 'Gérer l\'ordre des Unités d\'Apprentissage';
+$string['sortlu'] = 'Gérer l\'ordre des Unités d\'Apprentissage de ';
+$string['nolus'] = 'Cette formation n\'a pas encore d\'Unités d\'Apprentissage.';
+$string['orderinformations'] = 'Cette page sert à ordonner les Unités d\'Apprentissage (UA) d\'une formation. 
 Cliquez sur une UA de niveau 1 pour ordonner ses UA de niveau 2. 
 (Cela aura uniquement un impact sur l\'ordre d\'affichage des UA d\'une formation liée au plugin bloc associé (block_training_architecture)).';
 
 // Help.
 $string['traininglevel'] = 'Niveau de granularité ';
-$string['trainingLevel_help'] = 'Le niveau de granularité correspond à un niveau de découpage de la formation.
+$string['traininglevel_help'] = 'Le niveau de granularité correspond à un niveau de découpage de la formation.
 Les formations proposent en général 2 ou 3 niveaux de granularité (hors activités/ressources).
 Le dernier niveau des Unités d\'Apprentissage correspond ici au cours Moodle.
 
@@ -130,23 +130,23 @@ Module / Chapitre / Cours
 
 Il n\'est pas possible d\'avoir deux niveaux de granularité de même nom.';
 
-$string['fullName_help'] = ' Correspond au nom du niveau de granularité choisi.
+$string['fullname_help'] = ' Correspond au nom du niveau de granularité choisi.
 Cela peut faire référence à un découpage correspondant à une approche par contenu-matière ou une approche par compétence.
 Ce nom pourra être affiché à certains endroit du site en fonction d\'autres plugins dépendant associés.
 
 Ce nom doit être unique.';
 
-$string['shortName_help'] = ' Ce nom est un raccourci du nom du niveau de granularité.
+$string['shortname_help'] = ' Ce nom est un raccourci du nom du niveau de granularité.
 Ce nom abrégé pourra être affiché à certains endroit du site en fonction d\'autres plugins dépendant associés.
 
 Ce nom doit être unique.';
 
-$string['IDNumber_help'] = ' Référence de l\'entité créée au sein du système d\'information.
+$string['idnumber_help'] = ' Référence de l\'entité créée au sein du système d\'information.
 Cela permet de faire référence, donc de lier l\'entité avec le reste du système d\'information.
 
 Ce numéro doit être unique.';
 
-$string['granularityLevel_help'] = 'Sélectionnez ici le niveau de granularité auquel vous souhaitez associer l\'Unité d\'Apprentissage pour une formation donnée.
+$string['granularitylevel_help'] = 'Sélectionnez ici le niveau de granularité auquel vous souhaitez associer l\'Unité d\'Apprentissage pour une formation donnée.
 Vous devez également associer chaque cours de votre plan de formation au bon niveau de granularité.
 Les cours correspondent au dernier niveau de granularité des Unités d\'Apprentissage (hors activités/ressources) de votre plan de formation.
 
@@ -154,50 +154,50 @@ Exemple :
 Si votre formation est en 1 niveau de granularité, le cours sera de niveau 2,
 Si votre formation est en 2 niveaux de granularité, le cours sera de niveau 3.';
 
-$string['createTrainingGranularityLevel_help'] = 'Choisissez le nombre de niveaux de granularité supérieurs au cours (ne pas compter le cours).
+$string['createtraininggranularitylevel_help'] = 'Choisissez le nombre de niveaux de granularité supérieurs au cours (ne pas compter le cours).
 
 Exemple :
 Un plan de formation à 1 niveau : Module > Cours.
 Un plan de formation à 2 niveaux : Bloc > Module > Cours.';
 
-$string['createTrainingGranularityLevel'] = 'Créer un niveau de granularité de la formation';
+$string['createtraininggranularitylevel'] = 'Créer un niveau de granularité de la formation';
 
 // Errors.
-$string['nameAlreadyExists'] = 'Ce nom est déjà pris.';
-$string['shortNameAlreadyExists'] = 'Ce nom abrégé est déjà pris.';
-$string['IDNumberAlreadyExists'] = 'Ce numéro d\'identification est déjà pris.';
-$string['selectDifferentLevel'] = 'Ce niveau a déjà été choisi.';
-$string['associationAlreadyExists'] = 'Cette association existe déjà.';
-$string['trainingLevelAlreadyExists'] = 'Cette formation est déjà liée à des niveaux.';
-$string['associationAlreadyExistsCohorts'] = 'Ces cohortes sont déjà liées à cette formation.';
-$string['courseAlreadyInArchitecture'] = 'Ce cours est déjà dans l\'architecture pour cette formation.';
-$string['courseAlreadyNotInArchitecture'] = 'Ce cours a déjà été associé hors de l\'architecture pour cette formation.';
-$string['luDuplicate'] = 'Cette Unité d\'Apprentissage a déjà été choisie.';
-$string['luNotRelated'] = 'Cette Unité d\'Apprentissage n\'est pas liée à cette formation.';
-$string['courseNotRelated'] = 'Ce cours n\'est pas lié à cette formation.';
-$string['levelTooHigh'] = 'Ce niveau de granularité est supérieur au niveau de granularité maximum de cette formation.';
-$string['errorEditSemester'] = 'Vous ne pouvez pas modifier ce champ, car il y a des références aux semestres dans d\'autres tables.';
-$string['errorEditLevel'] = 'Vous ne pouvez pas modifier ce champ, car il y a des références aux niveaux dans d\'autres tables.';
-$string['lu1AlreadyAsLu2'] = 'Cette Unité d\'Apprentissage de niveau 1 est déjà impliquée dans une autre relation en tant que niveau 2, pour cette formation';
-$string['lu2AlreadyAsLu1'] = 'Cette Unité d\'Apprentissage de niveau 2 est déjà impliquée dans une autre relation en tant que niveau 1, pour cette formation';
+$string['namealreadyexists'] = 'Ce nom est déjà pris.';
+$string['shortnamealreadyexists'] = 'Ce nom abrégé est déjà pris.';
+$string['idnumberalreadyexists'] = 'Ce numéro d\'identification est déjà pris.';
+$string['selectdifferentlevel'] = 'Ce niveau a déjà été choisi.';
+$string['associationalreadyexists'] = 'Cette association existe déjà.';
+$string['traininglevelalreadyexists'] = 'Cette formation est déjà liée à des niveaux.';
+$string['associationalreadyexistscohorts'] = 'Ces cohortes sont déjà liées à cette formation.';
+$string['coursealreadyinarchitecture'] = 'Ce cours est déjà dans l\'architecture pour cette formation.';
+$string['coursealreadynotinarchitecture'] = 'Ce cours a déjà été associé hors de l\'architecture pour cette formation.';
+$string['luduplicate'] = 'Cette Unité d\'Apprentissage a déjà été choisie.';
+$string['lunotrelated'] = 'Cette Unité d\'Apprentissage n\'est pas liée à cette formation.';
+$string['coursenotrelated'] = 'Ce cours n\'est pas lié à cette formation.';
+$string['leveltoohigh'] = 'Ce niveau de granularité est supérieur au niveau de granularité maximum de cette formation.';
+$string['erroreditsemester'] = 'Vous ne pouvez pas modifier ce champ, car il y a des références aux semestres dans d\'autres tables.';
+$string['erroreditlevel'] = 'Vous ne pouvez pas modifier ce champ, car il y a des références aux niveaux dans d\'autres tables.';
+$string['lu1alreadyaslu2'] = 'Cette Unité d\'Apprentissage de niveau 1 est déjà impliquée dans une autre relation en tant que niveau 2, pour cette formation';
+$string['lu2alreadyaslu1'] = 'Cette Unité d\'Apprentissage de niveau 2 est déjà impliquée dans une autre relation en tant que niveau 1, pour cette formation';
 
 // Warnings.
-$string['deleteLinkWarning'] = 'Êtes-vous sûr de vouloir supprimer cette association ?';
-$string['deleteMultipleWarning'] = 'Êtes-vous sûr de vouloir supprimer cette/ces association(s) ?';
-$string['deleteLuWarning'] = 'Êtes-vous sûr de vouloir supprimer cette Unité d\'Apprentissage ?';
-$string['deleteLevelNameWarning'] = 'Êtes-vous sûr de vouloir supprimer ce nom de niveau ?';
-$string['deleteTrainingWarning'] = 'Êtes-vous sûr de vouloir supprimer cette formation ? Cela entrainera la suppression de l\'ensemble des données liées à cette formation.';
+$string['deletelinkwarning'] = 'Êtes-vous sûr de vouloir supprimer cette association ?';
+$string['deletemultiplewarning'] = 'Êtes-vous sûr de vouloir supprimer cette/ces association(s) ?';
+$string['deleteluwarning'] = 'Êtes-vous sûr de vouloir supprimer cette Unité d\'Apprentissage ?';
+$string['deletelevelnamewarning'] = 'Êtes-vous sûr de vouloir supprimer ce nom de niveau ?';
+$string['deletetrainingwarning'] = 'Êtes-vous sûr de vouloir supprimer cette formation ? Cela entrainera la suppression de l\'ensemble des données liées à cette formation.';
 
 // Notify errors.
-$string['notifyErrorLuToLu'] = 'Vous ne pouvez pas supprimer cette association, une des Unités d\'Apprentissage est utilisée dans une ou plusieurs autres relations.';
-$string['notifyErrorMultipleLuToLu'] = 'Vous ne pouvez pas supprimer cette/ces association(s), une des Unités d\'Apprentissage est utilisée dans une ou plusieurs autres relations.';
-$string['notifyErrorLevel'] = 'Vous ne pouvez pas supprimer ce nom de niveau, il est associé à une ou plusieurs formations.';
-$string['notifyErrorLu'] = 'Vous ne pouvez pas supprimer cette Unité d\'apprentissage, elle est utilisée dans une ou plusieurs autres relations.';
-$string['notifyErrorMultipleTrainingLinks'] = 'Vous ne pouvez pas supprimer cette/ces association(s), une des Unités d\Apprentissage est impliquée dans une ou plusieurs relations pour cette formation dans le formulaire "Associations des Unités d\'Apprentissage".';
+$string['notifyerrorlutolu'] = 'Vous ne pouvez pas supprimer cette association, une des Unités d\'Apprentissage est utilisée dans une ou plusieurs autres relations.';
+$string['notifyerrormultiplelutolu'] = 'Vous ne pouvez pas supprimer cette/ces association(s), une des Unités d\'Apprentissage est utilisée dans une ou plusieurs autres relations.';
+$string['notifyerrorlevel'] = 'Vous ne pouvez pas supprimer ce nom de niveau, il est associé à une ou plusieurs formations.';
+$string['notifyerrorlu'] = 'Vous ne pouvez pas supprimer cette Unité d\'apprentissage, elle est utilisée dans une ou plusieurs autres relations.';
+$string['notifyerrormultipletraininglinks'] = 'Vous ne pouvez pas supprimer cette/ces association(s), une des Unités d\Apprentissage est impliquée dans une ou plusieurs relations pour cette formation dans le formulaire "Associations des Unités d\'Apprentissage".';
 
 // Tasks.
-$string['cohortTask'] = 'Synchroniser les données de cohort_to_training en fonction des cohortes existantes';
-$string['courseTask'] = 'Synchroniser les données de lu_to_course en fonction des cours existants';
+$string['cohorttask'] = 'Synchroniser les données de cohort_to_training en fonction des cohortes existantes';
+$string['coursetask'] = 'Synchroniser les données de lu_to_course en fonction des cours existants';
 
 //Privacy.
 $string['privacy:metadata'] = 'Le plugin Training Architecture ne stocke aucune donnée personnelle.';

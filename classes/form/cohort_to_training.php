@@ -112,8 +112,8 @@ class cohort_to_training extends moodleform {
                         [$cohortId, $data['trainingId']]
                     )) {
                         $cohortExists.= ' ' . $commonFunctions->getCohortName($cohortId);
-                        $errors['cohortId'] = get_string('associationAlreadyExistsCohorts', 'local_training_architecture') . ' : ' . $cohortExists;
-                        $errors['trainingId'] = get_string('associationAlreadyExists', 'local_training_architecture');
+                        $errors['cohortId'] = get_string('associationalreadyexistscohorts', 'local_training_architecture') . ' : ' . $cohortExists;
+                        $errors['trainingId'] = get_string('associationalreadyexists', 'local_training_architecture');
                     }
                 }
             }

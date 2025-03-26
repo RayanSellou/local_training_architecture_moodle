@@ -90,18 +90,18 @@ class create_lu extends moodleform {
         // Handle duplicates values
         if (!empty($data['luIDNumber'])) {
             if ($DB->record_exists_select('local_training_architecture_lu', 'idnumber = ?', [str_replace(' ', '', $data['luIDNumber'])])) {
-                $errors['luIDNumber'] = get_string('IDNumberAlreadyExists', 'local_training_architecture');
+                $errors['luIDNumber'] = get_string('idnumberalreadyexists', 'local_training_architecture');
             }        
         }
 
         if(empty($errors)) {
 
             /*if ($DB->record_exists_select('local_training_architecture_lu', 'LOWER(fullname) = LOWER(?)', [trim($data['luFullName'])])) {
-                $errors['luFullName'] = get_string('nameAlreadyExists', 'local_training_architecture');
+                $errors['luFullName'] = get_string('namealreadyexists', 'local_training_architecture');
             }*/
 
             if ($DB->record_exists_select('local_training_architecture_lu', 'LOWER(shortname) = LOWER(?)', [trim($data['luShortName'])])) {
-                $errors['luShortName'] = get_string('shortNameAlreadyExists', 'local_training_architecture');
+                $errors['luShortName'] = get_string('shortnamealreadyexists', 'local_training_architecture');
             }
 
             if($errors) {
