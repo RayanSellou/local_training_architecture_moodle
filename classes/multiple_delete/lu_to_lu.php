@@ -77,10 +77,10 @@ if ($ids) {
     // lu_lu has references
     foreach ($ids as $id) {
         if ($luFunctions->isLinkAlreadyUsedMultiple($id, $ids)) {
-            $PAGE->set_title(get_string('deleteMultipleTitle1', 'local_training_architecture') . 
+            $PAGE->set_title(get_string('deletemultipletitle1', 'local_training_architecture') . 
             count($ids) . get_string('deleteMultipleLuLuTitle2', 'local_training_architecture'));
 
-            $PAGE->set_heading(get_string('deleteMultipleTitle1', 'local_training_architecture') . 
+            $PAGE->set_heading(get_string('deletemultipletitle1', 'local_training_architecture') . 
             count($ids) . get_string('deleteMultipleLuLuTitle2', 'local_training_architecture'));
             
             echo $OUTPUT->header();        
@@ -92,18 +92,18 @@ if ($ids) {
     }
 
     if (!$confirm) { // Cancel
-        $PAGE->set_title(get_string('deleteMultipleTitle1', 'local_training_architecture') . 
+        $PAGE->set_title(get_string('deletemultipletitle1', 'local_training_architecture') . 
         count($ids) . get_string('deleteMultipleLuLuTitle2', 'local_training_architecture'));
 
-        $PAGE->set_heading(get_string('deleteMultipleTitle1', 'local_training_architecture') . 
+        $PAGE->set_heading(get_string('deletemultipletitle1', 'local_training_architecture') . 
         count($ids) . get_string('deleteMultipleLuLuTitle2', 'local_training_architecture'));
 
         echo $OUTPUT->header();
 
         $optionsYes = $url .= '&sesskey='.sesskey().'&confirm='.'1';
-        $formcontinue = new single_button(new moodle_url($optionsYes), get_string('confirmYes', 'local_training_architecture'), 'get');
+        $formcontinue = new single_button(new moodle_url($optionsYes), get_string('confirmyes', 'local_training_architecture'), 'get');
         
-        $formcancel = new single_button(new moodle_url('/local/training_architecture/index.php'), get_string('confirmNo', 'local_training_architecture'), 'get');
+        $formcancel = new single_button(new moodle_url('/local/training_architecture/index.php'), get_string('confirmno', 'local_training_architecture'), 'get');
         echo $OUTPUT->confirm(get_string('deleteMultipleWarning', 'local_training_architecture'), $formcontinue, $formcancel);
         echo $OUTPUT->footer();
         die;

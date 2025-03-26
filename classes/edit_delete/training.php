@@ -56,19 +56,19 @@ require_login();
 $context = context_system::instance();
 require_capability('local/training_architecture:manage',$context);
 $PAGE->set_context($context);
-$PAGE->set_title(get_string('editTrainingTitle', 'local_training_architecture'));
-$PAGE->set_heading(get_string('editTrainingTitle', 'local_training_architecture') . " " . $commonFunctions->getTrainingFullName($id));
+$PAGE->set_title(get_string('edittrainingtitle', 'local_training_architecture'));
+$PAGE->set_heading(get_string('edittrainingtitle', 'local_training_architecture') . " " . $commonFunctions->getTrainingFullName($id));
 $PAGE->set_pagelayout('admin');
 
 // Delete
 if ($id and $delete) {
     if (!$confirm) { // Cancel
-        $PAGE->set_title(get_string('deleteTrainingTitle', 'local_training_architecture'));
-        $PAGE->set_heading(get_string('deleteTrainingTitle', 'local_training_architecture') . " " . $commonFunctions->getTrainingFullName($id));
+        $PAGE->set_title(get_string('deletetrainingtitle', 'local_training_architecture'));
+        $PAGE->set_heading(get_string('deletetrainingtitle', 'local_training_architecture') . " " . $commonFunctions->getTrainingFullName($id));
         echo $OUTPUT->header();
         $optionsYes = ['id' => $id, 'delete' => 1, 'sesskey' => sesskey(), 'confirm' => 1];
-        $formcontinue = new single_button(new moodle_url('/local/training_architecture/classes/edit_delete/training.php', $optionsYes), get_string('confirmYes', 'local_training_architecture'), 'get');
-        $formcancel = new single_button(new moodle_url('/local/training_architecture/index.php'), get_string('confirmNo', 'local_training_architecture'), 'get');
+        $formcontinue = new single_button(new moodle_url('/local/training_architecture/classes/edit_delete/training.php', $optionsYes), get_string('confirmyes', 'local_training_architecture'), 'get');
+        $formcancel = new single_button(new moodle_url('/local/training_architecture/index.php'), get_string('confirmno', 'local_training_architecture'), 'get');
         echo $OUTPUT->confirm(get_string('deleteTrainingWarning', 'local_training_architecture'), $formcontinue, $formcancel);
         echo $OUTPUT->footer();
         die;

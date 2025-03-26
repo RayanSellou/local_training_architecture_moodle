@@ -40,7 +40,7 @@ class lu_to_lu extends moodleform {
 
         $mform =$this->_form;
 
-        $mform->addElement('header', 'luToLu', get_string('luToLu', 'local_training_architecture'));
+        $mform->addElement('header', 'luToLu', get_string('lutolu', 'local_training_architecture'));
 
         //TRAINING
         $trainings = $DB->get_records('local_training_architecture_training', [], 'fullname');

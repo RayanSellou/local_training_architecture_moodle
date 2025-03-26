@@ -58,20 +58,20 @@ $commonFunctions = new common_functions();
 
 // Display anchor and links to different forms.
 echo html_writer::start_tag('h3');
-echo get_string('allForms', 'local_training_architecture');
+echo get_string('allforms', 'local_training_architecture');
 echo html_writer::end_tag('h3');
 
 echo html_writer::start_tag('ul');
 
 $links = [
-    '#id_createLevelcontainer' => get_string('createLevelTitle', 'local_training_architecture'),
-    '#id_createTrainingcontainer' => get_string('createTraining', 'local_training_architecture'),
-    '#id_createLucontainer' => get_string('createLuTitle', 'local_training_architecture'),
-    '#id_trainingToLevelcontainer' => get_string('trainingToLevel', 'local_training_architecture'),
-    '#id_cohortToTrainingcontainer' => get_string('cohortToTraining', 'local_training_architecture'),
-    '#id_coursesNotInArchitectureTitlecontainer' => get_string('coursesNotInArchitectureTitle', 'local_training_architecture'),
-    '#id_trainingLinkscontainer' => get_string('trainingLinks', 'local_training_architecture'),
-    '#id_luToLucontainer' => get_string('luToLu', 'local_training_architecture')
+    '#id_createLevelcontainer' => get_string('createleveltitle', 'local_training_architecture'),
+    '#id_createTrainingcontainer' => get_string('createtraining', 'local_training_architecture'),
+    '#id_createLucontainer' => get_string('createlutitle', 'local_training_architecture'),
+    '#id_trainingToLevelcontainer' => get_string('trainingtolevel', 'local_training_architecture'),
+    '#id_cohortToTrainingcontainer' => get_string('cohorttotraining', 'local_training_architecture'),
+    '#id_coursesNotInArchitectureTitlecontainer' => get_string('coursesnotinarchitecturetitle', 'local_training_architecture'),
+    '#id_trainingLinkscontainer' => get_string('traininglinks', 'local_training_architecture'),
+    '#id_luToLucontainer' => get_string('lutolu', 'local_training_architecture')
 ];
 
 foreach ($links as $href => $text) {
@@ -134,8 +134,8 @@ if ($levels = $DB->get_records('local_training_architecture_level_names', [], 'f
 // Create HTML table for displaying levels data.
 $level_table = new html_table();
 $level_table->head = [
-    get_string('fullName', 'local_training_architecture'),
-    get_string('shortName', 'local_training_architecture'),
+    get_string('fullname', 'local_training_architecture'),
+    get_string('shortname', 'local_training_architecture'),
     //get_string('description', 'local_training_architecture'),
     get_string('actions', 'local_training_architecture')
 ];
@@ -202,12 +202,12 @@ if ($trainings = $DB->get_records('local_training_architecture_training', [], 'f
 // Create HTML table for displaying training data.
 $training_table = new html_table();
 $training_table->head = [
-    get_string('fullName', 'local_training_architecture'),
-    get_string('shortName', 'local_training_architecture'),
-    get_string('IDNumber', 'local_training_architecture'),
+    get_string('fullname', 'local_training_architecture'),
+    get_string('shortname', 'local_training_architecture'),
+    get_string('idnumber', 'local_training_architecture'),
     //get_string('description', 'local_training_architecture'),
-    get_string('selectNumberOfLevel', 'local_training_architecture'),
-    get_string('semesterChoice', 'local_training_architecture'),
+    get_string('selectnumberoflevel', 'local_training_architecture'),
+    get_string('semesterchoice', 'local_training_architecture'),
     get_string('actions', 'local_training_architecture'),
 ];
 $training_table->data = $trainingData;
@@ -268,9 +268,9 @@ if ($lus = $DB->get_records('local_training_architecture_lu', [], 'fullname')) {
 // Create HTML table for displaying lu data.
 $lu_table = new html_table();
 $lu_table->head = [
-    get_string('fullName', 'local_training_architecture'),
-    get_string('shortName', 'local_training_architecture'),
-    get_string('IDNumber', 'local_training_architecture'),
+    get_string('fullname', 'local_training_architecture'),
+    get_string('shortname', 'local_training_architecture'),
+    get_string('idnumber', 'local_training_architecture'),
     //get_string('description', 'local_training_architecture'),
     get_string('actions', 'local_training_architecture')
 ];
@@ -490,7 +490,7 @@ $coursesNotInArchitectureTable->head = [
 $coursesNotInArchitectureTable->data = $coursesNotInArchitectureFormData;
 
 echo html_writer::start_tag('div', ['class' => 'trainingarchitecture-btn-container']);
-echo '<button id="delete-selected-courses-not-in-architecture" class="trainingarchitecture-delete-selection btn">' . get_string('deleteSelection', 'local_training_architecture') . '</button>';
+echo '<button id="delete-selected-courses-not-in-architecture" class="trainingarchitecture-delete-selection btn">' . get_string('deleteselection', 'local_training_architecture') . '</button>';
 echo html_writer::end_tag('div');
 
 // Output JavaScript to replace content with table.
@@ -584,7 +584,7 @@ $training_links_table->head = [
 $training_links_table->data = $trainingLinksData;
 
 echo html_writer::start_tag('div', ['class' => 'trainingarchitecture-btn-container']);
-echo '<button id="delete-selected-training-links" class="trainingarchitecture-delete-selection btn">' . get_string('deleteSelection', 'local_training_architecture') . '</button>';
+echo '<button id="delete-selected-training-links" class="trainingarchitecture-delete-selection btn">' . get_string('deleteselection', 'local_training_architecture') . '</button>';
 echo html_writer::end_tag('div');
 
 // Output JavaScript to replace content with training links table.
@@ -674,7 +674,7 @@ $lu_to_lu_table->head = [
 $lu_to_lu_table->data = $luToluData;
 
 echo html_writer::start_tag('div', ['class' => 'trainingarchitecture-btn-container']);
-echo '<button id="delete-selected-lu-to-lu" class="trainingarchitecture-delete-selection btn">' . get_string('deleteSelection', 'local_training_architecture') . '</button>';
+echo '<button id="delete-selected-lu-to-lu" class="trainingarchitecture-delete-selection btn">' . get_string('deleteselection', 'local_training_architecture') . '</button>';
 echo html_writer::end_tag('div');
 
 // Output JavaScript to replace content with LU to LU table.

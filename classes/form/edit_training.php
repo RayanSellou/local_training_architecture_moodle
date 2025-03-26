@@ -36,32 +36,32 @@ class edit_training extends moodleform {
 
         $mform =$this->_form;
 
-        $mform->addElement('text','trainingFullName', get_string('fullName', 'local_training_architecture'),'maxlength="255" size="50"');
+        $mform->addElement('text','trainingFullName', get_string('fullname', 'local_training_architecture'),'maxlength="255" size="50"');
         $mform->addRule('trainingFullName', get_string('required'), 'required');
         $mform->setType('trainingFullName', PARAM_TEXT);
 
-        $mform->addElement('text','trainingShortName', get_string('shortName', 'local_training_architecture'), 'maxlength="50" size="20"');
+        $mform->addElement('text','trainingShortName', get_string('shortname', 'local_training_architecture'), 'maxlength="50" size="20"');
         $mform->addRule('trainingShortName', get_string('required'), 'required');
         $mform->setType('trainingShortName', PARAM_TEXT);
 
-        $mform->addElement('text', 'trainingIDNumber', get_string('IDNumber', 'local_training_architecture'), 'maxlength="15" size="15"');
+        $mform->addElement('text', 'trainingIDNumber', get_string('idnumber', 'local_training_architecture'), 'maxlength="15" size="15"');
         $mform->addHelpButton('trainingIDNumber', 'IDNumber', 'local_training_architecture');
         $mform->setType('trainingIDNumber', PARAM_TEXT);
 
         $mform->addElement('editor','trainingDescription', get_string('description', 'local_training_architecture'));
         $mform->setType('trainingDescription', PARAM_RAW);
 
-        $levels = ['' => get_string('chooseOption', 'local_training_architecture'), '1' => '1', '2' => '2'];
-        $mform->addElement('select', 'trainingLevel', get_string('numberOfLevel', 'local_training_architecture'), $levels);
+        $levels = ['' => get_string('chooseoption', 'local_training_architecture'), '1' => '1', '2' => '2'];
+        $mform->addElement('select', 'trainingLevel', get_string('numberoflevel', 'local_training_architecture'), $levels);
         $mform->addRule('trainingLevel', get_string('required'), 'required');
 
         $semesterChoice = [
-            '' => get_string('chooseOption', 'local_training_architecture'),
+            '' => get_string('chooseoption', 'local_training_architecture'),
             'yes' => get_string('yes', 'local_training_architecture'),
             'no' => get_string('no', 'local_training_architecture')
         ];
         
-        $mform->addElement('select', 'trainingSemester', get_string('semesterChoice', 'local_training_architecture'), $semesterChoice);
+        $mform->addElement('select', 'trainingSemester', get_string('semesterchoice', 'local_training_architecture'), $semesterChoice);
         $mform->addRule('trainingSemester', get_string('required'), 'required');
         $mform->setType('trainingSemester', PARAM_ALPHA);
 

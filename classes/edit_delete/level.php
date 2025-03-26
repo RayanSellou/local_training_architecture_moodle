@@ -57,8 +57,8 @@ require_login();
 $context = context_system::instance();
 require_capability('local/training_architecture:manage',$context);
 $PAGE->set_context($context);
-$PAGE->set_title(get_string('editLevelTitle', 'local_training_architecture'));
-$PAGE->set_heading(get_string('editLevelTitle', 'local_training_architecture') . " " . $commonFunctions->getLevelFullName($id));
+$PAGE->set_title(get_string('editleveltitle', 'local_training_architecture'));
+$PAGE->set_heading(get_string('editleveltitle', 'local_training_architecture') . " " . $commonFunctions->getLevelFullName($id));
 $PAGE->set_pagelayout('admin');
 
 // Delete
@@ -66,8 +66,8 @@ if ($id and $delete) {
 
     // Level name has references
     if ($levelFunctions->isLevelUsed($id)) {
-        $PAGE->set_title(get_string('deleteLevelTitle', 'local_training_architecture'));
-        $PAGE->set_heading(get_string('deleteLevelTitle', 'local_training_architecture') . " " . $commonFunctions->getLevelFullName($id));
+        $PAGE->set_title(get_string('deleteleveltitle', 'local_training_architecture'));
+        $PAGE->set_heading(get_string('deleteleveltitle', 'local_training_architecture') . " " . $commonFunctions->getLevelFullName($id));
         echo $OUTPUT->header();        
         echo $OUTPUT->notification(get_string('notifyErrorLevel', 'local_training_architecture'), 'notifyproblem');
         echo $OUTPUT->continue_button(new moodle_url('/local/training_architecture/index.php'));
@@ -76,12 +76,12 @@ if ($id and $delete) {
     }
 
     if (!$confirm) { // Cancel
-        $PAGE->set_title(get_string('deleteLevelTitle', 'local_training_architecture'));
-        $PAGE->set_heading(get_string('deleteLevelTitle', 'local_training_architecture') . " " . $commonFunctions->getLevelFullName($id));
+        $PAGE->set_title(get_string('deleteleveltitle', 'local_training_architecture'));
+        $PAGE->set_heading(get_string('deleteleveltitle', 'local_training_architecture') . " " . $commonFunctions->getLevelFullName($id));
         echo $OUTPUT->header();
         $optionsYes = ['id' => $id, 'delete' => 1, 'sesskey' => sesskey(), 'confirm' => 1];
-        $formcontinue = new single_button(new moodle_url('/local/training_architecture/classes/edit_delete/level.php', $optionsYes), get_string('confirmYes', 'local_training_architecture'), 'get');
-        $formcancel = new single_button(new moodle_url('/local/training_architecture/index.php'), get_string('confirmNo', 'local_training_architecture'), 'get');
+        $formcontinue = new single_button(new moodle_url('/local/training_architecture/classes/edit_delete/level.php', $optionsYes), get_string('confirmyes', 'local_training_architecture'), 'get');
+        $formcancel = new single_button(new moodle_url('/local/training_architecture/index.php'), get_string('confirmno', 'local_training_architecture'), 'get');
         echo $OUTPUT->confirm(get_string('deleteLevelNameWarning', 'local_training_architecture'), $formcontinue, $formcancel);
         echo $OUTPUT->footer();
         die;

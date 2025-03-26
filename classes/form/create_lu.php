@@ -36,17 +36,17 @@ class create_lu extends moodleform {
 
         $mform =$this->_form;
 
-        $mform->addElement('header', 'createLu', get_string('createLuTitle', 'local_training_architecture'));
+        $mform->addElement('header', 'createLu', get_string('createlutitle', 'local_training_architecture'));
 
-        $mform->addElement('text','luFullName', get_string('fullName', 'local_training_architecture'),'maxlength="255" size="50"');
+        $mform->addElement('text','luFullName', get_string('fullname', 'local_training_architecture'),'maxlength="255" size="50"');
         $mform->addRule('luFullName', get_string('required'), 'required');
         $mform->setType('luFullName', PARAM_TEXT);
 
-        $mform->addElement('text','luShortName', get_string('shortName', 'local_training_architecture'), 'maxlength="50" size="20"');
+        $mform->addElement('text','luShortName', get_string('shortname', 'local_training_architecture'), 'maxlength="50" size="20"');
         $mform->addRule('luShortName', get_string('required'), 'required');
         $mform->setType('luShortName', PARAM_TEXT);
 
-        $mform->addElement('text', 'luIDNumber', get_string('IDNumber', 'local_training_architecture'), 'maxlength="15" size="15"');
+        $mform->addElement('text', 'luIDNumber', get_string('idnumber', 'local_training_architecture'), 'maxlength="15" size="15"');
         $mform->addHelpButton('luIDNumber', 'IDNumber', 'local_training_architecture');
         $mform->setType('luIDNumber', PARAM_TEXT);
 

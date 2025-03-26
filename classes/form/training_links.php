@@ -40,7 +40,7 @@ class training_links extends moodleform {
 
         $mform =$this->_form;
 
-        $mform->addElement('header', 'trainingLinks', get_string('trainingLinks', 'local_training_architecture'));
+        $mform->addElement('header', 'trainingLinks', get_string('traininglinks', 'local_training_architecture'));
 
         //TRAINING
         $trainings = $DB->get_records('local_training_architecture_training', [], 'fullname');
@@ -56,7 +56,7 @@ class training_links extends moodleform {
         $mform->setType('trainingId2', PARAM_INT);
 
         //LEVEL
-        $levels = ['' => get_string('chooseOption', 'local_training_architecture'), '1' => '1', '2' => '2', '3' => '3'];
+        $levels = ['' => get_string('chooseoption', 'local_training_architecture'), '1' => '1', '2' => '2', '3' => '3'];
 
         $mform->addElement('select', 'level', get_string('level', 'local_training_architecture'), $levels);
         $mform->addHelpButton('level', 'granularityLevel', 'local_training_architecture');
@@ -89,7 +89,7 @@ class training_links extends moodleform {
         $mform->setType('courseId', PARAM_INT);
 
         //SEMESTER
-        $allSemesters = ['' => get_string('selectSemester', 'local_training_architecture')];
+        $allSemesters = ['' => get_string('selectsemester', 'local_training_architecture')];
         $semester = get_string('semester', 'local_training_architecture');
         $allSemesters[1] =  $semester . ' 1';
         $allSemesters[2] =  $semester . ' 2';

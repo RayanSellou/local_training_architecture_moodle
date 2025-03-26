@@ -39,7 +39,7 @@ class training_level extends moodleform {
 
         $mform =$this->_form;
 
-        $mform->addElement('header', 'trainingToLevel', get_string('trainingToLevel', 'local_training_architecture'));
+        $mform->addElement('header', 'trainingToLevel', get_string('trainingtolevel', 'local_training_architecture'));
 
         $trainings = $DB->get_records('local_training_architecture_training', [], 'fullname');
 
@@ -62,7 +62,7 @@ class training_level extends moodleform {
         $options = ['multiple' => false];
 
         for ($i = 1; $i <= 2; $i++) {
-            $mform->addElement('autocomplete', 'trainingToLevel' . $i, get_string('trainingLevel', 'local_training_architecture') . $i, $allLevels, $options);
+            $mform->addElement('autocomplete', 'trainingToLevel' . $i, get_string('traininglevel', 'local_training_architecture') . $i, $allLevels, $options);
             $mform->addRule('trainingToLevel' . $i, get_string('required'), 'required');
             $mform->addHelpButton('trainingToLevel' . $i, 'trainingLevel', 'local_training_architecture');
             $mform->setType('trainingToLevel' . $i, PARAM_INT);

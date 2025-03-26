@@ -31,19 +31,19 @@ $string['pluginname'] = 'Training Architecture';
 $string['training_architecture:manage'] = 'Edit and manage trainings architecture';
 $string['heading'] = 'Manage training architecture';
 $string['title'] = 'Training\'s architecture';
-$string['fullName'] = 'Fullname';
-$string['shortName'] = 'Shortname';
-$string['IDNumber'] = 'Identification number';
+$string['fullname'] = 'Fullname';
+$string['shortname'] = 'Shortname';
+$string['idnumber'] = 'Identification number';
 $string['description'] = 'Description';
-$string['numberOfLevel'] = 'Number of granularity\'s level';
+$string['numberoflevel'] = 'Number of granularity\'s level';
 $string['level'] = 'Granularity\'s level';
 $string['level1'] = 'Granularity of level 1\'s name';
 $string['level2'] = 'Granularity of level 2\'s name';
-$string['confirmYes'] = 'Confirm';
-$string['confirmNo'] = ' Go back';
+$string['confirmyes'] = 'Confirm';
+$string['confirmno'] = ' Go back';
 $string['actions'] = 'Actions';
 $string['selection'] = 'Selection';
-$string['deleteSelection'] = 'Delete the selected elements';
+$string['deleteselection'] = 'Delete the selected elements';
 $string['yes'] = 'Yes';
 $string['no'] = 'No';
 $string['back'] = 'Back';
@@ -52,52 +52,52 @@ $string['up'] = 'Up';
 $string['down'] = 'Down';
 $string['lu1'] = 'Learning Unit 1';
 $string['lu2'] = 'Learning Unit 2';
-$string['chooseOption'] = 'Choose an option';
+$string['chooseoption'] = 'Choose an option';
 $string['course'] = 'Course';
 $string['lu'] = 'Learning Unit';
-$string['allForms'] = 'All forms : ';
-$string['deleteMultipleTitle1'] = 'Delete ';
+$string['allforms'] = 'All forms : ';
+$string['deletemultipletitle1'] = 'Delete ';
 $string['expand'] = 'Expand all';
 $string['collapse'] = 'Collapse all';
 
 // Training.
-$string['createTraining'] = 'New Training';
-$string['trainingLevel'] = 'Granularity of level ';
-$string['editTrainingTitle'] = 'Edit the training';
-$string['deleteTrainingTitle'] = 'Delete the training';
-$string['selectNumberOfLevel'] = 'Number of granularity\s level';
-$string['semesterChoice'] = 'Semester architecture';
+$string['createtraining'] = 'New Training';
+$string['traininglevel'] = 'Granularity of level ';
+$string['edittrainingtitle'] = 'Edit the training';
+$string['deletetrainingtitle'] = 'Delete the training';
+$string['selectnumberoflevel'] = 'Number of granularity\s level';
+$string['semesterchoice'] = 'Semester architecture';
 
 // Level name.
-$string['createLevelTitle'] = 'New granularity\'s level';
-$string['editLevelTitle'] = 'Edit the level name';
-$string['deleteLevelTitle'] = 'Delete the level name';
+$string['createleveltitle'] = 'New granularity\'s level';
+$string['editleveltitle'] = 'Edit the level name';
+$string['deleteleveltitle'] = 'Delete the level name';
 
 // Training to level name.
-$string['trainingToLevel'] = 'Association Traininig - Granularities levels names';
-$string['deleteTrainingLevelTitle'] = 'Delete this Training - Granularity level name association';
+$string['trainingtolevel'] = 'Association Traininig - Granularities levels names';
+$string['deletetrainingleveltitle'] = 'Delete this Training - Granularity level name association';
 
 // Cohort to training.
-$string['cohortToTraining'] = 'Association Training - Cohort';
+$string['cohorttotraining'] = 'Association Training - Cohort';
 $string['cohort'] = 'Cohort';
 $string['training'] = 'Training';
-$string['deleteCohortTrainingTitle'] = 'Delete this Cohort Training - Cohort association';
+$string['deletecohorttrainingtitle'] = 'Delete this Cohort Training - Cohort association';
 
 // LU.
-$string['createLuTitle'] = 'New Learning Unit';
-$string['editLuTitle'] = 'Edit the Learning Unit';
-$string['deleteLuTitle'] = 'Delete the Learning Unit';
+$string['createlutitle'] = 'New Learning Unit';
+$string['editlutitle'] = 'Edit the Learning Unit';
+$string['deletelutitle'] = 'Delete the Learning Unit';
 
 // Not in architecture. 
-$string['coursesNotInArchitectureTitle'] = 'Association of courses outside architecture';
-$string['deleteNotArchitecture'] = 'Delete course - training association';
-$string['deleteMultipleCoursesNotInArchitectureTitle2'] = ' course - training association(s)';
+$string['coursesnotinarchitecturetitle'] = 'Association of courses outside architecture';
+$string['deletenotarchitecture'] = 'Delete course - training association';
+$string['deletemultiplecoursesnotinarchitecturetitle2'] = ' course - training association(s)';
 
 // Training links.
-$string['trainingLinks'] = 'Association of training characteristics';
+$string['traininglinks'] = 'Association of training characteristics';
 $string['semester'] = 'Semester';
-$string['selectSemester'] = 'Select a semester';
-$string['deleteTrainingLinks'] = 'Delete training characteristics';
+$string['selectsemester'] = 'Select a semester';
+$string['deletetraininglinks'] = 'Delete training characteristics';
 $string['deleteMultipleTrainingLinksTitle2'] = ' link(s) of training characteristics';
 
 // LU to LU.
@@ -115,7 +115,7 @@ Click on a level 1 LU to order its level 2 LU.
 (This will only have an impact on the display order of the LU of a training linked to the associated block plugin (block_training_architecture)).';
 
 // Help.
-$string['trainingLevel'] = 'Level of granularity ';
+$string['traininglevel'] = 'Level of granularity ';
 $string['trainingLevel_help'] = 'The level of granularity corresponds to a level of segmentation of the training. 
 Trainings generally offer 2 or 3 levels of granularity. 
 The last level of the Learning Units here corresponds to the Moodle course.
@@ -198,3 +198,6 @@ $string['notifyErrorMultipleTrainingLinks'] = 'You cannot delete this/these asso
 // Tasks.
 $string['cohortTask'] = 'Synchronize cohort_to_training data based on existing cohorts';
 $string['courseTask'] = 'Synchronize lu_to_course data based on existing courses';
+
+//Privacy.
+$string['privacy:metadata'] = 'The Training Architecture plugin does not store any personal data.';

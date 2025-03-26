@@ -58,12 +58,12 @@ $PAGE->set_pagelayout('admin');
 // Delete
 if ($trainingId) {
     if (!$confirm) { // Cancel
-        $PAGE->set_title(get_string('deleteTrainingLevelTitle', 'local_training_architecture'));
-        $PAGE->set_heading(get_string('deleteTrainingLevelTitle', 'local_training_architecture'));
+        $PAGE->set_title(get_string('deletetrainingleveltitle', 'local_training_architecture'));
+        $PAGE->set_heading(get_string('deletetrainingleveltitle', 'local_training_architecture'));
         echo $OUTPUT->header();
         $optionsYes = ['trainingid' => $trainingId, 'sesskey' => sesskey(), 'confirm' => 1];
-        $formcontinue = new single_button(new moodle_url('/local/training_architecture/classes/edit_delete/training_to_level.php', $optionsYes), get_string('confirmYes', 'local_training_architecture'), 'get');
-        $formcancel = new single_button(new moodle_url('/local/training_architecture/index.php'), get_string('confirmNo', 'local_training_architecture'), 'get');
+        $formcontinue = new single_button(new moodle_url('/local/training_architecture/classes/edit_delete/training_to_level.php', $optionsYes), get_string('confirmyes', 'local_training_architecture'), 'get');
+        $formcancel = new single_button(new moodle_url('/local/training_architecture/index.php'), get_string('confirmno', 'local_training_architecture'), 'get');
         echo $OUTPUT->confirm(get_string('deleteLinkWarning', 'local_training_architecture'), $formcontinue, $formcancel);
         echo $OUTPUT->footer();
         die;

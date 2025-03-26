@@ -36,12 +36,12 @@ class edit_level extends moodleform {
         
         $mform =$this->_form;
         
-        $mform->addElement('text','levelFullName', get_string('fullName', 'local_training_architecture'),'maxlength="255" size="50"');
+        $mform->addElement('text','levelFullName', get_string('fullname', 'local_training_architecture'),'maxlength="255" size="50"');
         $mform->addRule('levelFullName', get_string('required'), 'required');
         $mform->addHelpButton('levelFullName', 'fullName', 'local_training_architecture');
         $mform->setType('levelFullName', PARAM_TEXT);
 
-        $mform->addElement('text','levelShortName', get_string('shortName', 'local_training_architecture'), 'maxlength="50" size="20"');
+        $mform->addElement('text','levelShortName', get_string('shortname', 'local_training_architecture'), 'maxlength="50" size="20"');
         $mform->addRule('levelShortName', get_string('required'), 'required');
         $mform->addHelpButton('levelShortName', 'shortName', 'local_training_architecture');
         $mform->setType('levelShortName', PARAM_TEXT);

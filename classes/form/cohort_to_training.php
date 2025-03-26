@@ -39,7 +39,7 @@ class cohort_to_training extends moodleform {
 
         $mform =$this->_form;
 
-        $mform->addElement('header', 'cohortToTraining', get_string('cohortToTraining', 'local_training_architecture'));
+        $mform->addElement('header', 'cohortToTraining', get_string('cohorttotraining', 'local_training_architecture'));
 
         $trainings = $DB->get_records('local_training_architecture_training', [], 'fullname');
 

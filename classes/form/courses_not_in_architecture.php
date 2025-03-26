@@ -39,7 +39,7 @@ class courses_not_in_architecture extends moodleform {
 
         $mform =$this->_form;
 
-        $mform->addElement('header', 'coursesNotInArchitectureTitle', get_string('coursesNotInArchitectureTitle', 'local_training_architecture'));
+        $mform->addElement('header', 'coursesNotInArchitectureTitle', get_string('coursesnotinarchitecturetitle', 'local_training_architecture'));
 
         // Trainings
         $trainings = $DB->get_records('local_training_architecture_training', [], 'fullname');
