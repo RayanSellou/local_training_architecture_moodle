@@ -29,7 +29,10 @@ require_once(dirname(__FILE__) . '/../../../config.php');
 
 global $DB;
 
-$selectedIds = $_POST['selectedIds'];
+// $selectedIds = $_POST['selectedIds'];
+
+// Securely retrieve and sanitize input parameters
+$selectedIds = optional_param_array('selectedIds', [], PARAM_INT);
 
 if(!empty($selectedIds)) {
 

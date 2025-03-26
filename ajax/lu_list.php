@@ -29,7 +29,10 @@ require_once(dirname(__FILE__) . '/../../../config.php');
 
 global $DB;
 
-$trainingId = $_POST['trainingId'];
+// $trainingId = $_POST['trainingId'];
+
+// Securely retrieve and sanitize the 'trainingId' parameter
+$trainingId = required_param('trainingId', PARAM_INT);
 
 $links = $DB->get_records('local_training_architecture_training_links', ['trainingid' => $trainingId]);
 

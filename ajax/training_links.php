@@ -29,8 +29,13 @@ require_once(dirname(__FILE__) . '/../../../config.php');
 
 global $DB;
 
-$trainingId = $_POST['trainingId'];
-$level = $_POST['level'];
+// $trainingId = $_POST['trainingId'];
+// $level = $_POST['level'];
+
+// Securely retrieve and sanitize input parameters
+$trainingId = required_param('trainingId', PARAM_INT);
+$level = required_param('level', PARAM_INT);
+
 
 $course = false;
 $semester = false;

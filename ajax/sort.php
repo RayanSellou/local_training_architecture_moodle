@@ -29,17 +29,29 @@ require_once(dirname(__FILE__) . '/../../../config.php');
 
 global $DB;
 
-$luId = $_POST['luId'];
-$luToMove = $_POST['luToMove'];
-$trainingId = $_POST['trainingId'];
-$granularityLevel = $_POST['granularityLevel'];
-$level = $_POST['level'];
+// $luId = $_POST['luId'];
+// $luToMove = $_POST['luToMove'];
+// $trainingId = $_POST['trainingId'];
+// $granularityLevel = $_POST['granularityLevel'];
+// $level = $_POST['level'];
+
+// Securely retrieve and sanitize input parameters
+$luId = required_param('luId', PARAM_INT);
+$luToMove = required_param('luToMove', PARAM_INT);
+$trainingId = required_param('trainingId', PARAM_INT);
+$granularityLevel = required_param('granularityLevel', PARAM_INT);
+$level = required_param('level', PARAM_ALPHA);
 
 $record = new stdClass();
 $record2 = new stdClass();
 
 $actualLu = $DB->get_record('local_training_architecture_order', ['trainingid' => $trainingId, 'luid' => $luId]);
 $luToMove = $DB->get_record('local_training_architecture_order', ['trainingid' => $trainingId, 'luid' => $luToMove]);
+
+// Retrieve LU records safely
+// $actualLu = $DB->get_record('local_training_architecture_order', ['trainingid' => $trainingId, 'luid' => $luId], '*', MUST_EXIST);
+// $luToMove = $DB->get_record('local_training_architecture_order', ['trainingid' => $trainingId, 'luid' => $luToMove], '*', MUST_EXIST);
+
 
 $old_lu_order = $actualLu->sortorder;
 
