@@ -120,17 +120,18 @@ buttonLinks.addEventListener("click", function() {
 
     if(selectedIds.length > 0) {
 
-      $.ajax({
-        url:'ajax/multiple_delete_training_links.php',
-        type: 'POST',
-        data: { selectedIds: selectedIds },
-        success: function(url) {
-            window.location.href = url;
-        },
+      // $.ajax({
+      //   url:'ajax/multiple_delete_training_links.php',
+      //   type: 'POST',
+      //   data: { selectedIds: selectedIds },
+      //   success: function(url) {
+      //       window.location.href = url;
+      //   },
 
-        error: handleAjaxError
+      //   error: handleAjaxError
 
-      });
+      // });
+      deleteTrainingLinks(selectedIds);
 
     }
 });
@@ -143,17 +144,19 @@ buttonLu.addEventListener("click", function() {
 
   if(selectedIds.length > 0) {
 
-    $.ajax({
-      url:'ajax/multiple_delete_lu_to_lu.php',
-      type: 'POST',
-      data: { selectedIds: selectedIds },
-      success: function(url) {
-          window.location.href = url;
-      },
+    // $.ajax({
+    //   url:'ajax/multiple_delete_lu_to_lu.php',
+    //   type: 'POST',
+    //   data: { selectedIds: selectedIds },
+    //   success: function(url) {
+    //       window.location.href = url;
+    //   },
 
-      error: handleAjaxError
+    //   error: handleAjaxError
 
-    });
+    // });
+
+    deleteLUToLU(selectedIds);
 
   }
 });
@@ -166,17 +169,96 @@ buttonCourses.addEventListener("click", function() {
 
   if(selectedIds.length > 0) {
 
-    $.ajax({
-      url:'ajax/multiple_delete_courses_not_in_architecture.php',
-      type: 'POST',
-      data: { selectedIds: selectedIds },
-      success: function(url) {
-          window.location.href = url;
-      },
+    // $.ajax({
+    //   url:'ajax/multiple_delete_courses_not_in_architecture.php',
+    //   type: 'POST',
+    //   data: { selectedIds: selectedIds },
+    //   success: function(url) {
+    //       window.location.href = url;
+    //   },
 
-      error: handleAjaxError
+    //   error: handleAjaxError
 
-    });
+    // });
+    deleteCoursesNotInArchitecture(selectedIds);
 
   }
 });
+
+// Fonction pour supprimer les cours non dans l'architecture
+function deleteCoursesNotInArchitecture(selectedIds) {
+  const token = 'TON_TOKEN';  // Remplace par ton vrai token
+
+  const formData = new FormData();
+  formData.append('selectedIds', JSON.stringify(selectedIds));
+
+  fetch(M.cfg.wwwroot + '/webservice/rest/server.php?wstoken=' + token + '&wsfunction=local_training_architecture_delete_courses_not_in_architecture&moodlewsrestformat=json', {
+      method: 'POST',
+      body: formData
+  })
+  .then(response => response.json())
+  .then(data => {
+      if (data.redirectUrl) {
+          window.location.href = data.redirectUrl;
+      } else {
+          console.error('Error: no redirect URL returned.');
+      }
+  })
+  .catch(error => {
+      console.error('Error during deletion:', error);
+  });
+}
+
+// Fonction pour supprimer les liens LU à LU
+function deleteLUToLU(selectedIds) {
+  const token = 'TON_TOKEN';  // Remplace avec ton vrai token Moodle
+
+  const formData = new FormData();
+  formData.append('wstoken', token);
+  formData.append('wsfunction', 'local_training_architecture_delete_lu_to_lu');
+  formData.append('moodlewsrestformat', 'json');
+  formData.append('selectedIds', JSON.stringify(selectedIds));
+
+  fetch(M.cfg.wwwroot + '/webservice/rest/server.php', {
+      method: 'POST',
+      body: formData
+  })
+  .then(response => response.json())
+  .then(data => {
+      if (data.redirectUrl) {
+          window.location.href = data.redirectUrl;
+      } else {
+          console.error('Error: no redirect URL returned.');
+      }
+  })
+  .catch(error => {
+      console.error('Error during LU to LU deletion:', error);
+  });
+}
+
+// Fonction pour supprimer les liens de formation
+function deleteTrainingLinks(selectedIds) {
+  const token = 'TON_TOKEN';  // Remplace avec ton vrai token Moodle
+
+  const formData = new FormData();
+  formData.append('wstoken', token);
+  formData.append('wsfunction', 'local_training_architecture_delete_training_links');
+  formData.append('moodlewsrestformat', 'json');
+  formData.append('selectedIds', JSON.stringify(selectedIds));
+
+  fetch(M.cfg.wwwroot + '/webservice/rest/server.php', {
+      method: 'POST',
+      body: formData
+  })
+  .then(response => response.json())
+  .then(data => {
+      if (data.redirectUrl) {
+          window.location.href = data.redirectUrl;
+      } else {
+          console.error('Error: no redirect URL returned.');
+      }
+  })
+  .catch(error => {
+      console.error('Error during training link deletion:', error);
+  });
+}

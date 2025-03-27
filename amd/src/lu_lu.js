@@ -1,3 +1,5 @@
+import getLUList from './lu_list';
+
 const luCourseField = document.getElementById('fitem_id_luToLuCourseId');
 let lus = localStorage.getItem('numberOfLus');
 let luCourse = localStorage.getItem('luCourse');
@@ -30,23 +32,37 @@ document.getElementById('id_luToLuTrainingId').addEventListener('change', functi
     luCourseField.style.display = 'none';
 
     // Get number of levels (fields)
-    $.ajax({
-        url:'ajax/training_level.php',
-        type: 'POST',
-        data: { trainingId: trainingId },
-        success: function(response) {
-            localStorage.setItem('numberOfLus', response);
-            localStorage.setItem('luCourse', 'true');
+    // $.ajax({
+    //     url:'ajax/training_level.php',
+    //     type: 'POST',
+    //     data: { trainingId: trainingId },
+    //     success: function(response) {
+    //         localStorage.setItem('numberOfLus', response);
+    //         localStorage.setItem('luCourse', 'true');
 
-            for (let i = 1; i <= response ; i++) {
-                document.getElementById('fitem_id_luToLuId' + i).style.display = '';
+    //         for (let i = 1; i <= response ; i++) {
+    //             document.getElementById('fitem_id_luToLuId' + i).style.display = '';
+    //         }
+
+    //         luCourseField.style.display = '';
+    //     },
+
+    //     error: handleAjaxError
+
+    //   });
+
+    getLUList(trainingId).then(luList => {
+        localStorage.setItem('numberOfLus', luList.length);
+        localStorage.setItem('luCourse', 'true');
+
+        for (let i = 0; i < luList.length; i++) {
+            let luField = document.getElementById('fitem_id_luToLuId' + (i + 1));
+            if (luField) {
+                luField.style.display = '';
             }
+        }
 
-            luCourseField.style.display = '';
-        },
-
-        error: handleAjaxError
-
-      });
+        luCourseField.style.display = '';
+    });
 
 });
