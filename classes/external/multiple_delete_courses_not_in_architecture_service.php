@@ -3,7 +3,7 @@
 namespace local_training_architecture\external;
 
 require_once($CFG->libdir . '/externallib.php');
-require_once($CFG->dirroot . '/local/training_architecture/classes/functions.php');
+require_once($CFG->dirroot . '/local/training_architecture/classes/external/functions.php');
 
 class multiple_delete_courses_not_in_architecture_service extends \external_api {
 
