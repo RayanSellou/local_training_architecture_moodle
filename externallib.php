@@ -1,14 +1,18 @@
 <?php
+
+// Ce fichier est pour l'implémentation de fonctions externes dans Moodle.
 require_once("$CFG->libdir/externallib.php");
 
 class local_training_architecture_external extends external_api {
 
+    // Définition des paramètres pour la méthode get_lu_list
     public static function get_lu_list_parameters() {
         return new external_function_parameters([
             'trainingId' => new external_value(PARAM_INT, 'ID de la formation')
         ]);
     }
 
+    // Fonction qui récupère la liste des LU pour une formation donnée
     public static function get_lu_list($trainingId) {
         global $DB;
 
@@ -23,7 +27,7 @@ class local_training_architecture_external extends external_api {
 
         foreach ($links as $link) {
             $lu_info = $DB->get_record('local_training_architecture_lu', ['id' => $link->luid]);
-            
+
             if ($lu_info) {
                 $result[] = [
                     'id' => $link->luid,
@@ -35,6 +39,7 @@ class local_training_architecture_external extends external_api {
         return $result;
     }
 
+    // Retourne les résultats de la fonction
     public static function get_lu_list_returns() {
         return new external_multiple_structure(
             new external_single_structure([
