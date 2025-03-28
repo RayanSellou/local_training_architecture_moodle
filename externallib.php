@@ -48,8 +48,8 @@ class local_training_architecture_external extends external_api {
             ])
         );
     }
-}
-class local_training_architecture_lang_service extends external_api {
+
+
 
     /**
      * Définition des paramètres pour la méthode get_lang_strings.
@@ -86,4 +86,47 @@ class local_training_architecture_lang_service extends external_api {
             'collapse' => new external_value(PARAM_TEXT, 'Label du collapse'),
         ]);
     }
+
+
+    // Définition des paramètres pour delete_courses_not_in_architecture
+    public static function delete_courses_not_in_architecture_parameters() {
+        return new external_function_parameters([
+            'selectedIds' => new external_multiple_structure(
+                new external_value(PARAM_INT, 'ID du lien à supprimer'),
+                'Liste des IDs des liens à supprimer (dans la table local_training_architecture_courses_not_architecture)'
+            ),
+        ]);
+    }
+
+    // Fonction pour supprimer les liens des cours qui ne sont pas dans l'architecture
+    public static function delete_courses_not_in_architecture($selectedIds) {
+        global $DB, $CFG;
+
+        // Vérification de sécurité
+        if (empty($selectedIds)) {
+            throw new invalid_parameter_exception('Aucun ID de lien fourni.');
+        }
+
+        error_log('Selected IDs: ' . implode(',', $selectedIds));
+
+        // Suppression des liens dans la table 'local_training_architecture_courses_not_architecture'
+        foreach ($selectedIds as $id) {
+            // On supprime uniquement les enregistrements de la table local_training_architecture_courses_not_architecture
+            // où l'ID correspond au lien entre le cours et l'architecture
+            $DB->delete_records('local_training_architecture_courses_not_architecture', ['id' => $id]);
+        }
+
+        // Retourne l'URL de redirection après la suppression des liens
+        return [
+            'redirectUrl' => $CFG->wwwroot . '/local/training_architecture/index.php',
+        ];
+    }
+
+    // Retourne les résultats de la fonction
+    public static function delete_courses_not_in_architecture_returns() {
+        return new external_single_structure([
+            'redirectUrl' => new external_value(PARAM_URL, 'L\'URL de redirection après suppression'),
+        ]);
+    }
+
 }

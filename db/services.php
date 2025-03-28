@@ -2,7 +2,7 @@
 
 $functions = [
     'local_training_architecture_get_lang_strings' => [
-        'classname'   => 'local_training_architecture_lang_service',
+        'classname'   => 'local_training_architecture_external',
         'methodname'  => 'get_lang_strings',
         'classpath'   => 'local/training_architecture/externallib.php',
         'description' => 'Retrieve localized strings for expand and collapse.',
@@ -17,14 +17,14 @@ $functions = [
         'type'        => 'read', 
         'ajax'        => true,  
     ],
-    // 'local_training_architecture_delete_courses_not_in_architecture' => [
-    //     'classname'   => 'local_training_architecture\external\multiple_delete_courses_not_in_architecture_service',
-    //     'methodname'  => 'delete_courses_not_in_architecture',
-    //     'classpath'   => '',
-    //     'description' => 'Delete courses that are not in the architecture.',
-    //     'type'        => 'write',
-    //     'ajax'        => true,
-    // ],
+    'local_training_architecture_delete_courses_not_in_architecture' => [
+        'classname'   => 'local_training_architecture_external',
+        'methodname'  => 'delete_courses_not_in_architecture',
+        'classpath'   => 'local/training_architecture/externallib.php',
+        'description' => 'Delete courses that are not in the architecture.',
+        'type'        => 'write',
+        'ajax'        => true,
+    ],
     // 'local_training_architecture_delete_lu_to_lu' => [
     //     'classname'   => 'local_training_architecture\external\multiple_delete_lu_to_lu_service',
     //     'methodname'  => 'delete_lu_to_lu',
@@ -46,9 +46,9 @@ $functions = [
 $services = [
     'Local Training Architecture Service' => [
         'functions' => [
-            // 'local_training_architecture_get_lang_strings',
+            'local_training_architecture_get_lang_strings',
             'local_training_architecture_get_lu_list',
-            // 'local_training_architecture_delete_courses_not_in_architecture',
+            'local_training_architecture_delete_courses_not_in_architecture',
             // 'local_training_architecture_delete_lu_to_lu',
             // 'local_training_architecture_delete_training_links',
     ],
