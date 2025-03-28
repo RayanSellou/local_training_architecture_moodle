@@ -1,21 +1,21 @@
 <?php
 
 $functions = [
-    // 'local_training_architecture_get_lang_strings' => [
-    //     'classname'   => 'local_training_architecture\external\lang_service',
-    //     'methodname'  => 'get_lang_strings',
-    //     'classpath'   => '',
-    //     'description' => 'Retrieve localized strings for expand and collapse.',
-    //     'type'        => 'read',
-    //     'ajax'        => true, // Permet l'appel AJAX sans authentification
-    // ],
+    'local_training_architecture_get_lang_strings' => [
+        'classname'   => 'local_training_architecture_lang_service',
+        'methodname'  => 'get_lang_strings',
+        'classpath'   => 'local/training_architecture/externallib.php',
+        'description' => 'Retrieve localized strings for expand and collapse.',
+        'type'        => 'read',
+        'ajax'        => true, // Permet l'appel AJAX sans authentification
+    ],
     'local_training_architecture_get_lu_list' => [
-        'classname'   => 'local_training_architecture_external',  // Nom de la classe du service
-        'methodname'  => 'get_lu_list',  // Méthode qui sera appelée
-        'classpath'   => 'local/training_architecture/externallib.php',  // La classe est dans 'external'
+        'classname'   => 'local_training_architecture_external', 
+        'methodname'  => 'get_lu_list',  
+        'classpath'   => 'local/training_architecture/externallib.php',  
         'description' => 'Retrieve a list of LU for a given training ID.',
-        'type'        => 'read',  // Ce Web Service est de type "lecture"
-        'ajax'        => true,  // Permet l'appel AJAX sans authentification
+        'type'        => 'read', 
+        'ajax'        => true,  
     ],
     // 'local_training_architecture_delete_courses_not_in_architecture' => [
     //     'classname'   => 'local_training_architecture\external\multiple_delete_courses_not_in_architecture_service',

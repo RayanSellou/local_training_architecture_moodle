@@ -49,3 +49,41 @@ class local_training_architecture_external extends external_api {
         );
     }
 }
+class local_training_architecture_lang_service extends external_api {
+
+    /**
+     * Définition des paramètres pour la méthode get_lang_strings.
+     * @return external_function_parameters
+     */
+    public static function get_lang_strings_parameters() {
+        return new external_function_parameters([]);
+    }
+
+    /**
+     * Fonction qui récupère les chaînes localisées pour 'expand' et 'collapse'.
+     * @return array
+     */
+    public static function get_lang_strings() {
+        global $CFG;
+
+        // Récupère les chaînes à partir des fichiers de langue
+        $expand = get_string('expand', 'local_training_architecture');
+        $collapse = get_string('collapse', 'local_training_architecture');
+
+        return [
+            'expand' => $expand,
+            'collapse' => $collapse
+        ];
+    }
+
+    /**
+     * Définit la structure des données renvoyées par la fonction.
+     * @return external_single_structure
+     */
+    public static function get_lang_strings_returns() {
+        return new external_single_structure([
+            'expand' => new external_value(PARAM_TEXT, 'Label de l\'expand'),
+            'collapse' => new external_value(PARAM_TEXT, 'Label du collapse'),
+        ]);
+    }
+}
