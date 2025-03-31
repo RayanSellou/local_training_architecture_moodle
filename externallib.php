@@ -307,7 +307,8 @@ class local_training_architecture_external extends external_api {
             'luToMove' => new external_value(PARAM_INT, 'ID de la LU cible vers laquelle déplacer'),
             'trainingId' => new external_value(PARAM_INT, 'ID de la formation'),
             'granularityLevel' => new external_value(PARAM_INT, 'Niveau de granularité'),
-            'level' => new external_value(PARAM_ALPHA, 'Niveau (ex : level1)')
+            'level' => new external_value(PARAM_ALPHANUM, 'Niveau (ex : level1)')
+
         ]);
     }
 
