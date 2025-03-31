@@ -25,22 +25,38 @@ $functions = [
         'type'        => 'write',
         'ajax'        => true,
     ],
-    // 'local_training_architecture_delete_lu_to_lu' => [
-    //     'classname'   => 'local_training_architecture\external\multiple_delete_lu_to_lu_service',
-    //     'methodname'  => 'delete_lu_to_lu',
-    //     'classpath'   => '',
-    //     'description' => 'Delete LU to LU links',
+    'local_training_architecture_multiple_delete_lu_to_lu' => [
+        'classname'   => 'local_training_architecture_external',
+        'methodname'  => 'multiple_delete_lu_to_lu',
+        'classpath'   => 'local/training_architecture/externallib.php',
+        'description' => 'Delete multiple LU to LU links',
+        'type'        => 'write',
+        'ajax'        => true, 
+    ],
+    'local_training_architecture_multiple_delete_training_links' => [
+        'classname'   => 'local_training_architecture_external',
+        'methodname'  => 'multiple_delete_training_links',
+        'classpath'   => 'local/training_architecture/externallib.php',
+        'description' => 'Delete multiple training links',
+        'type'        => 'write',
+        // 'ajax'        => true,
+    ],
+    // 'local_training_architecture_move_lu_sort_order' => [
+    //     'classname'   => 'local_training_architecture_external',
+    //     'methodname'  => 'move_lu_sort_order',
+    //     'classpath'   => 'local/training_architecture/externallib.php',
+    //     'description' => 'Move LU sort order within a training architecture.',
     //     'type'        => 'write',
-    //     'ajax'        => true, // Permet l'appel AJAX sans authentification
+    //     'ajax'        => true, 
     // ],
-    // 'local_training_architecture_delete_training_links' => [
-    //     'classname'   => 'local_training_architecture\external\multiple_delete_training_links_service',
-    //     'methodname'  => 'delete_training_links',
-    //     'classpath'   => '',
-    //     'description' => 'Delete selected training links',
-    //     'type'        => 'write',
-    //     'ajax'        => true, // Permet l'appel AJAX sans authentification
-    // ],
+    'local_training_architecture_get_training_level' => [
+    'classname'   => 'local_training_architecture_external',
+    'methodname'  => 'get_training_level',
+    'classpath'   => 'local/training_architecture/externallib.php',
+    'description' => 'Retrieve granularity level of a training',
+    'type'        => 'read',
+    'ajax'        => true,
+    ],
 ];
 
 $services = [
@@ -49,8 +65,10 @@ $services = [
             'local_training_architecture_get_lang_strings',
             'local_training_architecture_get_lu_list',
             'local_training_architecture_delete_courses_not_in_architecture',
-            // 'local_training_architecture_delete_lu_to_lu',
-            // 'local_training_architecture_delete_training_links',
+            'local_training_architecture_multiple_delete_lu_to_lu',
+            'local_training_architecture_multiple_delete_training_links',
+            // 'local_training_architecture_move_lu_sort_order', 
+            'local_training_architecture_get_training_level',
     ],
         'restrictedusers' => 0,
         'enabled' => 1,

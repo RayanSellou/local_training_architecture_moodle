@@ -26,7 +26,7 @@
  */
 
 
-require_once(dirname(__FILE__) . '/../../../../config.php');
+require_once(dirname(__FILE__) . '/../../../../../config.php');
 
 class courses_not_in_architecture_functions {
 
