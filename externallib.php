@@ -217,100 +217,6 @@ class local_training_architecture_external extends external_api {
         ]);
     }
 
-    // /**
-    //  * Définition des paramètres pour la méthode move_lu_sort_order.
-    //  * @return external_function_parameters
-    //  */
-    // public static function move_lu_sort_order_parameters() {
-    //     return new external_function_parameters([
-    //         'luId' => new external_value(PARAM_INT, 'ID de la LU à déplacer'),
-    //         'luToMove' => new external_value(PARAM_INT, 'ID de la LU cible vers laquelle déplacer'),
-    //         'trainingId' => new external_value(PARAM_INT, 'ID de la formation'),
-    //         'granularityLevel' => new external_value(PARAM_INT, 'Niveau de granularité'),
-    //         'level' => new external_value(PARAM_ALPHA, 'Niveau (ex : level1)')
-    //     ]);
-    // }
-
-    // /**
-    //  * Fonction qui effectue le déplacement de l’ordre de LU.
-    //  * @param int $luId ID de la LU à déplacer.
-    //  * @param int $luToMove ID de la LU cible vers laquelle déplacer.
-    //  * @param int $trainingId ID de la formation.
-    //  * @param int $granularityLevel Niveau de granularité.
-    //  * @param string $level Niveau (par exemple level1)
-    //  * @return array Le statut de la fonction et un message.
-    //  */
-    // public static function move_lu_sort_order($luId, $luToMove, $trainingId, $granularityLevel, $level) {
-    //     global $DB;
-
-    //     // Validation des paramètres
-    //     $params = self::validate_parameters(self::move_lu_sort_order_parameters(), [
-    //         'luId' => $luId,
-    //         'luToMove' => $luToMove,
-    //         'trainingId' => $trainingId,
-    //         'granularityLevel' => $granularityLevel,
-    //         'level' => $level
-    //     ]);
-
-    //     // Récupère les enregistrements LU actuels
-    //     $actualLu = $DB->get_record('local_training_architecture_order', ['trainingid' => $trainingId, 'luid' => $luId]);
-    //     $luToMoveRecord = $DB->get_record('local_training_architecture_order', ['trainingid' => $trainingId, 'luid' => $luToMove]);
-
-    //     if (!$actualLu || !$luToMoveRecord) {
-    //         throw new invalid_parameter_exception('Une ou plusieurs LU n\'existent pas.');
-    //     }
-
-    //     // Effectue l'échange des ordres de tri
-    //     $old_lu_order = $actualLu->sortorder;
-    //     $record1 = (object)[
-    //         'id' => $actualLu->id,
-    //         'trainingid' => $trainingId,
-    //         'luid' => $luId,
-    //         'sortorder' => $luToMoveRecord->sortorder
-    //     ];
-
-    //     $record2 = (object)[
-    //         'id' => $luToMoveRecord->id,
-    //         'trainingid' => $trainingId,
-    //         'luid' => $luToMove,
-    //         'sortorder' => $old_lu_order
-    //     ];
-
-    //     // Mise à jour des enregistrements dans la base de données
-    //     $DB->update_record('local_training_architecture_order', $record1);
-    //     $DB->update_record('local_training_architecture_order', $record2);
-
-    //     // Logique de granularité et niveau
-    //     $newOrder = [];
-    //     if ($level == "level1") {
-    //         if ($granularityLevel == '1') {
-    //             $newOrder = $DB->get_records_sql('SELECT DISTINCT luid1 FROM {local_training_architecture_lu_to_lu} WHERE trainingid = ?', [$trainingId]);
-    //         } else {
-    //             $newOrder = $DB->get_records_sql('SELECT DISTINCT luid1 FROM {local_training_architecture_lu_to_lu} WHERE trainingid = ? AND isluid2course = ?', [$trainingId, 'false']);
-    //         }
-    //     } else {
-    //         if ($granularityLevel == '1') {
-    //             $newOrder = $DB->get_records_sql('SELECT DISTINCT luid1 FROM {local_training_architecture_lu_to_lu} WHERE trainingid = ?', [$trainingId]);
-    //         } else {
-    //             $newOrder = $DB->get_records_sql('SELECT DISTINCT luid1 FROM {local_training_architecture_lu_to_lu} WHERE trainingid = ? AND isluid2course = ?', [$trainingId, 'true']);
-    //         }
-    //     }
-
-    //     // Retourne le résultat sous forme de tableau
-    //     return ['status' => 'success', 'message' => 'Ordre de tri des LU mis à jour.'];
-    // }
-
-    // /**
-    //  * Définit la structure de données renvoyées pour la fonction move_lu_sort_order.
-    //  * @return external_single_structure
-    //  */
-    // public static function move_lu_sort_order_returns() {
-    //     return new external_single_structure([
-    //         'status' => new external_value(PARAM_TEXT, 'Statut de l\'opération'),
-    //         'message' => new external_value(PARAM_TEXT, 'Message relatif à l\'opération')
-    //     ]);
-    // }
-
     public static function get_training_level_parameters() {
         return new external_function_parameters([
             'trainingId' => new external_value(PARAM_INT, 'ID of the training')
@@ -339,6 +245,150 @@ class local_training_architecture_external extends external_api {
 
     public static function get_training_level_returns() {
         return new external_value(PARAM_INT, 'Granularity level of the training');
+    }
+
+
+    public static function get_training_links_parameters() {
+        return new external_function_parameters([
+            'trainingId' => new external_value(PARAM_INT, 'ID of the training'),
+            'level' => new external_value(PARAM_INT, 'The level of the training')
+        ]);
+    }
+
+    public static function get_training_links($trainingId, $level) {
+        global $DB;
+
+        // Validation des paramètres
+        if (!is_int($trainingId) || !is_int($level)) {
+            throw new moodle_exception('invalid_parameters');
+        }
+
+        // Vérification de la granularité de la formation
+        $granularityLevel = (int) $DB->get_field('local_training_architecture_training', 'granularitylevel', ['id' => $trainingId]);
+
+        // Si le niveau demandé est bien plus élevé que la granularité
+        $course = false;
+        $semester = false;
+
+        if ($granularityLevel + 1 === (int) $level) {
+            $course = true;
+
+            // Vérifier si c'est un semestre
+            $isSemester = (int) $DB->get_field('local_training_architecture_training', 'issemester', ['id' => $trainingId]);
+
+            if ($isSemester === 1) {
+                $semester = true;
+            }
+        }
+
+        // Retourner les informations
+        return [
+            'course' => $course,
+            'semester' => $semester
+        ];
+    }
+
+    public static function get_training_links_returns() {
+        return new external_single_structure( 
+            [
+                'course' => new external_value(PARAM_BOOL, 'Whether this is a course'),
+                'semester' => new external_value(PARAM_BOOL, 'Whether this is a semester')
+            ]
+        );
+    }
+
+    /**
+     * Définition des paramètres pour la méthode move_lu_sort_order.
+     * @return external_function_parameters
+     */
+    public static function move_lu_sort_order_parameters() {
+        return new external_function_parameters([
+            'luId' => new external_value(PARAM_INT, 'ID de la LU à déplacer'),
+            'luToMove' => new external_value(PARAM_INT, 'ID de la LU cible vers laquelle déplacer'),
+            'trainingId' => new external_value(PARAM_INT, 'ID de la formation'),
+            'granularityLevel' => new external_value(PARAM_INT, 'Niveau de granularité'),
+            'level' => new external_value(PARAM_ALPHA, 'Niveau (ex : level1)')
+        ]);
+    }
+
+    /**
+     * Fonction qui effectue le déplacement de l’ordre de LU.
+     * @param int $luId ID de la LU à déplacer.
+     * @param int $luToMove ID de la LU cible vers laquelle déplacer.
+     * @param int $trainingId ID de la formation.
+     * @param int $granularityLevel Niveau de granularité.
+     * @param string $level Niveau (par exemple level1)
+     * @return array Le statut de la fonction et un message.
+     */
+    public static function move_lu_sort_order($luId, $luToMove, $trainingId, $granularityLevel, $level) {
+        global $DB;
+
+        // Validation des paramètres
+        $params = self::validate_parameters(self::move_lu_sort_order_parameters(), [
+            'luId' => $luId,
+            'luToMove' => $luToMove,
+            'trainingId' => $trainingId,
+            'granularityLevel' => $granularityLevel,
+            'level' => $level
+        ]);
+
+        // Récupère les enregistrements LU actuels
+        $actualLu = $DB->get_record('local_training_architecture_order', ['trainingid' => $trainingId, 'luid' => $luId]);
+        $luToMoveRecord = $DB->get_record('local_training_architecture_order', ['trainingid' => $trainingId, 'luid' => $luToMove]);
+
+        if (!$actualLu || !$luToMoveRecord) {
+            throw new invalid_parameter_exception('Une ou plusieurs LU n\'existent pas.');
+        }
+
+        // Effectue l'échange des ordres de tri
+        $old_lu_order = $actualLu->sortorder;
+        $record1 = (object)[
+            'id' => $actualLu->id,
+            'trainingid' => $trainingId,
+            'luid' => $luId,
+            'sortorder' => $luToMoveRecord->sortorder
+        ];
+
+        $record2 = (object)[
+            'id' => $luToMoveRecord->id,
+            'trainingid' => $trainingId,
+            'luid' => $luToMove,
+            'sortorder' => $old_lu_order
+        ];
+
+        // Mise à jour des enregistrements dans la base de données
+        $DB->update_record('local_training_architecture_order', $record1);
+        $DB->update_record('local_training_architecture_order', $record2);
+
+        // Logique de granularité et niveau
+        $newOrder = [];
+        if ($level == "level1") {
+            if ($granularityLevel == '1') {
+                $newOrder = $DB->get_records_sql('SELECT DISTINCT luid1 FROM {local_training_architecture_lu_to_lu} WHERE trainingid = ?', [$trainingId]);
+            } else {
+                $newOrder = $DB->get_records_sql('SELECT DISTINCT luid1 FROM {local_training_architecture_lu_to_lu} WHERE trainingid = ? AND isluid2course = ?', [$trainingId, 'false']);
+            }
+        } else {
+            if ($granularityLevel == '1') {
+                $newOrder = $DB->get_records_sql('SELECT DISTINCT luid1 FROM {local_training_architecture_lu_to_lu} WHERE trainingid = ?', [$trainingId]);
+            } else {
+                $newOrder = $DB->get_records_sql('SELECT DISTINCT luid1 FROM {local_training_architecture_lu_to_lu} WHERE trainingid = ? AND isluid2course = ?', [$trainingId, 'true']);
+            }
+        }
+
+        // Retourne le résultat sous forme de tableau
+        return ['status' => 'success', 'message' => 'Ordre de tri des LU mis à jour.'];
+    }
+
+    /**
+     * Définit la structure de données renvoyées pour la fonction move_lu_sort_order.
+     * @return external_single_structure
+     */
+    public static function move_lu_sort_order_returns() {
+        return new external_single_structure([
+            'status' => new external_value(PARAM_TEXT, 'Statut de l\'opération'),
+            'message' => new external_value(PARAM_TEXT, 'Message relatif à l\'opération')
+        ]);
     }
 
 

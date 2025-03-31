@@ -41,14 +41,6 @@ $functions = [
         'type'        => 'write',
         // 'ajax'        => true,
     ],
-    // 'local_training_architecture_move_lu_sort_order' => [
-    //     'classname'   => 'local_training_architecture_external',
-    //     'methodname'  => 'move_lu_sort_order',
-    //     'classpath'   => 'local/training_architecture/externallib.php',
-    //     'description' => 'Move LU sort order within a training architecture.',
-    //     'type'        => 'write',
-    //     'ajax'        => true, 
-    // ],
     'local_training_architecture_get_training_level' => [
     'classname'   => 'local_training_architecture_external',
     'methodname'  => 'get_training_level',
@@ -56,6 +48,22 @@ $functions = [
     'description' => 'Retrieve granularity level of a training',
     'type'        => 'read',
     'ajax'        => true,
+    ],
+    'local_training_architecture_get_training_links' => [
+        'classname'   => 'local_training_architecture_external',
+        'methodname'  => 'get_training_links',
+        'classpath'   => 'local/training_architecture/externallib.php',
+        'description' => 'Retrieve whether the training is a course or a semester based on the given level.',
+        'type'        => 'read',
+        'ajax'        => true,
+    ],
+    'local_training_architecture_move_lu_sort_order' => [
+        'classname'   => 'local_training_architecture_external',
+        'methodname'  => 'move_lu_sort_order',
+        'classpath'   => 'local/training_architecture/externallib.php',
+        'description' => 'Move LU sort order within a training architecture.',
+        'type'        => 'write',
+        'ajax'        => true, 
     ],
 ];
 
@@ -67,8 +75,9 @@ $services = [
             'local_training_architecture_delete_courses_not_in_architecture',
             'local_training_architecture_multiple_delete_lu_to_lu',
             'local_training_architecture_multiple_delete_training_links',
-            // 'local_training_architecture_move_lu_sort_order', 
             'local_training_architecture_get_training_level',
+            'local_training_architecture_get_training_links',
+            'local_training_architecture_move_lu_sort_order', 
     ],
         'restrictedusers' => 0,
         'enabled' => 1,

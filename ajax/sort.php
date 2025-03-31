@@ -40,7 +40,7 @@ $luId = required_param('luId', PARAM_INT);
 $luToMove = required_param('luToMove', PARAM_INT);
 $trainingId = required_param('trainingId', PARAM_INT);
 $granularityLevel = required_param('granularityLevel', PARAM_INT);
-$level = required_param('level', PARAM_ALPHA);
+$level = required_param('level', PARAM_ALPHANUM);
 
 $record = new stdClass();
 $record2 = new stdClass();
