@@ -25,18 +25,29 @@
  * @package   training_architecture
  */
 
+use local_training_architecture\local\form\create_level;
+use local_training_architecture\local\form\create_training;
+use local_training_architecture\local\form\training_to_level;
+use local_training_architecture\local\form\cohort_to_training;
+use local_training_architecture\local\form\courses_not_in_architecture;
+use local_training_architecture\local\form\create_lu;
+use local_training_architecture\local\form\training_links;
+use local_training_architecture\local\form\lu_to_lu;
+
+use local_training_architecture\local\functions\common_functions;
+
 require_once(dirname(__FILE__) . '/../../config.php');
 
-require_once(dirname(__FILE__) . '/classes/form/create_level.php');
-require_once(dirname(__FILE__) . '/classes/form/create_training.php');
-require_once(dirname(__FILE__) . '/classes/form/training_to_level.php');
-require_once(dirname(__FILE__) . '/classes/form/cohort_to_training.php');
-require_once(dirname(__FILE__) . '/classes/form/courses_not_in_architecture.php');
-require_once(dirname(__FILE__) . '/classes/form/create_lu.php');
-require_once(dirname(__FILE__) . '/classes/form/training_links.php');
-require_once(dirname(__FILE__) . '/classes/form/lu_to_lu.php');
+// require_once(dirname(__FILE__) . '/classes/form/create_level.php');
+// require_once(dirname(__FILE__) . '/classes/form/create_training.php');
+// require_once(dirname(__FILE__) . '/classes/form/training_to_level.php');
+// require_once(dirname(__FILE__) . '/classes/form/cohort_to_training.php');
+// require_once(dirname(__FILE__) . '/classes/form/courses_not_in_architecture.php');
+// require_once(dirname(__FILE__) . '/classes/form/create_lu.php');
+// require_once(dirname(__FILE__) . '/classes/form/training_links.php');
+// require_once(dirname(__FILE__) . '/classes/form/lu_to_lu.php');
 
-require_once(dirname(__FILE__) . '/classes/functions/common_functions.php');
+// require_once(dirname(__FILE__) . '/classes/functions/common_functions.php');
 
 // This section handles user authentication, page setup, and permission checks.
 require_login();
@@ -46,8 +57,13 @@ $PAGE->set_context($context);
 $PAGE->set_url('/local/training_architecture/index.php');
 $PAGE->set_title(get_string('title', 'local_training_architecture'));
 $PAGE->requires->css('/local/training_architecture/styles.css');
-$PAGE->requires->js('/local/training_architecture/amd/src/multiple_delete.js');
-$PAGE->requires->js('/local/training_architecture/amd/src/functions.js');
+
+
+// $PAGE->requires->js('/local/training_architecture/amd/src/multiple_delete.js');
+// $PAGE->requires->js('/local/training_architecture/amd/src/functions.js');
+$PAGE->requires->js_call_amd('local_training_architecture/multiple_delete', 'init');
+$PAGE->requires->js_call_amd('local_training_architecture/functions', 'init');
+
 $PAGE->set_heading(get_string('heading', 'local_training_architecture'));
 $PAGE->set_pagelayout('admin');
 echo $OUTPUT->header();

@@ -35,7 +35,9 @@ use moodleform;
 require_once($CFG->dirroot.'/lib/formslib.php');
 require_once($CFG->dirroot.'/config.php');
 // require_once(dirname(__FILE__) . '/../functions/training_level_functions.php');
-$PAGE->requires->js('/local/training_architecture/amd/src/training_level.js');
+// $PAGE->requires->js('/local/training_architecture/amd/src/training_level.js');
+$PAGE->requires->js_call_amd('local_training_architecture/training_level', 'init');
+
 
 class training_level extends moodleform {
 

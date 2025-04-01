@@ -25,8 +25,10 @@
  * @package   training_architecture
  */
 
+ use local_training_architecture\local\functions\common_functions;
+
 require_once(dirname(__FILE__) . '/../../config.php');
-require_once(dirname(__FILE__) . '/classes/functions/common_functions.php');
+// require_once(dirname(__FILE__) . '/classes/functions/common_functions.php');
 
 global $DB;
 $commonFunctions = new common_functions();
@@ -62,8 +64,12 @@ $PAGE->set_context($context);
 $PAGE->set_title(get_string('sortlutitle', 'local_training_architecture'));
 $PAGE->set_heading(get_string('sortlu', 'local_training_architecture') . $commonFunctions->getTrainingFullName($trainingid));
 $PAGE->set_pagelayout('admin');
-$PAGE->requires->js('/local/training_architecture/amd/src/sort.js');
-$PAGE->requires->js('/local/training_architecture/amd/src/functions.js');
+// $PAGE->requires->js('/local/training_architecture/amd/src/sort.js');
+// $PAGE->requires->js('/local/training_architecture/amd/src/functions.js');
+$PAGE->requires->js_call_amd('local_training_architecture/sort', 'init');
+$PAGE->requires->js_call_amd('local_training_architecture/functions', 'init');
+
+
 $PAGE->requires->jquery();
 
 echo $OUTPUT->header();

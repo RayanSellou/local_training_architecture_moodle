@@ -37,7 +37,9 @@ require_once($CFG->dirroot.'/lib/formslib.php');
 require_once($CFG->dirroot.'/config.php');
 // require_once(dirname(__FILE__) . '/../functions/training_links_functions.php');
 // require_once(dirname(__FILE__) . '/../functions/common_functions.php');
-$PAGE->requires->js('/local/training_architecture/amd/src/training_links.js');
+// $PAGE->requires->js('/local/training_architecture/amd/src/training_links.js')
+$PAGE->requires->js_call_amd('local_training_architecture/training_links', 'init');
+
 
 class training_links extends moodleform {
 
