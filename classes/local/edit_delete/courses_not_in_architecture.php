@@ -25,9 +25,12 @@
  * @package   training_architecture
  */
 
+namespace local_training_architecture\local\edit_delete;
+
+use local_training_architecture\local\functions\courses_not_in_architecture_functions;
 
 require_once(dirname(__FILE__) . '/../../../../config.php');
-require_once(dirname(__FILE__) . '/../functions/courses_not_in_architecture_functions.php');
+// require_once(dirname(__FILE__) . '/../functions/courses_not_in_architecture_functions.php');
 
 global $DB;
 $coursesNotInArchitectureFunctions = new courses_not_in_architecture_functions();

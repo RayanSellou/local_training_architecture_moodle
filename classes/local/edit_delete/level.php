@@ -25,11 +25,16 @@
  * @package   training_architecture
  */
 
+namespace local_training_architecture\local\edit_delete;
+
+use local_training_architecture\local\form\edit_level;
+use local_training_architecture\local\functions\level_functions;
+use local_training_architecture\local\functions\common_functions;
 
 require_once(dirname(__FILE__) . '/../../../../config.php');
-require_once(dirname(__FILE__) . '/../form/edit_level.php');
-require_once(dirname(__FILE__) . '/../functions/level_functions.php');
-require_once(dirname(__FILE__) . '/../functions/common_functions.php');
+// require_once(dirname(__FILE__) . '/../form/edit_level.php');
+// require_once(dirname(__FILE__) . '/../functions/level_functions.php');
+// require_once(dirname(__FILE__) . '/../functions/common_functions.php');
 
 global $DB;
 $levelFunctions = new level_functions();

@@ -25,9 +25,14 @@
  * @package   training_architecture
  */
 
+namespace local_training_architecture\local\edit_delete;
+
+use local_training_architecture\local\functions\cohort_training_functions;
 
 require_once(dirname(__FILE__) . '/../../../../config.php');
-require_once(dirname(__FILE__) . '/../functions/cohort_training_functions.php');
+
+
+// require_once(dirname(__FILE__) . '/../functions/cohort_training_functions.php');
 
 global $DB;
 $cohortTrainingFunctions = new cohort_training_functions();

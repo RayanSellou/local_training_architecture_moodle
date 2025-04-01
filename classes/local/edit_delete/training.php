@@ -25,10 +25,19 @@
  * @package   training_architecture
  */
 
+namespace local_training_architecture\local\edit_delete;
+
+use local_training_architecture\local\functions\training_functions;
+use local_training_architecture\local\functions\common_functions;
+use local_training_architecture\local\form\edit_training;
+use moodle_url;
+use context_system;
+use moodle_exception;
+use single_button;
 require_once(dirname(__FILE__) . '/../../../../config.php');
-require_once(dirname(__FILE__) . '/../form/edit_training.php');
-require_once(dirname(__FILE__) . '/../functions/training_functions.php');
-require_once(dirname(__FILE__) . '/../functions/common_functions.php');
+// require_once(dirname(__FILE__) . '/../form/edit_training.php');
+// require_once(dirname(__FILE__) . '/../functions/training_functions.php');
+// require_once(dirname(__FILE__) . '/../functions/common_functions.php');
 
 global $DB;
 $trainingFunctions = new training_functions();

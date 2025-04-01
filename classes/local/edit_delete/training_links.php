@@ -25,9 +25,16 @@
  * @package   training_architecture
  */
 
+namespace local_training_architecture\local\edit_delete; 
+
+use local_training_architecture\local\functions\training_links_functions;
+use moodle_url;
+use context_system;
+use moodle_exception;
+use single_button;
 
 require_once(dirname(__FILE__) . '/../../../../config.php');
-require_once(dirname(__FILE__) . '/../functions/training_links_functions.php');
+// require_once(dirname(__FILE__) . '/../functions/training_links_functions.php');
 
 global $DB;
 $trainingLinksFunctions = new training_links_functions();

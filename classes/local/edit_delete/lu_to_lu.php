@@ -25,9 +25,12 @@
  * @package   training_architecture
  */
 
+namespace local_training_architecture\local\edit_delete;
+
+use local_training_architecture\local\functions\lu_lu_functions;
 
 require_once(dirname(__FILE__) . '/../../../../config.php');
-require_once(dirname(__FILE__) . '/../functions/lu_lu_functions.php');
+// require_once(dirname(__FILE__) . '/../functions/lu_lu_functions.php');
 
 global $DB;
 $luFunctions = new lu_lu_functions();
