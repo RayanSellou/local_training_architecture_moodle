@@ -24,12 +24,19 @@
  * @package   training_architecture
  */
 
+namespace local_training_architecture\local\form;
+
+
 defined('MOODLE_INTERNAL') || die;
+
+use local_training_architecture\local\functions\lu_lu_functions;
+use local_training_architecture\local\functions\common_functions;
+use moodleform;
 
 require_once($CFG->dirroot.'/lib/formslib.php');
 require_once($CFG->dirroot.'/config.php');
-require_once(dirname(__FILE__) . '/../functions/lu_lu_functions.php');
-require_once(dirname(__FILE__) . '/../functions/common_functions.php');
+// require_once(dirname(__FILE__) . '/../functions/lu_lu_functions.php');
+// require_once(dirname(__FILE__) . '/../functions/common_functions.php');
 $PAGE->requires->js('/local/training_architecture/amd/src/lu_lu.js');
 
 class lu_to_lu extends moodleform {

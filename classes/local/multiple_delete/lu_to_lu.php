@@ -25,10 +25,14 @@
  * @package   training_architecture
  */
 
+namespace local_training_architecture\local\multiple_delete;
+
+use local_training_architecture\local\functions\common_functions;
+use local_training_architecture\local\functions\lu_lu_functions;
 
 require_once(dirname(__FILE__) . '/../../../../config.php');
-require_once(dirname(__FILE__) . '/../functions/lu_lu_functions.php');
-require_once(dirname(__FILE__) . '/../functions/common_functions.php');
+// require_once(dirname(__FILE__) . '/../functions/lu_lu_functions.php');
+// require_once(dirname(__FILE__) . '/../functions/common_functions.php');
 
 global $DB;
 $commonFunctions = new common_functions();

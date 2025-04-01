@@ -25,10 +25,14 @@
  * @package   training_architecture
  */
 
+namespace local_training_architecture\local\multiple_delete; 
+ 
+use local_training_architecture\local\functions\common_functions;
+use local_training_architecture\local\functions\courses_not_in_architecture_functions;
 
 require_once(dirname(__FILE__) . '/../../../../config.php');
-require_once(dirname(__FILE__) . '/../functions/courses_not_in_architecture_functions.php');
-require_once(dirname(__FILE__) . '/../functions/common_functions.php');
+// require_once(dirname(__FILE__) . '/../functions/courses_not_in_architecture_functions.php');
+// require_once(dirname(__FILE__) . '/../functions/common_functions.php');
 
 global $DB;
 $commonFunctions = new common_functions();

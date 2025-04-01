@@ -25,7 +25,8 @@
  * @package   training_architecture
  */
 
-
+ namespace local_training_architecture\local\functions;
+ 
 require_once(dirname(__FILE__) . '/../../../../../config.php');
 
 class common_functions {

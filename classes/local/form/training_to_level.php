@@ -24,11 +24,17 @@
  * @package   training_architecture
  */
 
+namespace local_training_architecture\local\form;
+
+
 defined('MOODLE_INTERNAL') || die;
+
+use local_training_architecture\local\functions\training_level_functions;
+use moodleform;
 
 require_once($CFG->dirroot.'/lib/formslib.php');
 require_once($CFG->dirroot.'/config.php');
-require_once(dirname(__FILE__) . '/../functions/training_level_functions.php');
+// require_once(dirname(__FILE__) . '/../functions/training_level_functions.php');
 $PAGE->requires->js('/local/training_architecture/amd/src/training_level.js');
 
 class training_level extends moodleform {

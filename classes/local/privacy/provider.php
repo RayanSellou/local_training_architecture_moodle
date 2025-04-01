@@ -1,5 +1,4 @@
 <?php
-// local/training_architecture/classes/privacy/provider.php
 
 /**
  * GDPR compliant plugin - No personal data collected

@@ -25,8 +25,10 @@
  * @package   training_architecture
  */
 
+namespace local_training_architecture\local\functions;
 
- require_once(dirname(__FILE__) . '/../../../../../config.php');
+
+require_once(dirname(__FILE__) . '/../../../../../config.php');
 
 class lu_lu_functions {
 
