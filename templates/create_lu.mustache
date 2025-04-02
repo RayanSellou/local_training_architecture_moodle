@@ -1,0 +1,33 @@
+{{#create_lu_form}}
+    <div class="form-container">
+        {{{create_lu_form}}}
+    </div>
+{{/create_lu_form}}
+
+<div id="lu-table-container">
+    {{#lu_data}}
+        <table class="lu-table">
+            <thead>
+                <tr>
+                    <th>{{fullname_label}}</th>
+                    <th>{{shortname_label}}</th>
+                    <th>{{idnumber_label}}</th>
+                    <th>{{actions_label}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#lu_data}}
+                    <tr>
+                        <td>{{fullname}}</td>
+                        <td>{{shortname}}</td>
+                        <td>{{idnumber}}</td>
+                        <td>
+                            <a href="{{edit_url}}" class="action-btn">{{#pix}}t/edit{{/pix}} {{edit_label}}</a>
+                            <a href="{{delete_url}}" class="action-btn">{{#pix}}t/delete{{/pix}} {{delete_label}}</a>
+                        </td>
+                    </tr>
+                {{/lu_data}}
+            </tbody>
+        </table>
+    {{/lu_data}}
+</div>

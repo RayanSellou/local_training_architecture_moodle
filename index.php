@@ -197,7 +197,7 @@ $templatecontext = [
 ];
 
 // Rendu du template Mustache
-echo $OUTPUT->render_from_template('local_training_architecture/create_level', $templatecontext);
+echo $OUTPUT->render_from_template('local_training_architecture/templates/create_level', $templatecontext);
 
 //--------------
 
@@ -295,7 +295,7 @@ $templatecontext = [
 ];
 
 // Render the Mustache template
-echo $OUTPUT->render_from_template('local_training_architecture/create_training', $templatecontext);
+echo $OUTPUT->render_from_template('local_training_architecture/templates/create_training', $templatecontext);
 
 
 //----------------------------------------------------------------------
@@ -317,50 +317,70 @@ if($create_lu_form->is_cancelled()) {
     redirect('index.php');
 }
 
-$create_lu_form->display();
+// $create_lu_form->display();
 
 // Generate HTML table for displaying lu data.
 $luData = [];
 if ($lus = $DB->get_records('local_training_architecture_lu', [], 'fullname')) {
     foreach ($lus as $lu) {
-        $line = [];
+        // $line = [];
 
-        // Display informations.
-        $line[] = $lu->fullname;
-        $line[] = $lu->shortname;
-        $line[] = $lu->idnumber;
-        //$line[] = $lu->description;
+        // // Display informations.
+        // $line[] = $lu->fullname;
+        // $line[] = $lu->shortname;
+        // $line[] = $lu->idnumber;
+        // //$line[] = $lu->description;
 
-        $buttons = '';
+        // $buttons = '';
         
-        // Edit button URL.
-        $editUrl = new moodle_url('classes/edit_delete/lu.php', ['id' => $lu->id]);
-        $editButton = html_writer::link($editUrl, $OUTPUT->pix_icon('t/edit', get_string('edit')));
-        $buttons .= $editButton;
+        // // Edit button URL.
+        // $editUrl = new moodle_url('classes/edit_delete/lu.php', ['id' => $lu->id]);
+        // $editButton = html_writer::link($editUrl, $OUTPUT->pix_icon('t/edit', get_string('edit')));
+        // $buttons .= $editButton;
         
-        // Delete button URL.
-        $deleteUrl = new moodle_url('classes/edit_delete/lu.php', ['id' => $lu->id, 'delete' => 1]);
-        $deleteButton = html_writer::link($deleteUrl, $OUTPUT->pix_icon('t/delete', get_string('delete')));
-        $buttons .= $deleteButton;
+        // // Delete button URL.
+        // $deleteUrl = new moodle_url('classes/edit_delete/lu.php', ['id' => $lu->id, 'delete' => 1]);
+        // $deleteButton = html_writer::link($deleteUrl, $OUTPUT->pix_icon('t/delete', get_string('delete')));
+        // $buttons .= $deleteButton;
 
-        $line[] = $buttons;
-        $luData[] = $line;
+        // $line[] = $buttons;
+        // $luData[] = $line;
+        $luData[] = [
+            'fullname' => $lu->fullname,
+            'shortname' => $lu->shortname,
+            'idnumber' => $lu->idnumber,
+            'edit_url' => new moodle_url('classes/edit_delete/lu.php', ['id' => $lu->id]),
+            'delete_url' => new moodle_url('classes/edit_delete/lu.php', ['id' => $lu->id, 'delete' => 1]),
+        ];
     }
 }
 
-// Create HTML table for displaying lu data.
-$lu_table = new html_table();
-$lu_table->head = [
-    get_string('fullname', 'local_training_architecture'),
-    get_string('shortname', 'local_training_architecture'),
-    get_string('idnumber', 'local_training_architecture'),
-    //get_string('description', 'local_training_architecture'),
-    get_string('actions', 'local_training_architecture')
-];
-$lu_table->data = $luData;
+// // Create HTML table for displaying lu data.
+// $lu_table = new html_table();
+// $lu_table->head = [
+//     get_string('fullname', 'local_training_architecture'),
+//     get_string('shortname', 'local_training_architecture'),
+//     get_string('idnumber', 'local_training_architecture'),
+//     //get_string('description', 'local_training_architecture'),
+//     get_string('actions', 'local_training_architecture')
+// ];
+// $lu_table->data = $luData;
 
-// Output JavaScript to replace content with lu table.
-echo '<script>document.getElementById("lu-table-container").innerHTML = ' . json_encode(html_writer::table($lu_table)) . ';</script>';
+// // Output JavaScript to replace content with lu table.
+// echo '<script>document.getElementById("lu-table-container").innerHTML = ' . json_encode(html_writer::table($lu_table)) . ';</script>';
+
+$templatecontext = [
+    'create_lu_form' => $create_lu_form->display(), // Le formulaire de création LU
+    'lu_data' => $luData, // Données LU à afficher dans le tableau
+    'fullname_label' => get_string('fullname', 'local_training_architecture'),
+    'shortname_label' => get_string('shortname', 'local_training_architecture'),
+    'idnumber_label' => get_string('idnumber', 'local_training_architecture'),
+    'actions_label' => get_string('actions', 'local_training_architecture'),
+    'edit_label' => get_string('edit', 'local_training_architecture'),
+    'delete_label' => get_string('delete', 'local_training_architecture'),
+];
+
+echo $OUTPUT->render_from_template('local_training_architecture/templates/create_lu', $templatecontext);
 
 //--------------------------------------------------------------
 
