@@ -1,0 +1,44 @@
+{{#create_lu_to_lu_form}}
+    <div class="form-container">
+        {{{create_lu_to_lu_form}}}
+    </div>
+{{/create_lu_to_lu_form}}
+
+<div id="lu-to-lu-table-container">
+    <table class="lu-to-lu-table">
+        <thead>
+            <tr>
+                <th>{{training_label}}</th>
+                <th>{{lu1_label}}</th>
+                <th>{{lu2_label}}</th>
+                <th>{{actions_label}}</th>
+                <th>{{selection_label}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#lu_to_lu_data}}
+                <tr>
+                    <td>{{training_fullname}}</td>
+                    <td>{{lu1_fullname}}</td>
+                    <td>{{lu2_fullname}}</td>
+                    <td>
+                        <a href="{{delete_url}}" class="action-btn">{{#pix}}t/delete{{/pix}} {{delete_label}}</a>
+                    </td>
+                    <td>
+                        <input type="checkbox" name="checkbox-lu-to-lu" value="{{id}}"
+                            data-trainingid="{{trainingid}}"
+                            data-luid1="{{luid1}}"
+                            data-luid2="{{luid2}}"
+                            data-isluid2course="{{isluid2course}}">
+                    </td>
+                </tr>
+            {{/lu_to_lu_data}}
+        </tbody>
+    </table>
+</div>
+
+<div class="trainingarchitecture-btn-container">
+    <button id="delete-selected-lu-to-lu" class="trainingarchitecture-delete-selection btn">
+        {{deleteselection_label}}
+    </button>
+</div>

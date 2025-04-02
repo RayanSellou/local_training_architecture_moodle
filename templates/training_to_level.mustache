@@ -1,0 +1,30 @@
+{{#create_training_to_level_form}}
+    <div class="form-container">
+        {{{create_training_to_level_form}}}
+    </div>
+{{/create_training_to_level_form}}
+
+<div id="training-levels-table-container">
+    <table class="training-to-level-table">
+        <thead>
+            <tr>
+                <th>{{training_label}}</th>
+                <th>{{level1_label}}</th>
+                <th>{{level2_label}}</th>
+                <th>{{actions_label}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#training_to_level_data}}
+                <tr>
+                    <td>{{training_fullname}}</td>
+                    <td>{{level1}}</td>
+                    <td>{{level2}}</td>
+                    <td>
+                        <a href="{{delete_url}}" class="action-btn">{{#pix}}t/delete{{/pix}} {{delete_label}}</a>
+                    </td>
+                </tr>
+            {{/training_to_level_data}}
+        </tbody>
+    </table>
+</div>
