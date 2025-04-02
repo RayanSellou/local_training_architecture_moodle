@@ -27,7 +27,7 @@
 
 use local_training_architecture\local\form\create_level;
 use local_training_architecture\local\form\create_training;
-use local_training_architecture\local\form\training_to_level;
+use local_training_architecture\local\form\training_level;
 use local_training_architecture\local\form\cohort_to_training;
 use local_training_architecture\local\form\courses_not_in_architecture;
 use local_training_architecture\local\form\create_lu;
@@ -73,30 +73,49 @@ $returnurl = new moodle_url('/local/training_architecture/index.php');
 $commonFunctions = new common_functions();
 
 // Display anchor and links to different forms.
-echo html_writer::start_tag('h3');
-echo get_string('allforms', 'local_training_architecture');
-echo html_writer::end_tag('h3');
+// echo html_writer::start_tag('h3');
+// echo get_string('allforms', 'local_training_architecture');
+// echo html_writer::end_tag('h3');
 
-echo html_writer::start_tag('ul');
+// echo html_writer::start_tag('ul');
+
+// $links = [
+//     '#id_createLevelcontainer' => get_string('createleveltitle', 'local_training_architecture'),
+//     '#id_createTrainingcontainer' => get_string('createtraining', 'local_training_architecture'),
+//     '#id_createLucontainer' => get_string('createlutitle', 'local_training_architecture'),
+//     '#id_trainingToLevelcontainer' => get_string('trainingtolevel', 'local_training_architecture'),
+//     '#id_cohortToTrainingcontainer' => get_string('cohorttotraining', 'local_training_architecture'),
+//     '#id_coursesNotInArchitectureTitlecontainer' => get_string('coursesnotinarchitecturetitle', 'local_training_architecture'),
+//     '#id_trainingLinkscontainer' => get_string('traininglinks', 'local_training_architecture'),
+//     '#id_luToLucontainer' => get_string('lutolu', 'local_training_architecture')
+// ];
 
 $links = [
-    '#id_createLevelcontainer' => get_string('createleveltitle', 'local_training_architecture'),
-    '#id_createTrainingcontainer' => get_string('createtraining', 'local_training_architecture'),
-    '#id_createLucontainer' => get_string('createlutitle', 'local_training_architecture'),
-    '#id_trainingToLevelcontainer' => get_string('trainingtolevel', 'local_training_architecture'),
-    '#id_cohortToTrainingcontainer' => get_string('cohorttotraining', 'local_training_architecture'),
-    '#id_coursesNotInArchitectureTitlecontainer' => get_string('coursesnotinarchitecturetitle', 'local_training_architecture'),
-    '#id_trainingLinkscontainer' => get_string('traininglinks', 'local_training_architecture'),
-    '#id_luToLucontainer' => get_string('lutolu', 'local_training_architecture')
+    ['href' => '#id_createLevelcontainer', 'text' => get_string('createleveltitle', 'local_training_architecture')],
+    ['href' => '#id_createTrainingcontainer', 'text' => get_string('createtraining', 'local_training_architecture')],
+    ['href' => '#id_createLucontainer', 'text' => get_string('createlutitle', 'local_training_architecture')],
+    ['href' => '#id_trainingToLevelcontainer', 'text' => get_string('trainingtolevel', 'local_training_architecture')],
+    ['href' => '#id_cohortToTrainingcontainer', 'text' => get_string('cohorttotraining', 'local_training_architecture')],
+    ['href' => '#id_coursesNotInArchitectureTitlecontainer', 'text' => get_string('coursesnotinarchitecturetitle', 'local_training_architecture')],
+    ['href' => '#id_trainingLinkscontainer', 'text' => get_string('traininglinks', 'local_training_architecture')],
+    ['href' => '#id_luToLucontainer', 'text' => get_string('lutolu', 'local_training_architecture')]
 ];
 
-foreach ($links as $href => $text) {
-    echo html_writer::start_tag('li');
-    echo '<span><a href="' . $href . '">' . $text . '</a></span>';
-    echo html_writer::end_tag('li');
-}
+// foreach ($links as $href => $text) {
+//     echo html_writer::start_tag('li');
+//     echo '<span><a href="' . $href . '">' . $text . '</a></span>';
+//     echo html_writer::end_tag('li');
+// }
 
-echo html_writer::end_tag('ul');
+// echo html_writer::end_tag('ul');
+
+// Render the template with the data
+$templatecontext = [
+    'links' => $links
+];
+
+// Output the template
+echo $OUTPUT->render_from_template('local_training_architecture/templates/form_links', $templatecontext);
 
 //-----------------------------------
 
@@ -117,49 +136,68 @@ if($create_level_form->is_cancelled()) {
     redirect('index.php');
 }
 
-$create_level_form->display();
+// $create_level_form->display();
 
 // Generate HTML table for displaying levels.
 $levelsData = [];
 if ($levels = $DB->get_records('local_training_architecture_level_names', [], 'fullname')) {
 
     foreach ($levels as $level) {
-        $line = [];
-        $line[] = $level->fullname;
-        $line[] = $level->shortname;
+        // $line = [];
+        // $line[] = $level->fullname;
+        // $line[] = $level->shortname;
         //$line[] = $level->description;
 
-        $buttons = '';
+        // $buttons = '';
         
-        // Edit button URL.
-        $editUrl = new moodle_url('classes/edit_delete/level.php', ['id' => $level->id]);
-        $editButton = html_writer::link($editUrl, $OUTPUT->pix_icon('t/edit', get_string('edit')));
-        $buttons .= $editButton;
+        // // Edit button URL.
+        // $editUrl = new moodle_url('classes/edit_delete/level.php', ['id' => $level->id]);
+        // $editButton = html_writer::link($editUrl, $OUTPUT->pix_icon('t/edit', get_string('edit')));
+        // $buttons .= $editButton;
         
-        // Delete button URL.
-        $deleteUrl = new moodle_url('classes/edit_delete/level.php', ['id' => $level->id, 'delete' => 1]);
-        $deleteButton = html_writer::link($deleteUrl, $OUTPUT->pix_icon('t/delete', get_string('delete')));
-        $buttons .= $deleteButton;
+        // // Delete button URL.
+        // $deleteUrl = new moodle_url('classes/edit_delete/level.php', ['id' => $level->id, 'delete' => 1]);
+        // $deleteButton = html_writer::link($deleteUrl, $OUTPUT->pix_icon('t/delete', get_string('delete')));
+        // $buttons .= $deleteButton;
 
-        $line[] = $buttons;
+        // $line[] = $buttons;
         
-        $levelsData[] = $line;
+        // $levelsData[] = $line;
+        $levelsData[] = [
+            'fullname' => $level->fullname,
+            'shortname' => $level->shortname,
+            'edit_url' => new moodle_url('classes/edit_delete/level.php', ['id' => $level->id]),
+            'delete_url' => new moodle_url('classes/edit_delete/level.php', ['id' => $level->id, 'delete' => 1]),
+        ];
     }
 }
 
-// Create HTML table for displaying levels data.
-$level_table = new html_table();
-$level_table->head = [
-    get_string('fullname', 'local_training_architecture'),
-    get_string('shortname', 'local_training_architecture'),
-    //get_string('description', 'local_training_architecture'),
-    get_string('actions', 'local_training_architecture')
+// // Create HTML table for displaying levels data.
+// $level_table = new html_table();
+// $level_table->head = [
+//     get_string('fullname', 'local_training_architecture'),
+//     get_string('shortname', 'local_training_architecture'),
+//     //get_string('description', 'local_training_architecture'),
+//     get_string('actions', 'local_training_architecture')
+// ];
+
+// $level_table->data = $levelsData;
+
+// // Output JavaScript to replace content with levels table.
+// echo '<script>document.getElementById("levels-table-container").innerHTML = ' . json_encode(html_writer::table($level_table)) . ';</script>';
+
+$templatecontext = [
+    'create_level_form' => $create_level_form->display(),
+    'levels_data' => $levelsData,
+    'fullname_label' => get_string('fullname', 'local_training_architecture'),
+    'shortname_label' => get_string('shortname', 'local_training_architecture'),
+    'actions_label' => get_string('actions', 'local_training_architecture'),
+    'edit_label' => get_string('edit', 'local_training_architecture'),
+    'delete_label' => get_string('delete', 'local_training_architecture'),
 ];
 
-$level_table->data = $levelsData;
-
-// Output JavaScript to replace content with levels table.
-echo '<script>document.getElementById("levels-table-container").innerHTML = ' . json_encode(html_writer::table($level_table)) . ';</script>';
+// Rendu du template Mustache
+echo $OUTPUT->render_from_template('local_training_architecture/create_level', $templatecontext);
 
 //--------------
 
@@ -180,56 +218,85 @@ if($create_training_form->is_cancelled()) {
     redirect('index.php');
 }
 
-$create_training_form->display();
+// $create_training_form->display();
 
 // Generate HTML table for displaying trainings.
 $trainingData = [];
 if ($trainings = $DB->get_records('local_training_architecture_training', [], 'fullname')) {
     foreach ($trainings as $training) {
-        $line = [];
-        $line[] = $training->fullname;
-        $line[] = $training->shortname;
-        $line[] = $training->idnumber;
-        //$line[] = $training->description;
-        $line[] = $training->granularitylevel;
-        $line[] = ($training->issemester == 0) ? get_string('no', 'local_training_architecture') : get_string('yes', 'local_training_architecture');
-        $buttons = '';
+        // $line = [];
+        // $line[] = $training->fullname;
+        // $line[] = $training->shortname;
+        // $line[] = $training->idnumber;
+        // //$line[] = $training->description;
+        // $line[] = $training->granularitylevel;
+        // $line[] = ($training->issemester == 0) ? get_string('no', 'local_training_architecture') : get_string('yes', 'local_training_architecture');
+        // $buttons = '';
         
-        // Sort button URL.
-        $sortUrl = new moodle_url('sort.php', ['trainingid' => $training->id]);
-        $sortButton = html_writer::link($sortUrl, $OUTPUT->pix_icon('t/sort', get_string('sort')));
-        $buttons .= $sortButton;
+        // // Sort button URL.
+        // $sortUrl = new moodle_url('sort.php', ['trainingid' => $training->id]);
+        // $sortButton = html_writer::link($sortUrl, $OUTPUT->pix_icon('t/sort', get_string('sort')));
+        // $buttons .= $sortButton;
 
-        // Edit button URL.
-        $editUrl = new moodle_url('classes/edit_delete/training.php', ['id' => $training->id]);
-        $editButton = html_writer::link($editUrl, $OUTPUT->pix_icon('t/edit', get_string('edit')));
-        $buttons .= $editButton;
+        // // Edit button URL.
+        // $editUrl = new moodle_url('classes/edit_delete/training.php', ['id' => $training->id]);
+        // $editButton = html_writer::link($editUrl, $OUTPUT->pix_icon('t/edit', get_string('edit')));
+        // $buttons .= $editButton;
         
-        // Delete button URL.
-        $deleteUrl = new moodle_url('classes/edit_delete/training.php', ['id' => $training->id, 'delete' => 1]);
-        $deleteButton = html_writer::link($deleteUrl, $OUTPUT->pix_icon('t/delete', get_string('delete')));
-        $buttons .= $deleteButton;
+        // // Delete button URL.
+        // $deleteUrl = new moodle_url('classes/edit_delete/training.php', ['id' => $training->id, 'delete' => 1]);
+        // $deleteButton = html_writer::link($deleteUrl, $OUTPUT->pix_icon('t/delete', get_string('delete')));
+        // $buttons .= $deleteButton;
 
-        $line[] = $buttons;
-        $trainingData[] = $line;
+        // $line[] = $buttons;
+        // $trainingData[] = $line;
+        $trainingData[] = [
+            'fullname' => $training->fullname,
+            'shortname' => $training->shortname,
+            'idnumber' => $training->idnumber,
+            'granularitylevel' => $training->granularitylevel,
+            'semesterchoice' => ($training->issemester == 0) ? get_string('no', 'local_training_architecture') : get_string('yes', 'local_training_architecture'),
+            'sort_url' => new moodle_url('sort.php', ['trainingid' => $training->id]),
+            'edit_url' => new moodle_url('classes/edit_delete/training.php', ['id' => $training->id]),
+            'delete_url' => new moodle_url('classes/edit_delete/training.php', ['id' => $training->id, 'delete' => 1]),
+        ];
     }
 }
 
-// Create HTML table for displaying training data.
-$training_table = new html_table();
-$training_table->head = [
-    get_string('fullname', 'local_training_architecture'),
-    get_string('shortname', 'local_training_architecture'),
-    get_string('idnumber', 'local_training_architecture'),
-    //get_string('description', 'local_training_architecture'),
-    get_string('selectnumberoflevel', 'local_training_architecture'),
-    get_string('semesterchoice', 'local_training_architecture'),
-    get_string('actions', 'local_training_architecture'),
-];
-$training_table->data = $trainingData;
+// // Create HTML table for displaying training data.
+// $training_table = new html_table();
+// $training_table->head = [
+//     get_string('fullname', 'local_training_architecture'),
+//     get_string('shortname', 'local_training_architecture'),
+//     get_string('idnumber', 'local_training_architecture'),
+//     //get_string('description', 'local_training_architecture'),
+//     get_string('selectnumberoflevel', 'local_training_architecture'),
+//     get_string('semesterchoice', 'local_training_architecture'),
+//     get_string('actions', 'local_training_architecture'),
+// ];
+// $training_table->data = $trainingData;
 
-// Output JavaScript to replace content with training table.
-echo '<script>document.getElementById("training-table-container").innerHTML = ' . json_encode(html_writer::table($training_table)) . ';</script>';
+// // Output JavaScript to replace content with training table.
+// echo '<script>document.getElementById("training-table-container").innerHTML = ' . json_encode(html_writer::table($training_table)) . ';</script>';
+
+// Template context 
+$templatecontext = [
+    'create_training_form' => $create_training_form->display(),
+    'training_data' => $trainingData,
+    'fullname_label' => get_string('fullname', 'local_training_architecture'),
+    'shortname_label' => get_string('shortname', 'local_training_architecture'),
+    'idnumber_label' => get_string('idnumber', 'local_training_architecture'),
+    'granularity_label' => get_string('selectnumberoflevel', 'local_training_architecture'),
+    'semester_label' => get_string('semesterchoice', 'local_training_architecture'),
+    'actions_label' => get_string('actions', 'local_training_architecture'),
+    'sort_label' => get_string('sort', 'local_training_architecture'),
+    'edit_label' => get_string('edit', 'local_training_architecture'),
+    'delete_label' => get_string('delete', 'local_training_architecture'),
+];
+
+// Render the Mustache template
+echo $OUTPUT->render_from_template('local_training_architecture/create_training', $templatecontext);
+
 
 //----------------------------------------------------------------------
 
@@ -298,6 +365,7 @@ echo '<script>document.getElementById("lu-table-container").innerHTML = ' . json
 //--------------------------------------------------------------
 
 // Training to level names Section
+require_once(__DIR__ . '/classes/local/form/training_to_level.php');
 
 $training_to_level_form = new training_level();
 

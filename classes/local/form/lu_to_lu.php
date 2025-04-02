@@ -38,6 +38,7 @@ require_once($CFG->dirroot.'/config.php');
 // require_once(dirname(__FILE__) . '/../functions/lu_lu_functions.php');
 // require_once(dirname(__FILE__) . '/../functions/common_functions.php');
 // $PAGE->requires->js('/local/training_architecture/amd/src/lu_lu.js');
+global $PAGE;
 $PAGE->requires->js_call_amd('local_training_architecture/lu_lu', 'init');
 
 

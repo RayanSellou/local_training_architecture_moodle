@@ -1,0 +1,31 @@
+{{#create_level_form}}
+    <div class="form-container">
+        {{{create_level_form}}}
+    </div>
+{{/create_level_form}}
+
+<div id="levels-table-container">
+    {{#levels_data}}
+        <table class="level-table">
+            <thead>
+                <tr>
+                    <th>{{fullname_label}}</th>
+                    <th>{{shortname_label}}</th>
+                    <th>{{actions_label}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#levels_data}}
+                    <tr>
+                        <td>{{fullname}}</td>
+                        <td>{{shortname}}</td>
+                        <td>
+                            <a href="{{edit_url}}" class="action-btn">{{#pix}}t/edit{{/pix}} {{edit_label}}</a>
+                            <a href="{{delete_url}}" class="action-btn">{{#pix}}t/delete{{/pix}} {{delete_label}}</a>
+                        </td>
+                    </tr>
+                {{/levels_data}}
+            </tbody>
+        </table>
+    {{/levels_data}}
+</div>
