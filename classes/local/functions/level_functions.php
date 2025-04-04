@@ -38,7 +38,7 @@ class level_functions {
     public function __construct() {
         global $DB;
         $this->DB = $DB;
-        $this->record = new stdClass();
+        $this->record = new \stdClass();
     }
 
     /**

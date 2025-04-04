@@ -39,8 +39,8 @@ class lu_lu_functions {
     public function __construct() {
         global $DB;
         $this->DB = $DB;
-        $this->record = new stdClass();
-        $this->recordOrder = new stdClass();
+        $this->record = new \stdClass();
+        $this->recordOrder = new \stdClass();
     }
 
     /**

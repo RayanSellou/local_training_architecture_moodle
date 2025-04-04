@@ -111,17 +111,22 @@ $links = [
 
 // Render the template with the data
 $templatecontext = [
-    'links' => $links
+    'links' => $links,
+    'fullname_label' => get_string('allforms', 'local_training_architecture'),
 ];
 
 // Output the template
-echo $OUTPUT->render_from_template('local_training_architecture/templates/form_links', $templatecontext);
+echo $OUTPUT->render_from_template('local_training_architecture/form_links', $templatecontext);
 
 //-----------------------------------
 
 // Create level section
 
 $create_level_form = new create_level();
+
+ob_start();
+$create_level_form->display();
+$form_html = ob_get_clean();
 
 // Check if the create level form is submitted.
 if ($create_level_form->is_submitted()) {
@@ -136,74 +141,58 @@ if($create_level_form->is_cancelled()) {
     redirect('index.php');
 }
 
-// $create_level_form->display();
 
 // Generate HTML table for displaying levels.
 $levelsData = [];
 if ($levels = $DB->get_records('local_training_architecture_level_names', [], 'fullname')) {
 
     foreach ($levels as $level) {
-        // $line = [];
-        // $line[] = $level->fullname;
-        // $line[] = $level->shortname;
+        $line = [];
+        $line[] = $level->fullname;
+        $line[] = $level->shortname;
         //$line[] = $level->description;
 
-        // $buttons = '';
-        
-        // // Edit button URL.
-        // $editUrl = new moodle_url('classes/edit_delete/level.php', ['id' => $level->id]);
-        // $editButton = html_writer::link($editUrl, $OUTPUT->pix_icon('t/edit', get_string('edit')));
-        // $buttons .= $editButton;
-        
-        // // Delete button URL.
-        // $deleteUrl = new moodle_url('classes/edit_delete/level.php', ['id' => $level->id, 'delete' => 1]);
-        // $deleteButton = html_writer::link($deleteUrl, $OUTPUT->pix_icon('t/delete', get_string('delete')));
-        // $buttons .= $deleteButton;
+        $editUrl = new moodle_url('classes/edit_delete/level.php', ['id' => $level->id]);
+        $deleteUrl = new moodle_url('classes/edit_delete/level.php', ['id' => $level->id, 'delete' => 1]);
+        $buttons = html_writer::link($editUrl, $OUTPUT->pix_icon('t/edit', get_string('edit')));
+        $buttons .= html_writer::link($deleteUrl, $OUTPUT->pix_icon('t/delete', get_string('delete')));
 
-        // $line[] = $buttons;
+        $line[] = $buttons;
         
-        // $levelsData[] = $line;
-        $levelsData[] = [
-            'fullname' => $level->fullname,
-            'shortname' => $level->shortname,
-            'edit_url' => new moodle_url('classes/edit_delete/level.php', ['id' => $level->id]),
-            'delete_url' => new moodle_url('classes/edit_delete/level.php', ['id' => $level->id, 'delete' => 1]),
-        ];
+        $levelsData[] = $line;
     }
 }
 
-// // Create HTML table for displaying levels data.
-// $level_table = new html_table();
-// $level_table->head = [
-//     get_string('fullname', 'local_training_architecture'),
-//     get_string('shortname', 'local_training_architecture'),
-//     //get_string('description', 'local_training_architecture'),
-//     get_string('actions', 'local_training_architecture')
-// ];
-
-// $level_table->data = $levelsData;
-
-// // Output JavaScript to replace content with levels table.
-// echo '<script>document.getElementById("levels-table-container").innerHTML = ' . json_encode(html_writer::table($level_table)) . ';</script>';
-
-$templatecontext = [
-    'create_level_form' => $create_level_form->display(),
-    'levels_data' => $levelsData,
-    'fullname_label' => get_string('fullname', 'local_training_architecture'),
-    'shortname_label' => get_string('shortname', 'local_training_architecture'),
-    'actions_label' => get_string('actions', 'local_training_architecture'),
-    'edit_label' => get_string('edit', 'local_training_architecture'),
-    'delete_label' => get_string('delete', 'local_training_architecture'),
+// Create HTML table for displaying levels data.
+$level_table = new html_table();
+$level_table->head = [
+    get_string('fullname', 'local_training_architecture'),
+    get_string('shortname', 'local_training_architecture'),
+    //get_string('description', 'local_training_architecture'),
+    get_string('actions', 'local_training_architecture')
 ];
 
-// Rendu du template Mustache
-echo $OUTPUT->render_from_template('local_training_architecture/templates/create_level', $templatecontext);
+$level_table->data = $levelsData;
+
+$templatecontext = [
+    'create_level_form' => $form_html,
+];
+
+echo $OUTPUT->render_from_template('local_training_architecture/create_level', $templatecontext);
+
+// Output JavaScript to replace content with levels table.
+echo '<script>document.getElementById("levels-table-container").innerHTML = ' . json_encode(html_writer::table($level_table)) . ';</script>';
+
 
 //--------------
 
 // Create Training Section
 
 $create_training_form = new create_training();
+
+ob_start();
+$create_training_form->display();
+$form_html = ob_get_clean();
 
 // Check if the create training form is submitted.
 if ($create_training_form->is_submitted()) {
@@ -218,84 +207,62 @@ if($create_training_form->is_cancelled()) {
     redirect('index.php');
 }
 
-// $create_training_form->display();
-
 // Generate HTML table for displaying trainings.
 $trainingData = [];
 if ($trainings = $DB->get_records('local_training_architecture_training', [], 'fullname')) {
     foreach ($trainings as $training) {
-        // $line = [];
-        // $line[] = $training->fullname;
-        // $line[] = $training->shortname;
-        // $line[] = $training->idnumber;
-        // //$line[] = $training->description;
-        // $line[] = $training->granularitylevel;
-        // $line[] = ($training->issemester == 0) ? get_string('no', 'local_training_architecture') : get_string('yes', 'local_training_architecture');
-        // $buttons = '';
+        $line = [];
+        $line[] = $training->fullname;
+        $line[] = $training->shortname;
+        $line[] = $training->idnumber;
+        //$line[] = $training->description;
+        $line[] = $training->granularitylevel;
+        $line[] = ($training->issemester == 0) ? get_string('no', 'local_training_architecture') : get_string('yes', 'local_training_architecture');
+        $buttons = '';
         
-        // // Sort button URL.
-        // $sortUrl = new moodle_url('sort.php', ['trainingid' => $training->id]);
-        // $sortButton = html_writer::link($sortUrl, $OUTPUT->pix_icon('t/sort', get_string('sort')));
-        // $buttons .= $sortButton;
+        // Sort button URL.
+        $sortUrl = new moodle_url('sort.php', ['trainingid' => $training->id]);
+        $sortButton = html_writer::link($sortUrl, $OUTPUT->pix_icon('t/sort', get_string('sort')));
+        $buttons .= $sortButton;
 
-        // // Edit button URL.
-        // $editUrl = new moodle_url('classes/edit_delete/training.php', ['id' => $training->id]);
-        // $editButton = html_writer::link($editUrl, $OUTPUT->pix_icon('t/edit', get_string('edit')));
-        // $buttons .= $editButton;
+        // Edit button URL.
+        $editUrl = new moodle_url('classes/edit_delete/training.php', ['id' => $training->id]);
+        $editButton = html_writer::link($editUrl, $OUTPUT->pix_icon('t/edit', get_string('edit')));
+        $buttons .= $editButton;
         
-        // // Delete button URL.
-        // $deleteUrl = new moodle_url('classes/edit_delete/training.php', ['id' => $training->id, 'delete' => 1]);
-        // $deleteButton = html_writer::link($deleteUrl, $OUTPUT->pix_icon('t/delete', get_string('delete')));
-        // $buttons .= $deleteButton;
+        // Delete button URL.
+        $deleteUrl = new moodle_url('classes/edit_delete/training.php', ['id' => $training->id, 'delete' => 1]);
+        $deleteButton = html_writer::link($deleteUrl, $OUTPUT->pix_icon('t/delete', get_string('delete')));
+        $buttons .= $deleteButton;
 
-        // $line[] = $buttons;
-        // $trainingData[] = $line;
-        $trainingData[] = [
-            'fullname' => $training->fullname,
-            'shortname' => $training->shortname,
-            'idnumber' => $training->idnumber,
-            'granularitylevel' => $training->granularitylevel,
-            'semesterchoice' => ($training->issemester == 0) ? get_string('no', 'local_training_architecture') : get_string('yes', 'local_training_architecture'),
-            'sort_url' => new moodle_url('sort.php', ['trainingid' => $training->id]),
-            'edit_url' => new moodle_url('classes/edit_delete/training.php', ['id' => $training->id]),
-            'delete_url' => new moodle_url('classes/edit_delete/training.php', ['id' => $training->id, 'delete' => 1]),
-        ];
+        $line[] = $buttons;
+        $trainingData[] = $line;
     }
 }
 
-// // Create HTML table for displaying training data.
-// $training_table = new html_table();
-// $training_table->head = [
-//     get_string('fullname', 'local_training_architecture'),
-//     get_string('shortname', 'local_training_architecture'),
-//     get_string('idnumber', 'local_training_architecture'),
-//     //get_string('description', 'local_training_architecture'),
-//     get_string('selectnumberoflevel', 'local_training_architecture'),
-//     get_string('semesterchoice', 'local_training_architecture'),
-//     get_string('actions', 'local_training_architecture'),
-// ];
-// $training_table->data = $trainingData;
+// Create HTML table for displaying training data.
+$training_table = new html_table();
+$training_table->head = [
+    get_string('fullname', 'local_training_architecture'),
+    get_string('shortname', 'local_training_architecture'),
+    get_string('idnumber', 'local_training_architecture'),
+    //get_string('description', 'local_training_architecture'),
+    get_string('selectnumberoflevel', 'local_training_architecture'),
+    get_string('semesterchoice', 'local_training_architecture'),
+    get_string('actions', 'local_training_architecture'),
+];
+$training_table->data = $trainingData;
 
-// // Output JavaScript to replace content with training table.
-// echo '<script>document.getElementById("training-table-container").innerHTML = ' . json_encode(html_writer::table($training_table)) . ';</script>';
-
-// Template context 
 $templatecontext = [
-    'create_training_form' => $create_training_form->display(),
-    'training_data' => $trainingData,
-    'fullname_label' => get_string('fullname', 'local_training_architecture'),
-    'shortname_label' => get_string('shortname', 'local_training_architecture'),
-    'idnumber_label' => get_string('idnumber', 'local_training_architecture'),
-    'granularity_label' => get_string('selectnumberoflevel', 'local_training_architecture'),
-    'semester_label' => get_string('semesterchoice', 'local_training_architecture'),
-    'actions_label' => get_string('actions', 'local_training_architecture'),
-    'sort_label' => get_string('sort', 'local_training_architecture'),
-    'edit_label' => get_string('edit', 'local_training_architecture'),
-    'delete_label' => get_string('delete', 'local_training_architecture'),
+    'create_training_form' => $form_html,
 ];
 
 // Render the Mustache template
-echo $OUTPUT->render_from_template('local_training_architecture/templates/create_training', $templatecontext);
+echo $OUTPUT->render_from_template('local_training_architecture/create_training', $templatecontext);
+
+// Output JavaScript to replace content with training table.
+echo '<script>document.getElementById("training-table-container").innerHTML = ' . json_encode(html_writer::table($training_table)) . ';</script>';
+
 
 
 //----------------------------------------------------------------------
@@ -317,70 +284,58 @@ if($create_lu_form->is_cancelled()) {
     redirect('index.php');
 }
 
-// $create_lu_form->display();
+ob_start();
+$create_lu_form->display();
+$form_html = ob_get_clean();
 
 // Generate HTML table for displaying lu data.
 $luData = [];
 if ($lus = $DB->get_records('local_training_architecture_lu', [], 'fullname')) {
     foreach ($lus as $lu) {
-        // $line = [];
+        $line = [];
 
-        // // Display informations.
-        // $line[] = $lu->fullname;
-        // $line[] = $lu->shortname;
-        // $line[] = $lu->idnumber;
-        // //$line[] = $lu->description;
+        // Display informations.
+        $line[] = $lu->fullname;
+        $line[] = $lu->shortname;
+        $line[] = $lu->idnumber;
+        //$line[] = $lu->description;
 
-        // $buttons = '';
+        $buttons = '';
         
-        // // Edit button URL.
-        // $editUrl = new moodle_url('classes/edit_delete/lu.php', ['id' => $lu->id]);
-        // $editButton = html_writer::link($editUrl, $OUTPUT->pix_icon('t/edit', get_string('edit')));
-        // $buttons .= $editButton;
+        // Edit button URL.
+        $editUrl = new moodle_url('classes/edit_delete/lu.php', ['id' => $lu->id]);
+        $editButton = html_writer::link($editUrl, $OUTPUT->pix_icon('t/edit', get_string('edit')));
+        $buttons .= $editButton;
         
-        // // Delete button URL.
-        // $deleteUrl = new moodle_url('classes/edit_delete/lu.php', ['id' => $lu->id, 'delete' => 1]);
-        // $deleteButton = html_writer::link($deleteUrl, $OUTPUT->pix_icon('t/delete', get_string('delete')));
-        // $buttons .= $deleteButton;
+        // Delete button URL.
+        $deleteUrl = new moodle_url('classes/edit_delete/lu.php', ['id' => $lu->id, 'delete' => 1]);
+        $deleteButton = html_writer::link($deleteUrl, $OUTPUT->pix_icon('t/delete', get_string('delete')));
+        $buttons .= $deleteButton;
 
-        // $line[] = $buttons;
-        // $luData[] = $line;
-        $luData[] = [
-            'fullname' => $lu->fullname,
-            'shortname' => $lu->shortname,
-            'idnumber' => $lu->idnumber,
-            'edit_url' => new moodle_url('classes/edit_delete/lu.php', ['id' => $lu->id]),
-            'delete_url' => new moodle_url('classes/edit_delete/lu.php', ['id' => $lu->id, 'delete' => 1]),
-        ];
+        $line[] = $buttons;
+        $luData[] = $line;
     }
 }
 
-// // Create HTML table for displaying lu data.
-// $lu_table = new html_table();
-// $lu_table->head = [
-//     get_string('fullname', 'local_training_architecture'),
-//     get_string('shortname', 'local_training_architecture'),
-//     get_string('idnumber', 'local_training_architecture'),
-//     //get_string('description', 'local_training_architecture'),
-//     get_string('actions', 'local_training_architecture')
-// ];
-// $lu_table->data = $luData;
-
-// // Output JavaScript to replace content with lu table.
-// echo '<script>document.getElementById("lu-table-container").innerHTML = ' . json_encode(html_writer::table($lu_table)) . ';</script>';
+// Create HTML table for displaying lu data.
+$lu_table = new html_table();
+$lu_table->head = [
+    get_string('fullname', 'local_training_architecture'),
+    get_string('shortname', 'local_training_architecture'),
+    get_string('idnumber', 'local_training_architecture'),
+    //get_string('description', 'local_training_architecture'),
+    get_string('actions', 'local_training_architecture')
+];
+$lu_table->data = $luData;
 
 $templatecontext = [
-    'create_lu_form' => $create_lu_form->display(), // Le formulaire de création LU
-    'lu_data' => $luData, // Données LU à afficher dans le tableau
-    'fullname_label' => get_string('fullname', 'local_training_architecture'),
-    'shortname_label' => get_string('shortname', 'local_training_architecture'),
-    'idnumber_label' => get_string('idnumber', 'local_training_architecture'),
-    'actions_label' => get_string('actions', 'local_training_architecture'),
-    'edit_label' => get_string('edit', 'local_training_architecture'),
-    'delete_label' => get_string('delete', 'local_training_architecture'),
+    'create_lu_form' => $form_html, 
 ];
 
-echo $OUTPUT->render_from_template('local_training_architecture/templates/create_lu', $templatecontext);
+echo $OUTPUT->render_from_template('local_training_architecture/create_lu', $templatecontext);
+
+// Output JavaScript to replace content with lu table.
+echo '<script>document.getElementById("lu-table-container").innerHTML = ' . json_encode(html_writer::table($lu_table)) . ';</script>';
 
 //--------------------------------------------------------------
 
@@ -402,7 +357,7 @@ if($training_to_level_form->is_cancelled()) {
     redirect('index.php');
 }
 
-// $training_to_level_form->display();
+$training_to_level_form->display();
 
 // Generate HTML table for displaying training to level data.
 $trainingToLevelData = [];
@@ -418,63 +373,44 @@ if ($levelsTrainings = $DB->get_records('local_training_architecture_level_names
 
             $levelsName = $commonFunctions->getLevelNamesByTrainingId($trainingId);
 
-            // $line = [];
+            $line = [];
 
-            // // Display informations.
-            // $line[] = $commonFunctions->getTrainingFullName($trainingId);
-            // $line[] = !empty($levelsName[1]) ? $levelsName[1] : '';
-            // $line[] = !empty($levelsName[2]) ? $levelsName[2] : '';
+            // Display informations.
+            $line[] = $commonFunctions->getTrainingFullName($trainingId);
+            $line[] = !empty($levelsName[1]) ? $levelsName[1] : '';
+            $line[] = !empty($levelsName[2]) ? $levelsName[2] : '';
 
-            // $buttons = '';
+            $buttons = '';
 
-            // // Delete button URL.
-            // $deleteUrl = new moodle_url('classes/edit_delete/training_to_level.php', ['trainingid' => $trainingId]);
-            // $deleteButton = html_writer::link($deleteUrl, $OUTPUT->pix_icon('t/delete', get_string('delete')));
-            // $buttons .= $deleteButton;
+            // Delete button URL.
+            $deleteUrl = new moodle_url('classes/edit_delete/training_to_level.php', ['trainingid' => $trainingId]);
+            $deleteButton = html_writer::link($deleteUrl, $OUTPUT->pix_icon('t/delete', get_string('delete')));
+            $buttons .= $deleteButton;
 
-            // $line[] = $buttons;
-            // $trainingToLevelData[] = $line;
-            $trainingToLevelData[] = [
-                'training_fullname' => $commonFunctions->getTrainingFullName($trainingId),
-                'level1' => !empty($levelsName[1]) ? $levelsName[1] : '',
-                'level2' => !empty($levelsName[2]) ? $levelsName[2] : '',
-                'delete_url' => new moodle_url('classes/edit_delete/training_to_level.php', ['trainingid' => $trainingId]),
-            ];
-
+            $line[] = $buttons;
+            $trainingToLevelData[] = $line;
         }
     }
 }
 
 // Order by level_names->fullname asc
 usort($trainingToLevelData, function($a, $b) {
-    // return strcmp($a[0], $b[0]);
-    return strcmp($a['training_fullname'], $b['training_fullname']);
+    return strcmp($a[0], $b[0]);
+    // return strcmp($a['training_fullname'], $b['training_fullname']);
 });
 
-// // Create HTML table for displaying training to level data.
-// $training_to_level_table = new html_table();
-// $training_to_level_table->head = [
-//     get_string('training', 'local_training_architecture'),
-//     get_string('level1', 'local_training_architecture'),
-//     get_string('level2', 'local_training_architecture'),    
-//     get_string('actions', 'local_training_architecture')
-// ];
-// $training_to_level_table->data = $trainingToLevelData;
-
-// // Output JavaScript to replace content with training to level table.
-// echo '<script>document.getElementById("training-levels-table-container").innerHTML = ' . json_encode(html_writer::table($training_to_level_table)) . ';</script>';
-
-$templatecontext = [
-    'create_training_to_level_form' => $training_to_level_form->display(),
-    'training_to_level_data' => $trainingToLevelData,
-    'training_label' => get_string('training', 'local_training_architecture'),
-    'level1_label' => get_string('level1', 'local_training_architecture'),
-    'level2_label' => get_string('level2', 'local_training_architecture'),
-    'actions_label' => get_string('actions', 'local_training_architecture'),
-    'delete_label' => get_string('delete', 'local_training_architecture'),
+// Create HTML table for displaying training to level data.
+$training_to_level_table = new html_table();
+$training_to_level_table->head = [
+    get_string('training', 'local_training_architecture'),
+    get_string('level1', 'local_training_architecture'),
+    get_string('level2', 'local_training_architecture'),    
+    get_string('actions', 'local_training_architecture')
 ];
+$training_to_level_table->data = $trainingToLevelData;
 
-echo $OUTPUT->render_from_template('local_training_architecture/templates/training_to_level', $templatecontext);
+// Output JavaScript to replace content with training to level table.
+echo '<script>document.getElementById("training-levels-table-container").innerHTML = ' . json_encode(html_writer::table($training_to_level_table)) . ';</script>';
 
 //----------
 
@@ -495,32 +431,27 @@ if($cohort_to_training_form->is_cancelled()) {
     redirect('index.php');
 }
 
-// $cohort_to_training_form->display();
+$cohort_to_training_form->display();
 
 // Generate HTML table for displaying cohort to training data.
 $cohortToTrainingData = [];
 if ($cohortsTrainings = $DB->get_records('local_training_architecture_cohort_to_training')) {
     foreach ($cohortsTrainings as $cohortTraining) {
-        // $line = [];
+        $line = [];
 
-        // // Display informations.
-        // $line[] = $commonFunctions->getTrainingFullName($cohortTraining->trainingid);
-        // $line[] = $commonFunctions->getCohortName($cohortTraining->cohortid);
+        // Display informations.
+        $line[] = $commonFunctions->getTrainingFullName($cohortTraining->trainingid);
+        $line[] = $commonFunctions->getCohortName($cohortTraining->cohortid);
 
-        // $buttons = '';
+        $buttons = '';
         
-        // // Delete button URL.
-        // $deleteUrl = new moodle_url('classes/edit_delete/cohort_to_training.php', ['id' => $cohortTraining->id]);
-        // $deleteButton = html_writer::link($deleteUrl, $OUTPUT->pix_icon('t/delete', get_string('delete')));
-        // $buttons .= $deleteButton;
+        // Delete button URL.
+        $deleteUrl = new moodle_url('classes/edit_delete/cohort_to_training.php', ['id' => $cohortTraining->id]);
+        $deleteButton = html_writer::link($deleteUrl, $OUTPUT->pix_icon('t/delete', get_string('delete')));
+        $buttons .= $deleteButton;
 
-        // $line[] = $buttons;
-        // $cohortToTrainingData[] = $line;
-        $cohortToTrainingData[] = [
-            'training_name' => $commonFunctions->getTrainingFullName($cohortTraining->trainingid),
-            'cohort_name' => $commonFunctions->getCohortName($cohortTraining->cohortid),
-            'delete_url' => new moodle_url('classes/edit_delete/cohort_to_training.php', ['id' => $cohortTraining->id]),
-        ];
+        $line[] = $buttons;
+        $cohortToTrainingData[] = $line;
     }
 }
 
@@ -536,28 +467,17 @@ usort($cohortToTrainingData, function($a, $b) {
     return 0;
 });
 
-// // Create HTML table for displaying cohort to training data.
-// $cohort_to_training_table = new html_table();
-// $cohort_to_training_table->head = [
-//     get_string('training', 'local_training_architecture'),
-//     get_string('cohort', 'local_training_architecture'),
-//     get_string('actions', 'local_training_architecture')
-// ];
-// $cohort_to_training_table->data = $cohortToTrainingData;
-
-// // Output JavaScript to replace content with cohort to training table.
-// echo '<script>document.getElementById("cohort-to-training-table-container").innerHTML = ' . json_encode(html_writer::table($cohort_to_training_table)) . ';</script>';
-
-$templatecontext = [
-    'create_cohort_to_training_form' => $cohort_to_training_form->display(),
-    'cohort_to_training_data' => $cohortToTrainingData,
-    'training_label' => get_string('training', 'local_training_architecture'),
-    'cohort_label' => get_string('cohort', 'local_training_architecture'),
-    'actions_label' => get_string('actions', 'local_training_architecture'),
-    'delete_label' => get_string('delete', 'local_training_architecture'),
+// Create HTML table for displaying cohort to training data.
+$cohort_to_training_table = new html_table();
+$cohort_to_training_table->head = [
+    get_string('training', 'local_training_architecture'),
+    get_string('cohort', 'local_training_architecture'),
+    get_string('actions', 'local_training_architecture')
 ];
+$cohort_to_training_table->data = $cohortToTrainingData;
 
-echo $OUTPUT->render_from_template('local_training_architecture/templates/cohort_to_training', $templatecontext);
+// Output JavaScript to replace content with cohort to training table.
+echo '<script>document.getElementById("cohort-to-training-table-container").innerHTML = ' . json_encode(html_writer::table($cohort_to_training_table)) . ';</script>';
 
 //---------------------------------------------------------
 
@@ -578,38 +498,32 @@ if($courses_not_in_architecture_form->is_cancelled()) {
     redirect('index.php');
 }
 
-// $courses_not_in_architecture_form->display();
+$courses_not_in_architecture_form->display();
 
 // Generate HTML table for displaying data.
 $coursesNotInArchitectureFormData = [];
 
 if ($coursesNotInArchitecture = $DB->get_records('local_training_architecture_courses_not_architecture')) {
     foreach ($coursesNotInArchitecture as $courseNotInArchitecture) {
-        // $line = [];
+        $line = [];
 
-        // // Display informations.
-        // $line[] = $commonFunctions->getTrainingFullName($courseNotInArchitecture->trainingid);
-        // $line[] = $commonFunctions->getCourseFullName($courseNotInArchitecture->courseid);
+        // Display informations.
+        $line[] = $commonFunctions->getTrainingFullName($courseNotInArchitecture->trainingid);
+        $line[] = $commonFunctions->getCourseFullName($courseNotInArchitecture->courseid);
 
-        // $buttons = '';
+        $buttons = '';
 
-        // // Delete button URL.
-        // $deleteUrl = new moodle_url('classes/edit_delete/courses_not_in_architecture.php', ['id' => $courseNotInArchitecture->id, 'delete' => 1]);
-        // $deleteButton = html_writer::link($deleteUrl, $OUTPUT->pix_icon('t/delete', get_string('delete')));
-        // $buttons .= $deleteButton;
+        // Delete button URL.
+        $deleteUrl = new moodle_url('classes/edit_delete/courses_not_in_architecture.php', ['id' => $courseNotInArchitecture->id, 'delete' => 1]);
+        $deleteButton = html_writer::link($deleteUrl, $OUTPUT->pix_icon('t/delete', get_string('delete')));
+        $buttons .= $deleteButton;
 
-        // $line[] = $buttons;
+        $line[] = $buttons;
 
-        // // Multiple selection.
-        // $line[] = '<input type="checkbox" name="checkbox-courses-not-in-architecture" value="' . $courseNotInArchitecture->id . '">';
+        // Multiple selection.
+        $line[] = '<input type="checkbox" name="checkbox-courses-not-in-architecture" value="' . $courseNotInArchitecture->id . '">';
 
-        // $coursesNotInArchitectureFormData[] = $line;
-        $coursesNotInArchitectureData[] = [
-            'id' => $courseNotInArchitecture->id,
-            'training_fullname' => $commonFunctions->getTrainingFullName($courseNotInArchitecture->trainingid),
-            'course_fullname' => $commonFunctions->getCourseFullName($courseNotInArchitecture->courseid),
-            'delete_url' => new moodle_url('classes/edit_delete/courses_not_in_architecture.php', ['id' => $courseNotInArchitecture->id, 'delete' => 1]),
-        ];
+        $coursesNotInArchitectureFormData[] = $line;
     }
 }
 
@@ -625,35 +539,22 @@ usort($coursesNotInArchitectureFormData, function($a, $b) {
     return 0;
 });
 
-// // Create HTML table for displaying lu to lu data.
-// $coursesNotInArchitectureTable = new html_table();
-// $coursesNotInArchitectureTable->head = [
-//     get_string('training', 'local_training_architecture'),
-//     get_string('course', 'local_training_architecture'),
-//     get_string('actions', 'local_training_architecture'),
-//     get_string('selection', 'local_training_architecture')
-// ];
-// $coursesNotInArchitectureTable->data = $coursesNotInArchitectureFormData;
-
-// echo html_writer::start_tag('div', ['class' => 'trainingarchitecture-btn-container']);
-// echo '<button id="delete-selected-courses-not-in-architecture" class="trainingarchitecture-delete-selection btn">' . get_string('deleteselection', 'local_training_architecture') . '</button>';
-// echo html_writer::end_tag('div');
-
-// // Output JavaScript to replace content with table.
-// echo '<script>document.getElementById("courses-not-in-architecture-table-container").innerHTML = ' . json_encode(html_writer::table($coursesNotInArchitectureTable)) . ';</script>';
-
-$templatecontext = [
-    'courses_not_in_architecture_form' => $courses_not_in_architecture_form->display(),
-    'courses_not_in_architecture_data' => $coursesNotInArchitectureData,
-    'training_label' => get_string('training', 'local_training_architecture'),
-    'course_label' => get_string('course', 'local_training_architecture'),
-    'actions_label' => get_string('actions', 'local_training_architecture'),
-    'selection_label' => get_string('selection', 'local_training_architecture'),
-    'delete_label' => get_string('delete', 'local_training_architecture'),
-    'delete_selection_label' => get_string('deleteselection', 'local_training_architecture'),
+// Create HTML table for displaying lu to lu data.
+$coursesNotInArchitectureTable = new html_table();
+$coursesNotInArchitectureTable->head = [
+    get_string('training', 'local_training_architecture'),
+    get_string('course', 'local_training_architecture'),
+    get_string('actions', 'local_training_architecture'),
+    get_string('selection', 'local_training_architecture')
 ];
+$coursesNotInArchitectureTable->data = $coursesNotInArchitectureFormData;
 
-echo $OUTPUT->render_from_template('local_training_architecture/templates/courses_not_in_architecture', $templatecontext);
+echo html_writer::start_tag('div', ['class' => 'trainingarchitecture-btn-container']);
+echo '<button id="delete-selected-courses-not-in-architecture" class="trainingarchitecture-delete-selection btn">' . get_string('deleteselection', 'local_training_architecture') . '</button>';
+echo html_writer::end_tag('div');
+
+// Output JavaScript to replace content with table.
+echo '<script>document.getElementById("courses-not-in-architecture-table-container").innerHTML = ' . json_encode(html_writer::table($coursesNotInArchitectureTable)) . ';</script>';
 
 //--------------------------------------------------------------
 
@@ -776,7 +677,7 @@ $templatecontext = [
     'delete_selection_label' => get_string('deleteselection', 'local_training_architecture'),
 ];
 
-echo $OUTPUT->render_from_template('local_training_architecture/templates/training_links', $templatecontext);
+echo $OUTPUT->render_from_template('local_training_architecture/training_links', $templatecontext);
 
 //-----------------
 
@@ -897,6 +798,6 @@ $templatecontext = [
     'deleteselection_label' => get_string('deleteselection', 'local_training_architecture'),
 ];
 
-echo $OUTPUT->render_from_template('local_training_architecture/templates/lu_to_lu', $templatecontext);
+echo $OUTPUT->render_from_template('local_training_architecture/lu_to_lu', $templatecontext);
 
 echo $OUTPUT->footer();

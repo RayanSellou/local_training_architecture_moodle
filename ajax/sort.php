@@ -42,8 +42,8 @@ $trainingId = required_param('trainingId', PARAM_INT);
 $granularityLevel = required_param('granularityLevel', PARAM_INT);
 $level = required_param('level', PARAM_ALPHANUM);
 
-$record = new stdClass();
-$record2 = new stdClass();
+$record = new \stdClass();
+$record2 = new \stdClass();
 
 $actualLu = $DB->get_record('local_training_architecture_order', ['trainingid' => $trainingId, 'luid' => $luId]);
 $luToMove = $DB->get_record('local_training_architecture_order', ['trainingid' => $trainingId, 'luid' => $luToMove]);

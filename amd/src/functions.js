@@ -79,82 +79,128 @@
 //         });
 //     });
 // });
-define(['jquery', 'core/ajax'], function($, Ajax) {
+// define(['jquery', 'core/ajax'], function($, Ajax) {
 
-    /**
-     * Handle AJAX error by logging the error details.
-     *
-     * @param {XMLHttpRequest} xhr - The XMLHttpRequest object.
-     * @param {string} status - The status of the AJAX request.
-     * @param {Error} error - The error object.
-     */
-    function handleAjaxError(xhr, status, error) {
-        console.error(xhr, status, error);
-    }
+//     /**
+//      * Handle AJAX error by logging the error details.
+//      *
+//      * @param {XMLHttpRequest} xhr - The XMLHttpRequest object.
+//      * @param {string} status - The status of the AJAX request.
+//      * @param {Error} error - The error object.
+//      */
+//     function handleAjaxError(xhr, status, error) {
+//         console.error(xhr, status, error);
+//     }
 
-    /**
-     * Removes accents from a string.
-     *
-     * @param {string} str - The input string.
-     * @returns {string} The string without accents.
-     */
-    function removeAccents(str) {
-        return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-    }
+//     /**
+//      * Removes accents from a string.
+//      *
+//      * @param {string} str - The input string.
+//      * @returns {string} The string without accents.
+//      */
+//     function removeAccents(str) {
+//         return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+//     }
 
-    /**
-     * Load language strings and initialize collapsible sections.
-     */
-    function initCollapsibles() {
-        Ajax.call([{
-            methodname: 'local_training_architecture_get_lang_strings',
-            args: {},
-            done: function(response) {
-                $(".trainingarchitecture-collapsible span").on("click", function() {
-                    $(this).toggleClass("active");
-                    var content = $(this).parent().find('.table-container-training-architecture');
+//     /**
+//      * Load language strings and initialize collapsible sections.
+//      */
+//     function initCollapsibles() {
+//         Ajax.call([{
+//             methodname: 'local_training_architecture_get_lang_strings',
+//             args: {},
+//             done: function(response) {
+//                 $(".trainingarchitecture-collapsible span").on("click", function() {
+//                     $(this).toggleClass("active");
+//                     var content = $(this).parent().find('.table-container-training-architecture');
 
-                    if (content.is(":visible")) {
-                        content.hide();
-                        $(this).text(response.expand);
-                    } else {
-                        content.show();
-                        $(this).text(response.collapse);
-                    }
-                });
-            },
-            fail: handleAjaxError
-        }]);
-    }
+//                     if (content.is(":visible")) {
+//                         content.hide();
+//                         $(this).text(response.expand);
+//                     } else {
+//                         content.show();
+//                         $(this).text(response.collapse);
+//                     }
+//                 });
+//             },
+//             fail: handleAjaxError
+//         }]);
+//     }
 
-    /**
-     * Initializes the search functionality.
-     */
-    function initSearch() {
-        $(".trainingarchitecture-search-input").on("keyup", function() {
-            var filter = removeAccents($(this).val());
-            var tableId = $(this).data("table-id");
-            var rows = $("#" + tableId + " table tbody tr");
+//     /**
+//      * Initializes the search functionality.
+//      */
+//     function initSearch() {
+//         $(".trainingarchitecture-search-input").on("keyup", function() {
+//             event.preventDefault();
+//             var filter = removeAccents($(this).val());
+//             var tableId = $(this).data("table-id");
+//             var rows = $("#" + tableId + " table tbody tr");
 
-            rows.each(function() {
-                var textContent = "";
-                $(this).find("td").each(function() {
-                    textContent += removeAccents($(this).text()) + " ";
-                });
+//             rows.each(function() {
+//                 var textContent = "";
+//                 $(this).find("td").each(function() {
+//                     textContent += removeAccents($(this).text().toLowerCase()) + " ";
+//                 });
 
-                $(this).toggle(textContent.includes(filter));
-            });
-        });
-    }
+//                 $(this).toggle(textContent.includes(filter));
+//             });
+//         });
+//     }
 
+//     return {
+//         init: function() {
+//             $(document).ready(function() {
+//                 initCollapsibles();
+//                 initSearch();
+//             });
+//         }
+//     };
+// });
+
+
+define(['jquery', 'core/ajax', 'core/str'], function($, ajax, str) {
     return {
         init: function() {
+            // Cache les textes pour i18n
+            var stringsPromise = str.get_strings([
+                {key: 'expand', component: 'local_training_architecture'},
+                {key: 'collapse', component: 'local_training_architecture'}
+            ]);
+
+            // Gestion des accès (optimisé pour IE11+)
+            var removeAccents = function(str) {
+                return typeof str === 'string' 
+                    ? str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase()
+                    : '';
+            };
+
+            // Gestion des événements
             $(document).ready(function() {
-                initCollapsibles();
-                initSearch();
+                // Gestion expand/collapse
+                stringsPromise.then(function(langstrings) {
+                    $(".custom-collapsible span").on("click", function() {
+                        var $this = $(this);
+                        var $content = $this.closest('.custom-collapsible').find('.table-container-training-architecture');
+                        
+                        $content.toggleClass('d-none');
+                        $this.text($content.hasClass('d-none') ? langstrings[0] : langstrings[1]);
+                    });
+                }).catch(function() {
+                    console.error('Could not load strings');
+                });
+
+                // Gestion recherche
+                $('.search-input-training-architecture').on('keyup', function() {
+                    var filter = removeAccents($(this).val());
+                    var $rows = $('#' + $(this).data('table-id') + ' tbody tr');
+                    
+                    $rows.each(function() {
+                        var text = removeAccents($(this).text());
+                        $(this).toggleClass('d-none', !text.includes(filter));
+                    });
+                });
             });
         }
     };
 });
-
-
