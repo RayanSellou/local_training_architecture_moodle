@@ -1,0 +1,16 @@
+{
+    "name": "local_training_architecture",
+    "version": "1.0.0",
+    "description": "Plugin Moodle pour l'architecture de formation",
+    "devDependencies": {
+      "grunt": "^1.5.3",
+      "grunt-contrib-uglify": "^5.0.1",
+      "grunt-contrib-watch": "^1.1.0",
+      "grunt-shell": "^3.0.0"
+    },
+    "scripts": {
+      "build": "grunt build",
+      "dev": "grunt dev"
+    }
+  }
+  

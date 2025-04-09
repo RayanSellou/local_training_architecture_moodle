@@ -79,32 +79,21 @@
 //         });
 //     });
 // });
+
+
 define(['jquery', 'core/ajax'], function($, Ajax) {
 
-    /**
-     * Handle AJAX error by logging the error details.
-     *
-     * @param {XMLHttpRequest} xhr - The XMLHttpRequest object.
-     * @param {string} status - The status of the AJAX request.
-     * @param {Error} error - The error object.
-     */
+    // Fonction de gestion des erreurs AJAX
     function handleAjaxError(xhr, status, error) {
         console.error(xhr, status, error);
     }
 
-    /**
-     * Removes accents from a string.
-     *
-     * @param {string} str - The input string.
-     * @returns {string} The string without accents.
-     */
+    // Fonction pour enlever les accents
     function removeAccents(str) {
         return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
     }
 
-    /**
-     * Load language strings and initialize collapsible sections.
-     */
+    // Fonction pour gérer l'affichage et le masquage des sections collapsibles
     function initCollapsibles() {
         Ajax.call([{
             methodname: 'local_training_architecture_get_lang_strings',
@@ -127,40 +116,21 @@ define(['jquery', 'core/ajax'], function($, Ajax) {
         }]);
     }
 
-    /**
-     * Initializes the search functionality.
-     */
+    // Fonction de recherche pour filtrer les éléments du tableau
     function initSearch() {
-        $(".trainingarchitecture-search-input").on("keyup", function() {
-            var filter = removeAccents($(this).val());
-            console.log("Filtre : ", filter);
-
-
-            var tableId = $(this).data("table-id");
-            var rows = $("#" + tableId + " table tbody tr");
-
-            rows.each(function() {
-                var textContent = "";
-                $(this).find("td").each(function() {
-                    var cellText = removeAccents($(this).text().toLowerCase());
-                    console.log("Texte de la cellule : ", cellText); 
-                    textContent += cellText + " ";
-                });
-                console.log("Texte de la ligne complète : ", textContent);
-                // $(this).toggle(textContent.includes(filter));
-
-                if (textContent.includes(filter)) {
-                    console.log("Ligne visible : ", textContent);  // Affiche les lignes qui correspondent
-                    $(this).show();
-                } else {
-                    console.log("Ligne masquée : ", textContent);  // Affiche les lignes masquées
-                    $(this).hide();
-                }
-
+        $(document).on('keyup', '.trainingarchitecture-search-input', function() {
+            var filter = removeAccents($(this).val().toLowerCase());
+            var tableId = $(this).data('table-id');
+            var $rows = $('#' + tableId).find('tr:not(:first)'); // Exclut l'en-tête
+            
+            $rows.each(function() {
+                var text = removeAccents($(this).text().toLowerCase());
+                $(this).toggle(text.includes(filter));
             });
         });
     }
 
+    // Initialisation des fonctionnalités au chargement du DOM
     return {
         init: function() {
             $(document).ready(function() {
@@ -170,5 +140,3 @@ define(['jquery', 'core/ajax'], function($, Ajax) {
         }
     };
 });
-
-
