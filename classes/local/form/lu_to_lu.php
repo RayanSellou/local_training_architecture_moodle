@@ -101,7 +101,7 @@ class lu_to_lu extends moodleform {
             <div id="'. $tableId .'" class="table-container-training-architecture" style="display: block;"></div>
         </div>');
 
-        $mform->addElement('html', '<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>');
+        // $mform->addElement('html', '<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>');
             
         $this->add_action_buttons();
         
@@ -172,48 +172,102 @@ class lu_to_lu extends moodleform {
         // Check if LU and course are related to this training
         if(empty($errors)) {
 
-            // All LU
-            for ($i = 1; $i <= $numberOfLu; $i++) {
-                $fieldName = 'luToLuId' . $i;
-                $luId = $data[$fieldName];
+            // // All LU
+            // for ($i = 1; $i <= $numberOfLu; $i++) {
+            //     $fieldName = 'luToLuId' . $i;
+            //     $luId = $data[$fieldName];
 
-                if (!$DB->record_exists_select(
-                    'local_training_architecture_training_links', 
-                    'trainingid = ? AND luid = ?', 
-                    [$data['luToLuTrainingId'], $luId]
-                )) {
-                    $errors[$fieldName] = get_string('lunotrelated', 'local_training_architecture');
+            //     if (!$DB->record_exists_select(
+            //         'local_training_architecture_training_links', 
+            //         'trainingid = ? AND luid = ?', 
+            //         [$data['luToLuTrainingId'], $luId]
+            //     )) {
+            //         $errors[$fieldName] = get_string('lunotrelated', 'local_training_architecture');
+            //     }
+            // }
+
+            $luIds = [];
+            for ($i = 1; $i <= $numberOfLu; $i++) {
+                $luIds[$i] = $data['luToLuId' . $i];
+            }
+
+            $linkedLUs = $DB->get_records_sql_menu(
+                "SELECT luid, 1
+                FROM {local_training_architecture_training_links}
+                WHERE trainingid = :trainingid AND luid IN (" . implode(',', array_fill(0, count($luIds), '?')) . ")",
+                array_merge(['trainingid' => $data['luToLuTrainingId']], array_values($luIds))
+            );
+
+            foreach ($luIds as $i => $luId) {
+                if (!isset($linkedLUs[$luId])) {
+                    $errors['luToLuId' . $i] = get_string('lunotrelated', 'local_training_architecture');
                 }
             }
+
+
             // Course
+            // $coursesNotLinked = '';
+            // $coursesAlreadyOutsideArchitecture = '';
+
+            // foreach ($data['luToLuCourseId'] as $courseId) {
+            //     if($courseId != 0) {
+            //         if (!$DB->record_exists_select(
+            //             'local_training_architecture_training_links', 
+            //             'trainingid = ? AND courseid = ?', 
+            //             [$data['luToLuTrainingId'], $courseId]
+            //         )) {
+            //             $coursesNotLinked.= ' ' . $commonFunctions->getCourseFullName($courseId);
+            //             $errors['luToLuCourseId'] = get_string('coursenotrelated', 'local_training_architecture') . ' : ' . $coursesNotLinked;
+            //         }
+            //     }
+            // }
+
+            // foreach ($data['luToLuCourseId'] as $courseId) {
+            //     if($courseId != 0) {
+            //         if ($DB->record_exists_select(
+            //             'local_training_architecture_courses_not_architecture', 
+            //             'trainingid = ? AND courseid = ?', 
+            //             [$data['luToLuTrainingId'], $courseId]
+            //         )) {
+            //             $coursesAlreadyOutsideArchitecture.= ' ' . $commonFunctions->getCourseFullName($courseId);
+            //             $errors['luToLuCourseId'] = get_string('coursealreadynotinarchitecture', 'local_training_architecture') . ' : ' . $coursesAlreadyOutsideArchitecture;
+            //         }
+            //     }
+            // }
+
+            $courseIds = array_filter($data['luToLuCourseId'], fn($id) => $id != 0);
+
+            // Vérifier si les cours sont liés au training
+            $linkedCourses = $DB->get_records_sql_menu(
+                "SELECT courseid, 1
+                FROM {local_training_architecture_training_links}
+                WHERE trainingid = :trainingid AND courseid IN (" . implode(',', array_fill(0, count($courseIds), '?')) . ")",
+                array_merge(['trainingid' => $data['luToLuTrainingId']], $courseIds)
+            );
+
+            // Vérifier si les cours sont déjà hors de l'architecture
+            $coursesNotInArch = $DB->get_records_sql_menu(
+                "SELECT courseid, 1
+                FROM {local_training_architecture_courses_not_architecture}
+                WHERE trainingid = :trainingid AND courseid IN (" . implode(',', array_fill(0, count($courseIds), '?')) . ")",
+                array_merge(['trainingid' => $data['luToLuTrainingId']], $courseIds)
+            );
+
             $coursesNotLinked = '';
             $coursesAlreadyOutsideArchitecture = '';
 
-            foreach ($data['luToLuCourseId'] as $courseId) {
-                if($courseId != 0) {
-                    if (!$DB->record_exists_select(
-                        'local_training_architecture_training_links', 
-                        'trainingid = ? AND courseid = ?', 
-                        [$data['luToLuTrainingId'], $courseId]
-                    )) {
-                        $coursesNotLinked.= ' ' . $commonFunctions->getCourseFullName($courseId);
-                        $errors['luToLuCourseId'] = get_string('coursenotrelated', 'local_training_architecture') . ' : ' . $coursesNotLinked;
-                    }
+            foreach ($courseIds as $courseId) {
+                if (!isset($linkedCourses[$courseId])) {
+                    $coursesNotLinked .= ' ' . $commonFunctions->getCourseFullName($courseId);
+                    $errors['luToLuCourseId'] = get_string('coursenotrelated', 'local_training_architecture') . ' : ' . $coursesNotLinked;
+                }
+
+                if (isset($coursesNotInArch[$courseId])) {
+                    $coursesAlreadyOutsideArchitecture .= ' ' . $commonFunctions->getCourseFullName($courseId);
+                    $errors['luToLuCourseId'] = get_string('coursealreadynotinarchitecture', 'local_training_architecture') . ' : ' . $coursesAlreadyOutsideArchitecture;
                 }
             }
 
-            foreach ($data['luToLuCourseId'] as $courseId) {
-                if($courseId != 0) {
-                    if ($DB->record_exists_select(
-                        'local_training_architecture_courses_not_architecture', 
-                        'trainingid = ? AND courseid = ?', 
-                        [$data['luToLuTrainingId'], $courseId]
-                    )) {
-                        $coursesAlreadyOutsideArchitecture.= ' ' . $commonFunctions->getCourseFullName($courseId);
-                        $errors['luToLuCourseId'] = get_string('coursealreadynotinarchitecture', 'local_training_architecture') . ' : ' . $coursesAlreadyOutsideArchitecture;
-                    }
-                }
-            }
         }
 
         if(empty($errors)) {

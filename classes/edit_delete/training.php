@@ -25,8 +25,6 @@
  * @package   training_architecture
  */
 
-namespace local_training_architecture\local\edit_delete;
-
 use local_training_architecture\local\functions\training_functions;
 use local_training_architecture\local\functions\common_functions;
 use local_training_architecture\local\form\edit_training;

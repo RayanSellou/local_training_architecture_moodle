@@ -36,7 +36,13 @@ require_once($CFG->dirroot.'/lib/formslib.php');
 require_once($CFG->dirroot.'/config.php');
 // require_once(dirname(__FILE__) . '/../functions/training_level_functions.php');
 // $PAGE->requires->js('/local/training_architecture/amd/src/training_level.js');
+
 global $PAGE;
+
+// $PAGE->set_url(new moodle_url('/local/training_architecture/index.php'));  
+// $PAGE->set_context(context_system::instance()); 
+// $PAGE->set_pagelayout('admin');
+
 $PAGE->requires->js_call_amd('local_training_architecture/training_level', 'init');
 
 
@@ -85,7 +91,7 @@ class training_level extends moodleform {
             <div id="'. $tableId .'" class="table-container-training-architecture" style="display: block;"></div>
         </div>');
         
-        $mform->addElement('html', '<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>');
+        // $mform->addElement('html', '<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>');
 
         $this->add_action_buttons();
         

@@ -29,6 +29,7 @@ namespace local_training_architecture\local\form;
 defined('MOODLE_INTERNAL') || die;
 
 use local_training_architecture\local\functions\level_functions;
+use moodleform;
 
 require_once($CFG->dirroot.'/lib/formslib.php');
 require_once($CFG->dirroot.'/config.php');

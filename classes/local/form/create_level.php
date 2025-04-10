@@ -94,21 +94,39 @@ class create_level extends moodleform {
         // Handle duplicates values
         if(empty($errors)) {
 
-            if ($DB->record_exists_select('local_training_architecture_level_names', 'LOWER(fullname) = LOWER(?)', [trim($data['levelFullName'])])) {
-                $errors['levelFullName'] = get_string('namealreadyexists', 'local_training_architecture');
-            }
+            // if ($DB->record_exists_select('local_training_architecture_level_names', 'LOWER(fullname) = LOWER(?)', [trim($data['levelFullName'])])) {
+            //     $errors['levelFullName'] = get_string('namealreadyexists', 'local_training_architecture');
+            // }
 
-            if ($DB->record_exists_select('local_training_architecture_level_names', 'LOWER(shortname) = LOWER(?)', [trim($data['levelShortName'])])) {
-                $errors['levelShortName'] = get_string('shortnamealreadyexists', 'local_training_architecture');
+            // if ($DB->record_exists_select('local_training_architecture_level_names', 'LOWER(shortname) = LOWER(?)', [trim($data['levelShortName'])])) {
+            //     $errors['levelShortName'] = get_string('shortnamealreadyexists', 'local_training_architecture');
+            // }
+            $fullname = trim($data['levelFullName']);
+            $shortname = trim($data['levelShortName']);
+
+            $existing = $DB->get_records_sql("
+                SELECT LOWER(fullname) AS fullname, LOWER(shortname) AS shortname
+                FROM {local_training_architecture_level_names}
+                WHERE LOWER(fullname) = LOWER(?) OR LOWER(shortname) = LOWER(?)
+            ", [$fullname, $shortname]);
+
+            foreach ($existing as $record) {
+                if (strtolower($record->fullname) === strtolower($fullname)) {
+                    $errors['levelFullName'] = get_string('namealreadyexists', 'local_training_architecture');
+                }
+                if (strtolower($record->shortname) === strtolower($shortname)) {
+                    $errors['levelShortName'] = get_string('shortnamealreadyexists', 'local_training_architecture');
+                }
             }
 
             if($errors) {
                 return $errors;
             }
 
-            $levelFunctions->create($data);
+                $levelFunctions->create($data);
+            }
+            
+            return $errors;
         }
-        return $errors;
-    }
 
 }

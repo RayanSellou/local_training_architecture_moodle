@@ -17,7 +17,7 @@
 
 
 /**
- * Delete LU to LU links
+ * Delete courses not in architecture links
  *
  * @copyright 2024 IFRASS
  * @author    2024 Esteban BIRET-TOSCANO <esteban.biret@gmail.com>
@@ -25,26 +25,24 @@
  * @package   training_architecture
  */
 
-namespace local_training_architecture\local\edit_delete;
-
-use local_training_architecture\local\functions\lu_lu_functions;
+use local_training_architecture\local\functions\courses_not_in_architecture_functions;
 
 require_once(dirname(__FILE__) . '/../../../../config.php');
-// require_once(dirname(__FILE__) . '/../functions/lu_lu_functions.php');
+// require_once(dirname(__FILE__) . '/../functions/courses_not_in_architecture_functions.php');
 
 global $DB;
-$luFunctions = new lu_lu_functions();
+$coursesNotInArchitectureFunctions = new courses_not_in_architecture_functions();
 
 $id = optional_param('id', 0, PARAM_INT);
 $delete   = optional_param('delete', 0, PARAM_BOOL);
 $confirm  = optional_param('confirm', 0, PARAM_BOOL);
 $returnUrl = $CFG->wwwroot.'/local/training_architecture/index.php';
 
-$url = new moodle_url('/local/training_architecture/classes/edit_delete/lu_to_lu.php');
+$url = new moodle_url('/local/training_architecture/classes/edit_delete/courses_not_in_architecture.php');
 
 if($id) {
     $url->param('id', $id);
-    if (!$DB->get_record('local_training_architecture_lu_to_lu', ['id' => $id])) {
+    if (!$courseNotInArchitecture = $DB->get_record('local_training_architecture_courses_not_architecture', ['id' => $id])) {
         throw new \moodle_exception('invalid_parameter_exception');
     }
 }
@@ -62,30 +60,19 @@ $PAGE->set_pagelayout('admin');
 // Delete
 if ($id and $delete) {
 
-    // LU to LU link has references
-    if ($luFunctions->isLinkAlreadyUsed($id)) {
-        $PAGE->set_title(get_string('deletelulutitle', 'local_training_architecture'));
-        $PAGE->set_heading(get_string('deletelulutitle', 'local_training_architecture'));
-        echo $OUTPUT->header();        
-        echo $OUTPUT->notification(get_string('notifyerrorlutolu', 'local_training_architecture'), 'notifyproblem');
-        echo $OUTPUT->continue_button(new moodle_url('/local/training_architecture/index.php'));
-        echo $OUTPUT->footer();
-        die;
-    }
-
     if (!$confirm) { // Cancel
-        $PAGE->set_title(get_string('deletelulutitle', 'local_training_architecture'));
-        $PAGE->set_heading(get_string('deletelulutitle', 'local_training_architecture'));
+        $PAGE->set_title(get_string('deletenotarchitecture', 'local_training_architecture'));
+        $PAGE->set_heading(get_string('deletenotarchitecture', 'local_training_architecture'));
         echo $OUTPUT->header();
         $optionsYes = ['id' => $id, 'delete' => 1, 'sesskey' => sesskey(), 'confirm' => 1];
-        $formcontinue = new single_button(new moodle_url('/local/training_architecture/classes/edit_delete/lu_to_lu.php', $optionsYes), get_string('confirmyes', 'local_training_architecture'), 'get');
+        $formcontinue = new single_button(new moodle_url('/local/training_architecture/classes/edit_delete/courses_not_in_architecture.php', $optionsYes), get_string('confirmyes', 'local_training_architecture'), 'get');
         $formcancel = new single_button(new moodle_url('/local/training_architecture/index.php'), get_string('confirmno', 'local_training_architecture'), 'get');
         echo $OUTPUT->confirm(get_string('deletelinkwarning', 'local_training_architecture'), $formcontinue, $formcancel);
         echo $OUTPUT->footer();
         die;
 
     } else { // Confirm
-        $luFunctions->deleteLink($id);
+        $coursesNotInArchitectureFunctions->deleteLink($id);
         redirect($returnUrl);
     }
 }

@@ -17,7 +17,7 @@
 
 
 /**
- * Edit - Delete Level
+ * Edit - delete LU 
  *
  * @copyright 2024 IFRASS
  * @author    2024 Esteban BIRET-TOSCANO <esteban.biret@gmail.com>
@@ -25,19 +25,17 @@
  * @package   training_architecture
  */
 
-namespace local_training_architecture\local\edit_delete;
-
-use local_training_architecture\local\form\edit_level;
-use local_training_architecture\local\functions\level_functions;
+use local_training_architecture\local\form\edit_lu; 
+use local_training_architecture\local\functions\lu_functions;
 use local_training_architecture\local\functions\common_functions;
 
 require_once(dirname(__FILE__) . '/../../../../config.php');
-// require_once(dirname(__FILE__) . '/../form/edit_level.php');
-// require_once(dirname(__FILE__) . '/../functions/level_functions.php');
+// require_once(dirname(__FILE__) . '/../form/edit_lu.php');
+// require_once(dirname(__FILE__) . '/../functions/lu_functions.php');
 // require_once(dirname(__FILE__) . '/../functions/common_functions.php');
 
 global $DB;
-$levelFunctions = new level_functions();
+$luFunctions = new lu_functions();
 $commonFunctions = new common_functions();
 
 $id = optional_param('id', 0, PARAM_INT);
@@ -45,11 +43,11 @@ $delete   = optional_param('delete', 0, PARAM_BOOL);
 $confirm  = optional_param('confirm', 0, PARAM_BOOL);
 $returnUrl = $CFG->wwwroot.'/local/training_architecture/index.php';
 
-$url = new moodle_url('/local/training_architecture/classes/local/edit_delete/level.php');
+$url = new moodle_url('/local/training_architecture/classes/edit_delete/lu.php');
 
 if($id) {
     $url->param('id', $id);
-    if (!$level = $DB->get_record('local_training_architecture_level_names', ['id' => $id])) {
+    if (!$lu = $DB->get_record('local_training_architecture_lu', ['id' => $id])) {
         throw new \moodle_exception('invalid_parameter_exception');
     }
 }
@@ -62,58 +60,63 @@ require_login();
 $context = context_system::instance();
 require_capability('local/training_architecture:manage',$context);
 $PAGE->set_context($context);
-$PAGE->set_title(get_string('editleveltitle', 'local_training_architecture'));
-$PAGE->set_heading(get_string('editleveltitle', 'local_training_architecture') . " " . $commonFunctions->getLevelFullName($id));
+$PAGE->set_title(get_string('editlutitle', 'local_training_architecture'));
+$PAGE->set_heading(get_string('editlutitle', 'local_training_architecture') . " " . $commonFunctions->getLuFullName($id));
 $PAGE->set_pagelayout('admin');
 
 // Delete
 if ($id and $delete) {
 
-    // Level name has references
-    if ($levelFunctions->isLevelUsed($id)) {
-        $PAGE->set_title(get_string('deleteleveltitle', 'local_training_architecture'));
-        $PAGE->set_heading(get_string('deleteleveltitle', 'local_training_architecture') . " " . $commonFunctions->getLevelFullName($id));
+    // LU has references
+    if ($luFunctions->isLuUsed($id)) {
+        $PAGE->set_title(get_string('deletelutitle', 'local_training_architecture'));
+        $PAGE->set_heading(get_string('deletelutitle', 'local_training_architecture') . " " . $commonFunctions->getLuFullName($id));
         echo $OUTPUT->header();        
-        echo $OUTPUT->notification(get_string('notifyerrorlevel', 'local_training_architecture'), 'notifyproblem');
+        echo $OUTPUT->notification(get_string('notifyerrorlu', 'local_training_architecture'), 'notifyproblem');
         echo $OUTPUT->continue_button(new moodle_url('/local/training_architecture/index.php'));
         echo $OUTPUT->footer();
         die;
     }
 
     if (!$confirm) { // Cancel
-        $PAGE->set_title(get_string('deleteleveltitle', 'local_training_architecture'));
-        $PAGE->set_heading(get_string('deleteleveltitle', 'local_training_architecture') . " " . $commonFunctions->getLevelFullName($id));
+        $PAGE->set_title(get_string('deletelutitle', 'local_training_architecture'));
+        $PAGE->set_heading(get_string('deletelutitle', 'local_training_architecture') . " " . $commonFunctions->getLuFullName($id));
         echo $OUTPUT->header();
         $optionsYes = ['id' => $id, 'delete' => 1, 'sesskey' => sesskey(), 'confirm' => 1];
-        $formcontinue = new single_button(new moodle_url('/local/training_architecture/classes/local/edit_delete/level.php', $optionsYes), get_string('confirmyes', 'local_training_architecture'), 'get');
+        $formcontinue = new single_button(new moodle_url('/local/training_architecture/classes/edit_delete/lu.php', $optionsYes), get_string('confirmyes', 'local_training_architecture'), 'get');
         $formcancel = new single_button(new moodle_url('/local/training_architecture/index.php'), get_string('confirmno', 'local_training_architecture'), 'get');
-        echo $OUTPUT->confirm(get_string('deletelevelnamewarning', 'local_training_architecture'), $formcontinue, $formcancel);
+        echo $OUTPUT->confirm(get_string('deleteluwarning', 'local_training_architecture'), $formcontinue, $formcancel);
         echo $OUTPUT->footer();
         die;
 
     } else { // Confirm
-        $levelFunctions->delete($id);
-        redirect($CFG->wwwroot.'/local/training_architecture/index.php');
+        $luFunctions->delete($id);
+        redirect($returnUrl);
     }
 }
 
 // Edit
-$default_data = [
-    'levelFullName' => $level->fullname,
-    'levelShortName' => $level->shortname,
-    'levelDescription' => $level->description,
-    'id' => $level->id,
+$luDescription = [
+    'text' => $lu->description
 ];
 
-$edit_level_form = new edit_level();
-$edit_level_form->set_data($default_data);
+$default_data = [
+    'luFullName' => $lu->fullname,
+    'luShortName' => $lu->shortname,
+    'luIDNumber' => $lu->idnumber,
+    'luDescription' => $luDescription,
+    'id' => $lu->id,
+];
+
+$edit_lu_form = new edit_lu();
+$edit_lu_form->set_data($default_data);
 
 // Cancel or confirm
-if ($edit_level_form->is_cancelled() || $data = $edit_level_form->get_data()) {
+if ($edit_lu_form->is_cancelled() || $data = $edit_lu_form->get_data()) {
     redirect($CFG->wwwroot.'/local/training_architecture/index.php');
 
 }
 
 echo $OUTPUT->header();
-$edit_level_form->display();
+$edit_lu_form->display();
 echo $OUTPUT->footer();

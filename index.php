@@ -27,7 +27,7 @@
 
 use local_training_architecture\local\form\create_level;
 use local_training_architecture\local\form\create_training;
-use local_training_architecture\local\form\training_to_level;
+use local_training_architecture\local\form\training_level;
 use local_training_architecture\local\form\cohort_to_training;
 use local_training_architecture\local\form\courses_not_in_architecture;
 use local_training_architecture\local\form\create_lu;
@@ -152,8 +152,8 @@ if ($levels = $DB->get_records('local_training_architecture_level_names', [], 'f
         $line[] = $level->shortname;
         //$line[] = $level->description;
 
-        // $editUrl = new moodle_url('/local/training_architecture/classes/local/edit_delete/level.php', ['id' => $level->id]);
-        // $deleteUrl = new moodle_url('/local/training_architecture/classes/local/edit_delete/level.php', ['id' => $level->id, 'delete' => 1]);
+        // $editUrl = new moodle_url('/local/training_architecture/classes/edit_delete/level.php', ['id' => $level->id]);
+        // $deleteUrl = new moodle_url('/local/training_architecture/classes/edit_delete/level.php', ['id' => $level->id, 'delete' => 1]);
         // $buttons = html_writer::link($editUrl, $OUTPUT->pix_icon('t/edit', get_string('edit')));
         // $buttons .= html_writer::link($deleteUrl, $OUTPUT->pix_icon('t/delete', get_string('delete')));
         $buttons = '';
@@ -167,7 +167,6 @@ if ($levels = $DB->get_records('local_training_architecture_level_names', [], 'f
         $deleteUrl = new moodle_url('classes/edit_delete/level.php', ['id' => $level->id, 'delete' => 1]);
         $deleteButton = html_writer::link($deleteUrl, $OUTPUT->pix_icon('t/delete', get_string('delete')));
         $buttons .= $deleteButton;
-
         $line[] = $buttons;
         
         $levelsData[] = $line;
@@ -744,23 +743,6 @@ if ($luslus = $DB->get_records('local_training_architecture_lu_to_lu')) {
         data-isluid2course="' . $lu->isluid2course . '" >';
 
         $luToluData[] = $line;
-
-        // $lu2_fullname = $lu->isluid2course === 'true'
-        //     ? $commonFunctions->getCourseFullName($lu->luid2) . ' (' . get_string('course', 'local_training_architecture') . ')'
-        //     : $commonFunctions->getluFullName($lu->luid2);
-
-        // $luToLuData[] = [
-        //     'id' => $lu->id,
-        //     'trainingid' => $lu->trainingid,
-        //     'luid1' => $lu->luid1,
-        //     'luid2' => $lu->luid2,
-        //     'isluid2course' => $lu->isluid2course,
-        //     'training_fullname' => $commonFunctions->getTrainingFullName($lu->trainingid),
-        //     'lu1_fullname' => $commonFunctions->getluFullName($lu->luid1),
-        //     'lu2_fullname' => $lu2_fullname,
-        //     'delete_url' => new moodle_url('classes/edit_delete/lu_to_lu.php', ['id' => $lu->id, 'delete' => 1]),
-        // ];
-
     }
 }
 

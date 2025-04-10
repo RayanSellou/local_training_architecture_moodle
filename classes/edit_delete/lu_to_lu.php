@@ -17,7 +17,7 @@
 
 
 /**
- * Delete Training - Level association
+ * Delete LU to LU links
  *
  * @copyright 2024 IFRASS
  * @author    2024 Esteban BIRET-TOSCANO <esteban.biret@gmail.com>
@@ -25,29 +25,24 @@
  * @package   training_architecture
  */
 
-namespace local_training_architecture\local\edit_delete;
-
-use local_training_architecture\local\functions\training_level_functions;
-use moodle_url;
-use context_system;
-use moodle_exception;
-use single_button;
+use local_training_architecture\local\functions\lu_lu_functions;
 
 require_once(dirname(__FILE__) . '/../../../../config.php');
-// require_once(dirname(__FILE__) . '/../functions/training_level_functions.php');
+// require_once(dirname(__FILE__) . '/../functions/lu_lu_functions.php');
 
 global $DB;
-$trainingLevelFunctions = new training_level_functions();
+$luFunctions = new lu_lu_functions();
 
-$trainingId = optional_param('trainingid', 0, PARAM_INT);
+$id = optional_param('id', 0, PARAM_INT);
+$delete   = optional_param('delete', 0, PARAM_BOOL);
 $confirm  = optional_param('confirm', 0, PARAM_BOOL);
 $returnUrl = $CFG->wwwroot.'/local/training_architecture/index.php';
 
-$url = new moodle_url('/local/training_architecture/classes/edit_delete/training_to_level.php');
+$url = new moodle_url('/local/training_architecture/classes/edit_delete/lu_to_lu.php');
 
-if($trainingId) {
-    $url->param('trainingid', $trainingId);
-    if ($DB->count_records('local_training_architecture_level_names_to_training', ['trainingid' => $trainingId]) === 0) {
+if($id) {
+    $url->param('id', $id);
+    if (!$DB->get_record('local_training_architecture_lu_to_lu', ['id' => $id])) {
         throw new \moodle_exception('invalid_parameter_exception');
     }
 }
@@ -63,20 +58,32 @@ $PAGE->set_context($context);
 $PAGE->set_pagelayout('admin');
 
 // Delete
-if ($trainingId) {
+if ($id and $delete) {
+
+    // LU to LU link has references
+    if ($luFunctions->isLinkAlreadyUsed($id)) {
+        $PAGE->set_title(get_string('deletelulutitle', 'local_training_architecture'));
+        $PAGE->set_heading(get_string('deletelulutitle', 'local_training_architecture'));
+        echo $OUTPUT->header();        
+        echo $OUTPUT->notification(get_string('notifyerrorlutolu', 'local_training_architecture'), 'notifyproblem');
+        echo $OUTPUT->continue_button(new moodle_url('/local/training_architecture/index.php'));
+        echo $OUTPUT->footer();
+        die;
+    }
+
     if (!$confirm) { // Cancel
-        $PAGE->set_title(get_string('deletetrainingleveltitle', 'local_training_architecture'));
-        $PAGE->set_heading(get_string('deletetrainingleveltitle', 'local_training_architecture'));
+        $PAGE->set_title(get_string('deletelulutitle', 'local_training_architecture'));
+        $PAGE->set_heading(get_string('deletelulutitle', 'local_training_architecture'));
         echo $OUTPUT->header();
-        $optionsYes = ['trainingid' => $trainingId, 'sesskey' => sesskey(), 'confirm' => 1];
-        $formcontinue = new single_button(new moodle_url('/local/training_architecture/classes/edit_delete/training_to_level.php', $optionsYes), get_string('confirmyes', 'local_training_architecture'), 'get');
+        $optionsYes = ['id' => $id, 'delete' => 1, 'sesskey' => sesskey(), 'confirm' => 1];
+        $formcontinue = new single_button(new moodle_url('/local/training_architecture/classes/edit_delete/lu_to_lu.php', $optionsYes), get_string('confirmyes', 'local_training_architecture'), 'get');
         $formcancel = new single_button(new moodle_url('/local/training_architecture/index.php'), get_string('confirmno', 'local_training_architecture'), 'get');
         echo $OUTPUT->confirm(get_string('deletelinkwarning', 'local_training_architecture'), $formcontinue, $formcancel);
         echo $OUTPUT->footer();
         die;
 
     } else { // Confirm
-        $trainingLevelFunctions->deleteLink($trainingId);
+        $luFunctions->deleteLink($id);
         redirect($returnUrl);
     }
 }

@@ -17,7 +17,7 @@
 
 
 /**
- * Delete courses not in architecture links
+ * Delete all training links
  *
  * @copyright 2024 IFRASS
  * @author    2024 Esteban BIRET-TOSCANO <esteban.biret@gmail.com>
@@ -25,26 +25,27 @@
  * @package   training_architecture
  */
 
-namespace local_training_architecture\local\edit_delete;
-
-use local_training_architecture\local\functions\courses_not_in_architecture_functions;
+use local_training_architecture\local\functions\training_links_functions;
+use moodle_url;
+use context_system;
+use moodle_exception;
+use single_button;
 
 require_once(dirname(__FILE__) . '/../../../../config.php');
-// require_once(dirname(__FILE__) . '/../functions/courses_not_in_architecture_functions.php');
+// require_once(dirname(__FILE__) . '/../functions/training_links_functions.php');
 
 global $DB;
-$coursesNotInArchitectureFunctions = new courses_not_in_architecture_functions();
+$trainingLinksFunctions = new training_links_functions();
 
-$id = optional_param('id', 0, PARAM_INT);
-$delete   = optional_param('delete', 0, PARAM_BOOL);
+$linkId = optional_param('id', 0, PARAM_INT);
 $confirm  = optional_param('confirm', 0, PARAM_BOOL);
 $returnUrl = $CFG->wwwroot.'/local/training_architecture/index.php';
 
-$url = new moodle_url('/local/training_architecture/classes/edit_delete/courses_not_in_architecture.php');
+$url = new moodle_url('/local/training_architecture/classes/edit_delete/training_links.php');
 
-if($id) {
-    $url->param('id', $id);
-    if (!$courseNotInArchitecture = $DB->get_record('local_training_architecture_courses_not_architecture', ['id' => $id])) {
+if($linkId) {
+    $url->param('id', $linkId);
+    if ($DB->count_records('local_training_architecture_training_links', ['id' => $linkId]) === 0) {
         throw new \moodle_exception('invalid_parameter_exception');
     }
 }
@@ -60,21 +61,33 @@ $PAGE->set_context($context);
 $PAGE->set_pagelayout('admin');
 
 // Delete
-if ($id and $delete) {
+if ($linkId) {
+    
+    $link = $DB->get_record('local_training_architecture_training_links', ['id' => $linkId]);
+    // LU's link has references
+    if ($trainingLinksFunctions->isLuUsed($link->luid, $link->courseid, $link->trainingid, )) {
+        $PAGE->set_title(get_string('deletetraininglinks', 'local_training_architecture'));
+        $PAGE->set_heading(get_string('deletetraininglinks', 'local_training_architecture'));
+        echo $OUTPUT->header();        
+        echo $OUTPUT->notification(get_string('notifyerrorlu', 'local_training_architecture'), 'notifyproblem');
+        echo $OUTPUT->continue_button(new moodle_url('/local/training_architecture/index.php'));
+        echo $OUTPUT->footer();
+        die;
+    }
 
     if (!$confirm) { // Cancel
-        $PAGE->set_title(get_string('deletenotarchitecture', 'local_training_architecture'));
-        $PAGE->set_heading(get_string('deletenotarchitecture', 'local_training_architecture'));
+        $PAGE->set_title(get_string('deletetraininglinks', 'local_training_architecture'));
+        $PAGE->set_heading(get_string('deletetraininglinks', 'local_training_architecture'));
         echo $OUTPUT->header();
-        $optionsYes = ['id' => $id, 'delete' => 1, 'sesskey' => sesskey(), 'confirm' => 1];
-        $formcontinue = new single_button(new moodle_url('/local/training_architecture/classes/edit_delete/courses_not_in_architecture.php', $optionsYes), get_string('confirmyes', 'local_training_architecture'), 'get');
+        $optionsYes = ['id' => $linkId, 'sesskey' => sesskey(), 'confirm' => 1];
+        $formcontinue = new single_button(new moodle_url('/local/training_architecture/classes/edit_delete/training_links.php', $optionsYes), get_string('confirmyes', 'local_training_architecture'), 'get');
         $formcancel = new single_button(new moodle_url('/local/training_architecture/index.php'), get_string('confirmno', 'local_training_architecture'), 'get');
         echo $OUTPUT->confirm(get_string('deletelinkwarning', 'local_training_architecture'), $formcontinue, $formcancel);
         echo $OUTPUT->footer();
         die;
 
     } else { // Confirm
-        $coursesNotInArchitectureFunctions->deleteLink($id);
+        $trainingLinksFunctions->deleteLink($linkId);
         redirect($returnUrl);
     }
 }

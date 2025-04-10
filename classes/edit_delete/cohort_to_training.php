@@ -25,8 +25,6 @@
  * @package   training_architecture
  */
 
-namespace local_training_architecture\local\edit_delete;
-
 use local_training_architecture\local\functions\cohort_training_functions;
 
 require_once(dirname(__FILE__) . '/../../../../config.php');

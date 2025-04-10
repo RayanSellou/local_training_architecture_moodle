@@ -38,11 +38,13 @@ require_once($CFG->dirroot.'/config.php');
 // require_once(dirname(__FILE__) . '/../functions/courses_not_in_architecture_functions.php');
 // require_once(dirname(__FILE__) . '/../functions/common_functions.php');
 
+
 class courses_not_in_architecture extends moodleform {
 
     function definition () {
 
         global $DB;
+
 
         $mform =$this->_form;
 
@@ -82,7 +84,9 @@ class courses_not_in_architecture extends moodleform {
             <div id="'. $tableId .'" class="table-container-training-architecture" style="display: block;"></div>
         </div>');
 
-        $mform->addElement('html', '<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>');
+        // $mform->addElement('html', '<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>');
+        // $PAGE->requires->jquery();
+
         $this->add_action_buttons();
         
     }
