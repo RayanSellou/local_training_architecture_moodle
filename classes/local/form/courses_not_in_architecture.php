@@ -119,19 +119,46 @@ class courses_not_in_architecture extends moodleform {
         // Check if course is not already in architecture
         if(empty($errors)) {
 
-            // Courses
-            $coursesAlreadyInArchitecture = '';
+        //     // Courses
+        //     $coursesAlreadyInArchitecture = '';
 
-            foreach ($data['coursesNotInArchitectureCourseId'] as $courseId) {
-                if($courseId != 0) {
-                    if ($DB->record_exists_select(
-                        'local_training_architecture_lu_to_lu', 
-                        'trainingid = ? AND luid2 = ? AND isluid2course = ?', 
-                        [$data['coursesNotInArchitectureTrainingId'], $courseId, 'true']
-                    )) {
-                        $coursesAlreadyInArchitecture.= ' ' . $commonFunctions->getCourseFullName($courseId);
-                        $errors['coursesNotInArchitectureCourseId'] = get_string('coursealreadyinarchitecture', 'local_training_architecture') . ' : ' . $coursesAlreadyInArchitecture;
+        //     foreach ($data['coursesNotInArchitectureCourseId'] as $courseId) {
+        //         if($courseId != 0) {
+        //             if ($DB->record_exists_select(
+        //                 'local_training_architecture_lu_to_lu', 
+        //                 'trainingid = ? AND luid2 = ? AND isluid2course = ?', 
+        //                 [$data['coursesNotInArchitectureTrainingId'], $courseId, 'true']
+        //             )) {
+        //                 $coursesAlreadyInArchitecture.= ' ' . $commonFunctions->getCourseFullName($courseId);
+        //                 $errors['coursesNotInArchitectureCourseId'] = get_string('coursealreadyinarchitecture', 'local_training_architecture') . ' : ' . $coursesAlreadyInArchitecture;
+        //             }
+        //         }
+        //     }
+        // }
+
+            // Get the selected course IDs
+            $courseIds = array_filter($data['coursesNotInArchitectureCourseId'], function($courseId) {
+                return $courseId != 0;
+            });
+
+            if (!empty($courseIds)) {
+                // Create a string of placeholders for the IN clause
+                $placeholders = implode(',', array_fill(0, count($courseIds), '?'));
+                $params = [$data['coursesNotInArchitectureTrainingId']];
+                $params = array_merge($params, $courseIds);
+                
+                // Query to check if any of the selected courses are already in the architecture
+                $sql = "SELECT luid2 FROM {local_training_architecture_lu_to_lu} 
+                        WHERE trainingid = ? AND luid2 IN ($placeholders) AND isluid2course = 'true'";
+
+                $existingCourses = $DB->get_records_sql($sql, $params);
+                
+                if ($existingCourses) {
+                    $existingCourseNames = [];
+                    foreach ($existingCourses as $existingCourse) {
+                        $existingCourseNames[] = $commonFunctions->getCourseFullName($existingCourse->luid2);
                     }
+                    $errors['coursesNotInArchitectureCourseId'] = get_string('coursealreadyinarchitecture', 'local_training_architecture') . ' : ' . implode(', ', $existingCourseNames);
                 }
             }
         }

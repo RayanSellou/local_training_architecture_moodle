@@ -112,19 +112,44 @@ class cohort_to_training extends moodleform {
         if(empty($errors)) {
             $cohortExists = '';
 
-            foreach ($data['cohortId'] as $cohortId) {
-                if($cohortId != 0) {
-                    if ($DB->record_exists_select(
-                        'local_training_architecture_cohort_to_training', 
-                        'cohortid = ? AND trainingid = ?', 
-                        [$cohortId, $data['trainingId']]
-                    )) {
-                        $cohortExists.= ' ' . $commonFunctions->getCohortName($cohortId);
-                        $errors['cohortId'] = get_string('associationalreadyexistscohorts', 'local_training_architecture') . ' : ' . $cohortExists;
-                        $errors['trainingId'] = get_string('associationalreadyexists', 'local_training_architecture');
+            // foreach ($data['cohortId'] as $cohortId) {
+            //     if($cohortId != 0) {
+            //         if ($DB->record_exists_select(
+            //             'local_training_architecture_cohort_to_training', 
+            //             'cohortid = ? AND trainingid = ?', 
+            //             [$cohortId, $data['trainingId']]
+            //         )) {
+            //             $cohortExists.= ' ' . $commonFunctions->getCohortName($cohortId);
+            //             $errors['cohortId'] = get_string('associationalreadyexistscohorts', 'local_training_architecture') . ' : ' . $cohortExists;
+            //             $errors['trainingId'] = get_string('associationalreadyexists', 'local_training_architecture');
+            //         }
+            //     }
+            // }
+            $cohortIds = array_filter($data['cohortId'], function($cohortId) {
+                return $cohortId != 0;
+            });
+            
+            if (!empty($cohortIds)) {
+                $placeholders = implode(',', array_fill(0, count($cohortIds), '(?, ?)'));
+                $params = [];
+                foreach ($cohortIds as $cohortId) {
+                    $params[] = $cohortId;
+                    $params[] = $data['trainingId'];
+                }
+            
+                $sql = "SELECT cohortid FROM {local_training_architecture_cohort_to_training} WHERE (cohortid, trainingid) IN ($placeholders)";
+                $existingCohorts = $DB->get_records_sql($sql, $params);
+            
+                if ($existingCohorts) {
+                    $existingCohortNames = [];
+                    foreach ($existingCohorts as $existingCohort) {
+                        $existingCohortNames[] = $commonFunctions->getCohortName($existingCohort->cohortid);
                     }
+                    $errors['cohortId'] = get_string('associationalreadyexistscohorts', 'local_training_architecture') . ' : ' . implode(', ', $existingCohortNames);
+                    $errors['trainingId'] = get_string('associationalreadyexists', 'local_training_architecture');
                 }
             }
+            
 
             if($errors) {
                 return $errors;

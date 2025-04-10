@@ -184,17 +184,34 @@ class training_links extends moodleform {
 
                 $luExists = '';
 
-                foreach ($data['luId'] as $luId) {
+                // foreach ($data['luId'] as $luId) {
 
-                    if ($DB->record_exists_select(
-                        'local_training_architecture_training_links', 
-                        'trainingid = ? AND luid = ?', 
-                        [$data['trainingId2'], $luId]
-                    )) {
-                        $luExists.= ' ' . $common_functions->getLuFullName($luId);
+                //     if ($DB->record_exists_select(
+                //         'local_training_architecture_training_links', 
+                //         'trainingid = ? AND luid = ?', 
+                //         [$data['trainingId2'], $luId]
+                //     )) {
+                //         $luExists.= ' ' . $common_functions->getLuFullName($luId);
+                //         $errors['luId'] = get_string('associationalreadyexists', 'local_training_architecture') . ' : ' . $luExists;
+                //     }
+                // }
+                $luIds = $data['luId'];
+                if (!empty($luIds)) {
+                    $placeholders = implode(',', array_fill(0, count($luIds), '?'));
+                    $sql = "SELECT luid FROM {local_training_architecture_training_links} 
+                            WHERE trainingid = ? AND luid IN ($placeholders)";
+                    $params = array_merge([$data['trainingId2']], $luIds);
+                    $existingLus = $DB->get_records_sql($sql, $params);
+
+                    if ($existingLus) {
+                        $luExists = '';
+                        foreach ($existingLus as $existingLu) {
+                            $luExists .= ' ' . $common_functions->getLuFullName($existingLu->luid);
+                        }
                         $errors['luId'] = get_string('associationalreadyexists', 'local_training_architecture') . ' : ' . $luExists;
                     }
                 }
+
             }
 
             // Course
@@ -224,13 +241,30 @@ class training_links extends moodleform {
 
                 // Just course
                 else {
-                    foreach ($data['courseId'] as $courseId) {
-                        if ($DB->record_exists_select(
-                            'local_training_architecture_training_links', 
-                            'trainingid = ? AND level = ? AND courseid = ?', 
-                            [$data['trainingId2'], $data['level'], $courseId]
-                        )) {
-                            $courseExists.= ' ' . $common_functions->getCourseFullName($courseId);
+                    // foreach ($data['courseId'] as $courseId) {
+                    //     if ($DB->record_exists_select(
+                    //         'local_training_architecture_training_links', 
+                    //         'trainingid = ? AND level = ? AND courseid = ?', 
+                    //         [$data['trainingId2'], $data['level'], $courseId]
+                    //     )) {
+                    //         $courseExists.= ' ' . $common_functions->getCourseFullName($courseId);
+                    //         $errors['courseId'] = get_string('associationalreadyexists', 'local_training_architecture') . ' : ' . $courseExists;
+                    //     }
+                    // }
+                    $courseIds = $data['courseId'];
+                    if (!empty($courseIds)) {
+                        // Crée une chaîne de paramètres pour la clause IN
+                        $placeholders = implode(',', array_fill(0, count($courseIds), '?'));
+                        $sql = "SELECT courseid FROM {local_training_architecture_training_links} 
+                                WHERE trainingid = ? AND level = ? AND courseid IN ($placeholders)";
+                        $params = array_merge([$data['trainingId2'], $data['level']], $courseIds);
+                        $existingCourses = $DB->get_records_sql($sql, $params);
+
+                        if ($existingCourses) {
+                            $courseExists = '';
+                            foreach ($existingCourses as $existingCourse) {
+                                $courseExists .= ' ' . $common_functions->getCourseFullName($existingCourse->courseid);
+                            }
                             $errors['courseId'] = get_string('associationalreadyexists', 'local_training_architecture') . ' : ' . $courseExists;
                         }
                     }
