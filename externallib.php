@@ -1,6 +1,15 @@
 <?php
+/**
+ * External functions for the training architecture local plugin.
+ *
+ * This class contains AJAX-exposed services used to handle training links,
+ * LU operations, and UI helper calls.
+ *
+ * @package    local_training_architecture
+ * @copyright  2025 IFRASS
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 
-// Ce fichier est pour l'implémentation de fonctions externes dans Moodle.
 require_once("$CFG->libdir/externallib.php");
 require_once($CFG->dirroot . '/local/training_architecture/classes/local/functions/lu_lu_functions.php');
 require_once($CFG->dirroot . '/local/training_architecture/classes/local/functions/common_functions.php');
@@ -8,23 +17,28 @@ require_once($CFG->dirroot . "/local/training_architecture/classes/local/functio
 
 class local_training_architecture_external extends external_api {
 
-    // Définition des paramètres pour la méthode get_lu_list
+    /**
+     * Returns the list of LU (Learning Units) linked to a specific training.
+     *
+     * @param int $trainingId ID of the training.
+     * @return array List of LUs with id and fullname.
+     * @throws invalid_parameter_exception If the training does not exist.
+     */
     public static function get_lu_list_parameters() {
         return new external_function_parameters([
             'trainingId' => new external_value(PARAM_INT, 'ID de la formation')
         ]);
     }
 
-    // Fonction qui récupère la liste des LU pour une formation donnée
     public static function get_lu_list($trainingId) {
         global $DB;
 
-        // Vérifie si la formation existe
+        // Check if the formation exists
         if (!$DB->record_exists('local_training_architecture_training_links', ['trainingid' => $trainingId])) {
             throw new invalid_parameter_exception('Formation introuvable.');
         }
 
-        // Récupère les LU liées
+        // Get linked LUs
         $links = $DB->get_records('local_training_architecture_training_links', ['trainingid' => $trainingId]);
         $result = [];
 
@@ -42,7 +56,7 @@ class local_training_architecture_external extends external_api {
         return $result;
     }
 
-    // Retourne les résultats de la fonction
+
     public static function get_lu_list_returns() {
         return new external_multiple_structure(
             new external_single_structure([
@@ -55,17 +69,15 @@ class local_training_architecture_external extends external_api {
 
 
     /**
-     * Définition des paramètres pour la méthode get_lang_strings.
-     * @return external_function_parameters
+     * Returns localized strings for use in JS (e.g., expand/collapse).
+     *
+     * @return array Associative array with 'expand' and 'collapse' labels.
      */
     public static function get_lang_strings_parameters() {
         return new external_function_parameters([]);
     }
 
-    /**
-     * Fonction qui récupère les chaînes localisées pour 'expand' et 'collapse'.
-     * @return array
-     */
+
     public static function get_lang_strings() {
         global $CFG;
 
@@ -79,10 +91,7 @@ class local_training_architecture_external extends external_api {
         ];
     }
 
-    /**
-     * Définit la structure des données renvoyées par la fonction.
-     * @return external_single_structure
-     */
+
     public static function get_lang_strings_returns() {
         return new external_single_structure([
             'expand' => new external_value(PARAM_TEXT, 'Label de l\'expand'),
@@ -91,7 +100,13 @@ class local_training_architecture_external extends external_api {
     }
 
 
-    // Définition des paramètres pour delete_courses_not_in_architecture
+    /**
+     * Deletes course-to-architecture links from the custom table.
+     *
+     * @param int[] $selectedIds List of link IDs to delete.
+     * @return array Redirect URL.
+     * @throws invalid_parameter_exception If no IDs are provided.
+     */
     public static function delete_courses_not_in_architecture_parameters() {
         return new external_function_parameters([
             'selectedIds' => new external_multiple_structure(
@@ -101,31 +116,28 @@ class local_training_architecture_external extends external_api {
         ]);
     }
 
-    // Fonction pour supprimer les liens des cours qui ne sont pas dans l'architecture
     public static function delete_courses_not_in_architecture($selectedIds) {
         global $DB, $CFG;
 
-        // Vérification de sécurité
         if (empty($selectedIds)) {
             throw new invalid_parameter_exception('Aucun ID de lien fourni.');
         }
 
         error_log('Selected IDs: ' . implode(',', $selectedIds));
 
-        // Suppression des liens dans la table 'local_training_architecture_courses_not_architecture'
+        // Deletion of the links in the table'local_training_architecture_courses_not_architecture'
         foreach ($selectedIds as $id) {
             // On supprime uniquement les enregistrements de la table local_training_architecture_courses_not_architecture
             // où l'ID correspond au lien entre le cours et l'architecture
             $DB->delete_records('local_training_architecture_courses_not_architecture', ['id' => $id]);
         }
 
-        // Retourne l'URL de redirection après la suppression des liens
+        // Return the redirection URL after the links'deletion 
         return [
             'redirectUrl' => $CFG->wwwroot . '/local/training_architecture/index.php',
         ];
     }
 
-    // Retourne les résultats de la fonction
     public static function delete_courses_not_in_architecture_returns() {
         return new external_single_structure([
             'redirectUrl' => new external_value(PARAM_URL, 'L\'URL de redirection après suppression'),
@@ -133,9 +145,11 @@ class local_training_architecture_external extends external_api {
     }
 
     /**
-     * Define parameters for delete multiple LU-to-LU links.
+     * Deletes multiple LU-to-LU links.
      *
-     * @return external_function_parameters
+     * @param int[] $selectedIds Array of LU-to-LU link IDs.
+     * @return array Operation result.
+     * @throws invalid_parameter_exception If an invalid ID is found.
      */
     public static function multiple_delete_lu_to_lu_parameters() {
         return new external_function_parameters([
@@ -143,12 +157,7 @@ class local_training_architecture_external extends external_api {
         ]);
     }
 
-    /**
-     * Delete multiple LU-to-LU links.
-     *
-     * @param array $selectedIds Array of LU-to-LU link IDs.
-     * @return array Status and message.
-     */
+
     public static function multiple_delete_lu_to_lu($selectedIds) {
         global $DB;
 
@@ -183,6 +192,14 @@ class local_training_architecture_external extends external_api {
         ]);
     }
 
+
+    /**
+     * Deletes multiple training links.
+     *
+     * @param int[] $selectedIds IDs of the training links to delete.
+     * @return array Operation status and message.
+     * @throws moodle_exception If an invalid ID is provided.
+     */
     public static function multiple_delete_training_links_parameters() {
         return new external_function_parameters([
             'selectedIds' => new external_multiple_structure(new external_value(PARAM_INT, 'ID du training link'))
@@ -217,6 +234,14 @@ class local_training_architecture_external extends external_api {
         ]);
     }
 
+
+    /**
+     * Returns the granularity level of a given training.
+     *
+     * @param int $trainingId ID of the training.
+     * @return int Granularity level.
+     * @throws moodle_exception If the training does not exist.
+     */
     public static function get_training_level_parameters() {
         return new external_function_parameters([
             'trainingId' => new external_value(PARAM_INT, 'ID of the training')
@@ -226,20 +251,18 @@ class local_training_architecture_external extends external_api {
     public static function get_training_level($trainingId) {
         global $DB;
 
-        // Validation de l'ID de formation
+        // Validation of the formation's ID
         if (!is_int($trainingId)) {
             throw new moodle_exception('invalid_training_id');
         }
 
-        // Obtenir le niveau de granularité
+        // Get the granularity level 
         $granularitylevel = $DB->get_field('local_training_architecture_training', 'granularitylevel', ['id' => $trainingId]);
 
-        // Vérifier si la formation existe
         if ($granularitylevel === false) {
             throw new moodle_exception('training_not_found');
         }
 
-        // Retourner le résultat
         return $granularitylevel;
     }
 
@@ -258,22 +281,19 @@ class local_training_architecture_external extends external_api {
     public static function get_training_links($trainingId, $level) {
         global $DB;
 
-        // Validation des paramètres
         if (!is_int($trainingId) || !is_int($level)) {
             throw new moodle_exception('invalid_parameters');
         }
 
-        // Vérification de la granularité de la formation
         $granularityLevel = (int) $DB->get_field('local_training_architecture_training', 'granularitylevel', ['id' => $trainingId]);
 
-        // Si le niveau demandé est bien plus élevé que la granularité
+        // If the asked level is higher than the granularity
         $course = false;
         $semester = false;
 
         if ($granularityLevel + 1 === (int) $level) {
             $course = true;
 
-            // Vérifier si c'est un semestre
             $isSemester = (int) $DB->get_field('local_training_architecture_training', 'issemester', ['id' => $trainingId]);
 
             if ($isSemester === 1) {
@@ -281,7 +301,6 @@ class local_training_architecture_external extends external_api {
             }
         }
 
-        // Retourner les informations
         return [
             'course' => $course,
             'semester' => $semester
@@ -298,8 +317,15 @@ class local_training_architecture_external extends external_api {
     }
 
     /**
-     * Définition des paramètres pour la méthode move_lu_sort_order.
-     * @return external_function_parameters
+     * Moves LU sort order between two items.
+     *
+     * @param int $luId LU to move.
+     * @param int $luToMove LU target.
+     * @param int $trainingId ID of the training.
+     * @param int $granularityLevel Granularity level of the training.
+     * @param string $level Level identifier (e.g., 'level1').
+     * @return array Status and message after reorder.
+     * @throws invalid_parameter_exception If LU records are not found.
      */
     public static function move_lu_sort_order_parameters() {
         return new external_function_parameters([
@@ -312,19 +338,10 @@ class local_training_architecture_external extends external_api {
         ]);
     }
 
-    /**
-     * Fonction qui effectue le déplacement de l’ordre de LU.
-     * @param int $luId ID de la LU à déplacer.
-     * @param int $luToMove ID de la LU cible vers laquelle déplacer.
-     * @param int $trainingId ID de la formation.
-     * @param int $granularityLevel Niveau de granularité.
-     * @param string $level Niveau (par exemple level1)
-     * @return array Le statut de la fonction et un message.
-     */
+    
     public static function move_lu_sort_order($luId, $luToMove, $trainingId, $granularityLevel, $level) {
         global $DB;
 
-        // Validation des paramètres
         $params = self::validate_parameters(self::move_lu_sort_order_parameters(), [
             'luId' => $luId,
             'luToMove' => $luToMove,
@@ -333,7 +350,6 @@ class local_training_architecture_external extends external_api {
             'level' => $level
         ]);
 
-        // Récupère les enregistrements LU actuels
         $actualLu = $DB->get_record('local_training_architecture_order', ['trainingid' => $trainingId, 'luid' => $luId]);
         $luToMoveRecord = $DB->get_record('local_training_architecture_order', ['trainingid' => $trainingId, 'luid' => $luToMove]);
 
@@ -341,7 +357,6 @@ class local_training_architecture_external extends external_api {
             throw new invalid_parameter_exception('Une ou plusieurs LU n\'existent pas.');
         }
 
-        // Effectue l'échange des ordres de tri
         $old_lu_order = $actualLu->sortorder;
         $record1 = (object)[
             'id' => $actualLu->id,
@@ -357,11 +372,10 @@ class local_training_architecture_external extends external_api {
             'sortorder' => $old_lu_order
         ];
 
-        // Mise à jour des enregistrements dans la base de données
         $DB->update_record('local_training_architecture_order', $record1);
         $DB->update_record('local_training_architecture_order', $record2);
 
-        // Logique de granularité et niveau
+        // Granularity and level logic 
         $newOrder = [];
         if ($level == "level1") {
             if ($granularityLevel == '1') {
@@ -377,14 +391,10 @@ class local_training_architecture_external extends external_api {
             }
         }
 
-        // Retourne le résultat sous forme de tableau
         return ['status' => 'success', 'message' => 'Ordre de tri des LU mis à jour.'];
     }
 
-    /**
-     * Définit la structure de données renvoyées pour la fonction move_lu_sort_order.
-     * @return external_single_structure
-     */
+
     public static function move_lu_sort_order_returns() {
         return new external_single_structure([
             'status' => new external_value(PARAM_TEXT, 'Statut de l\'opération'),

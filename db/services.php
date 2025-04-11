@@ -1,4 +1,21 @@
 <?php
+/**
+ * External services declaration for the Local Training Architecture plugin.
+ *
+ * This file defines the list of external functions (web services)
+ * that are exposed by the local_training_architecture plugin.
+ *
+ * Each function is mapped with:
+ *  - Its external class and method.
+ *  - The description of what the function does.
+ *  - Whether it is a read or write operation.
+ *  - Its availability via AJAX.
+ *
+ * @package    local_training_architecture
+ * @category   external
+ * @copyright  2025 IFRASS
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 
 $functions = [
     'local_training_architecture_get_lang_strings' => [
@@ -7,7 +24,7 @@ $functions = [
         'classpath'   => 'local/training_architecture/externallib.php',
         'description' => 'Retrieve localized strings for expand and collapse.',
         'type'        => 'read',
-        'ajax'        => true, // Permet l'appel AJAX sans authentification
+        'ajax'        => true, 
     ],
     'local_training_architecture_get_lu_list' => [
         'classname'   => 'local_training_architecture_external', 
