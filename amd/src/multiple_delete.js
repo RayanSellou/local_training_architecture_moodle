@@ -181,11 +181,9 @@
 //   }
 // });
 
-// Déclarer le module AMD
 define(['jquery', 'core/ajax'], function($, Ajax) {
 
   function init() {
-      // Variables
       const buttonLinks = document.getElementById('delete-selected-training-links');
       const buttonLu = document.getElementById('delete-selected-lu-to-lu');
       const buttonCourses = document.getElementById('delete-selected-courses-not-in-architecture');
@@ -194,17 +192,14 @@ define(['jquery', 'core/ajax'], function($, Ajax) {
       const allCheckboxesLu = document.querySelectorAll('input[name="checkbox-lu-to-lu"]');
       const allCheckboxesCourses = document.querySelectorAll('input[name="checkbox-courses-not-in-architecture"]');
 
-      // Fonction pour activer/désactiver un bouton
       function disableButton(button, checkboxes) {
           button.disabled = !Array.from(checkboxes).some(checkbox => checkbox.checked);
       }
 
-      // Initialisation des boutons désactivés
       disableButton(buttonLinks, allCheckboxesLinks);
       disableButton(buttonLu, allCheckboxesLu);
       disableButton(buttonCourses, allCheckboxesCourses);
 
-      // Gestion de l'état des boutons en fonction des checkboxes
       function setupCheckboxHandler(allCheckboxes, button) {
           allCheckboxes.forEach(function(checkbox) {
               checkbox.addEventListener('change', function() {
@@ -218,7 +213,6 @@ define(['jquery', 'core/ajax'], function($, Ajax) {
       setupCheckboxHandler(allCheckboxesLu, buttonLu);
       setupCheckboxHandler(allCheckboxesCourses, buttonCourses);
 
-      // Fonction générique de suppression AJAX
       function deleteSelected(button, checkboxes, methodName) {
           button.addEventListener("click", function() {
               let selectedIds = Array.from(checkboxes)
@@ -238,7 +232,6 @@ define(['jquery', 'core/ajax'], function($, Ajax) {
           });
       }
 
-      // Attacher la suppression aux boutons
       deleteSelected(buttonLinks, allCheckboxesLinks, 'local_training_architecture_delete_training_links');
       deleteSelected(buttonLu, allCheckboxesLu, 'local_training_architecture_delete_lu_to_lu');
       deleteSelected(buttonCourses, allCheckboxesCourses, 'local_training_architecture_delete_courses');

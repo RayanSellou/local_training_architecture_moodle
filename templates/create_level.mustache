@@ -1,4 +1,11 @@
-<div id="create-level-form">
-    {{{ create_level_form }}}
+<div class="trainingarchitecture-collapsible">
+    <span class="trainingarchitecture-show-hide-table-title">{{collapsetext}}</span>
+    <input 
+        type="text" 
+        class="trainingarchitecture-search-input" 
+        id="search-input-level" 
+        data-table-id="{{tableid}}" 
+        placeholder="{{searchtext}}"
+    >
+    <div id="{{tableid}}" class="table-container-training-architecture" style="display: block;"></div>
 </div>
-

@@ -1,0 +1,46 @@
+<div id="courses-not-in-architecture-form">
+    {{{courses_not_in_architecture_form}}}
+</div>
+
+<div class="trainingarchitecture-btn-container">
+    <button id="delete-selected-courses-not-in-architecture" class="trainingarchitecture-delete-selection btn">
+        {{deleteselection_label}}
+    </button>
+</div>
+
+<div class="table-responsive">
+    <table class="generaltable">
+        <thead>
+            <tr>
+                <th>{{training_label}}</th>
+                <th>{{course_label}}</th>
+                <th>{{actions_label}}</th>
+                <th>{{selection_label}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#courses_not_in_architecture_entries}}
+                <tr>
+                    <td>{{training}}</td>
+                    <td>{{course}}</td>
+                    <td>
+                        <a href="{{delete_url}}">
+                            {{#pix}}t/delete, core{{/pix}}
+                        </a>
+                    </td>
+                    <td>
+                        <input type="checkbox" name="checkbox-courses-not-in-architecture" value="{{checkbox_id}}">
+                    </td>
+                </tr>
+            {{/courses_not_in_architecture_entries}}
+
+            {{^courses_not_in_architecture_entries}}
+                <tr>
+                    <td colspan="4" class="text-center">
+                        {{#str}}nodata, local_training_architecture{{/str}}
+                    </td>
+                </tr>
+            {{/courses_not_in_architecture_entries}}
+        </tbody>
+    </table>
+</div>

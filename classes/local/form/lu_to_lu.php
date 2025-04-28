@@ -95,11 +95,21 @@ class lu_to_lu extends moodleform {
 
         $tableId = 'lu-to-lu-table-container';
 
-        $mform->addElement('html', '<div class="trainingarchitecture-collapsible">
-            <span class="trainingarchitecture-show-hide-table-title">' . get_string('collapse', 'local_training_architecture') . '</span>
-            <input type="text" class="trainingarchitecture-search-input" id="search-input-lu-to-lu" data-table-id="' . $tableId . '" placeholder="' . get_string('search') . '">
-            <div id="'. $tableId .'" class="table-container-training-architecture" style="display: block;"></div>
-        </div>');
+        $renderer = $this->page->get_renderer('local_training_architecture');
+
+        $html = $renderer->render_lu_to_lu(
+            $tableId,
+            get_string('collapse', 'local_training_architecture'),
+            get_string('search', 'local_training_architecture')
+        );
+
+        $mform->addElement('html', $html);
+
+        // $mform->addElement('html', '<div class="trainingarchitecture-collapsible">
+        //     <span class="trainingarchitecture-show-hide-table-title">' . get_string('collapse', 'local_training_architecture') . '</span>
+        //     <input type="text" class="trainingarchitecture-search-input" id="search-input-lu-to-lu" data-table-id="' . $tableId . '" placeholder="' . get_string('search') . '">
+        //     <div id="'. $tableId .'" class="table-container-training-architecture" style="display: block;"></div>
+        // </div>');
 
         // $mform->addElement('html', '<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>');
             
@@ -237,7 +247,6 @@ class lu_to_lu extends moodleform {
 
             $courseIds = array_filter($data['luToLuCourseId'], fn($id) => $id != 0);
 
-            // Vérifier si les cours sont liés au training
             $linkedCourses = $DB->get_records_sql_menu(
                 "SELECT courseid, 1
                 FROM {local_training_architecture_training_links}
@@ -245,7 +254,6 @@ class lu_to_lu extends moodleform {
                 array_merge(['trainingid' => $data['luToLuTrainingId']], $courseIds)
             );
 
-            // Vérifier si les cours sont déjà hors de l'architecture
             $coursesNotInArch = $DB->get_records_sql_menu(
                 "SELECT courseid, 1
                 FROM {local_training_architecture_courses_not_architecture}

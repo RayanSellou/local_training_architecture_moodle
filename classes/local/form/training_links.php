@@ -114,11 +114,21 @@ class training_links extends moodleform {
 
         $tableId = 'training-links-table-container';
 
-        $mform->addElement('html', '<div class="trainingarchitecture-collapsible">
-            <span class="trainingarchitecture-show-hide-table-title">' . get_string('collapse', 'local_training_architecture') . '</span>
-            <input type="text" class="trainingarchitecture-search-input" id="search-input-training_links" data-table-id="' . $tableId . '" placeholder="' . get_string('search') . '">
-            <div id="'. $tableId .'" class="table-container-training-architecture" style="display: block;"></div>
-        </div>');
+        $renderer = $this->page->get_renderer('local_training_architecture');
+
+        $html = $renderer->render_training_links(
+            $tableId,
+            get_string('collapse', 'local_training_architecture'),
+            get_string('search', 'local_training_architecture')
+        );
+
+        $mform->addElement('html', $html);
+
+        // $mform->addElement('html', '<div class="trainingarchitecture-collapsible">
+        //     <span class="trainingarchitecture-show-hide-table-title">' . get_string('collapse', 'local_training_architecture') . '</span>
+        //     <input type="text" class="trainingarchitecture-search-input" id="search-input-training_links" data-table-id="' . $tableId . '" placeholder="' . get_string('search') . '">
+        //     <div id="'. $tableId .'" class="table-container-training-architecture" style="display: block;"></div>
+        // </div>');
 
         $this->add_action_buttons();
     }
@@ -219,7 +229,7 @@ class training_links extends moodleform {
                 $course = 'true';
                 $courseExists = '';
 
-                // Course + semester
+                // Course + semester 
                 if($isSemester === 1) {
                     $semester = 'true';
 
@@ -253,7 +263,6 @@ class training_links extends moodleform {
                     // }
                     $courseIds = $data['courseId'];
                     if (!empty($courseIds)) {
-                        // Crée une chaîne de paramètres pour la clause IN
                         $placeholders = implode(',', array_fill(0, count($courseIds), '?'));
                         $sql = "SELECT courseid FROM {local_training_architecture_training_links} 
                                 WHERE trainingid = ? AND level = ? AND courseid IN ($placeholders)";

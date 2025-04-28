@@ -1,3 +1,11 @@
-<div id="create-training-form">
-    {{{ create_training_form }}}
+<div class="trainingarchitecture-collapsible">
+    <span class="trainingarchitecture-show-hide-table-title">{{collapsetext}}</span>
+    <input 
+        type="text" 
+        class="trainingarchitecture-search-input" 
+        id="search-input-training" 
+        data-table-id="{{tableid}}" 
+        placeholder="{{searchtext}}"
+    >
+    <div id="{{tableid}}" class="table-container-training-architecture" style="display: block;">{{{training_table}}}</div>
 </div>

@@ -1,4 +1,11 @@
-<div id="create-lu-form">
-    {{{ create_lu_form }}}
+<div class="trainingarchitecture-collapsible">
+    <span class="trainingarchitecture-show-hide-table-title">{{collapsetext}}</span>
+    <input 
+        type="text" 
+        class="trainingarchitecture-search-input" 
+        id="search-input-lu" 
+        data-table-id="{{tableid}}" 
+        placeholder="{{searchtext}}"
+    >
+    <div id="{{tableid}}" class="table-container-training-architecture" style="display: block;"></div>
 </div>
-
