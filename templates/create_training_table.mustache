@@ -1,0 +1,41 @@
+<div class="table-responsive">
+    <table class="generaltable">
+        <thead>
+            <tr>
+                <th>{{fullname_label}}</th>
+                <th>{{shortname_label}}</th>
+                <th>{{idnumber_label}}</th>
+                <th>{{granularitylevel_label}}</th>
+                <th>{{semesterchoice_label}}</th>
+                <th>{{actions_label}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#training_entries}}
+                <tr>
+                    <td>{{fullname}}</td>
+                    <td>{{shortname}}</td>
+                    <td>{{idnumber}}</td>
+                    <td>{{granularitylevel}}</td>
+                    <td>{{semesterchoice}}</td>
+                    <td>
+                        <a href="{{edit_url}}">
+                            {{#pix}}t/edit, core{{/pix}}
+                        </a>
+                        <a href="{{delete_url}}">
+                            {{#pix}}t/delete, core{{/pix}}
+                        </a>
+                    </td>
+                </tr>
+            {{/training_entries}}
+
+            {{^training_entries}}
+                <tr>
+                    <td colspan="6" class="text-center">
+                        {{#str}}nodata, local_training_architecture{{/str}}
+                    </td>
+                </tr>
+            {{/training_entries}}
+        </tbody>
+    </table>
+</div>

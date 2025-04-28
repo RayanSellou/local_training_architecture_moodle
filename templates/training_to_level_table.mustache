@@ -1,0 +1,44 @@
+<div id="training-to-level-form">
+    {{{training_to_level_form}}}
+</div>
+
+<div class="trainingarchitecture-btn-container">
+    <button id="delete-selected-training-to-level" class="trainingarchitecture-delete-selection btn">
+        {{deleteselection_label}}
+    </button>
+</div>
+
+<div class="table-responsive">
+    <table class="generaltable">
+        <thead>
+            <tr>
+                <th>{{training_label}}</th>
+                <th>{{level1_label}}</th>
+                <th>{{level2_label}}</th>
+                <th>{{actions_label}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#training_to_level_entries}}
+                <tr>
+                    <td>{{training}}</td>
+                    <td>{{level1}}</td>
+                    <td>{{level2}}</td>
+                    <td>
+                        <a href="{{delete_url}}">
+                            {{#pix}}t/delete, core{{/pix}}
+                        </a>
+                    </td>
+                </tr>
+            {{/training_to_level_entries}}
+
+            {{^training_to_level_entries}}
+                <tr>
+                    <td colspan="4" class="text-center">
+                        {{#str}}nodata, local_training_architecture{{/str}}
+                    </td>
+                </tr>
+            {{/training_to_level_entries}}
+        </tbody>
+    </table>
+</div>

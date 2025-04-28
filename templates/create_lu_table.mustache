@@ -1,0 +1,47 @@
+<div id="create-lu-form">
+    {{{create_lu_form}}}
+</div>
+
+<div class="trainingarchitecture-btn-container">
+    <button id="delete-selected-lus" class="trainingarchitecture-delete-selection btn">
+        {{deleteselection_label}}
+    </button>
+</div>
+
+<div class="table-responsive">
+    <table class="generaltable">
+        <thead>
+            <tr>
+                <th>{{fullname_label}}</th>
+                <th>{{shortname_label}}</th>
+                <th>{{idnumber_label}}</th>
+                <th>{{actions_label}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#lu_entries}}
+                <tr>
+                    <td>{{fullname}}</td>
+                    <td>{{shortname}}</td>
+                    <td>{{idnumber}}</td>
+                    <td>
+                        <a href="{{edit_url}}">
+                            {{#pix}}t/edit, core{{/pix}}
+                        </a>
+                        <a href="{{delete_url}}">
+                            {{#pix}}t/delete, core{{/pix}}
+                        </a>
+                    </td>
+                </tr>
+            {{/lu_entries}}
+
+            {{^lu_entries}}
+                <tr>
+                    <td colspan="4" class="text-center">
+                        {{#str}}nodata, local_training_architecture{{/str}}
+                    </td>
+                </tr>
+            {{/lu_entries}}
+        </tbody>
+    </table>
+</div>
