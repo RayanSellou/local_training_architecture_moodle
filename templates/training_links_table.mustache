@@ -1,0 +1,50 @@
+<div id="training-links-form">
+    {{{training_links_form}}}
+</div>
+
+<div class="trainingarchitecture-btn-container">
+    <button id="delete-selected-training-links" class="trainingarchitecture-delete-selection btn">
+        {{deleteselection_label}}
+    </button>
+</div>
+
+<div class="table-responsive">
+    <table class="generaltable">
+        <thead>
+            <tr>
+                <th>{{training_label}}</th>
+                <th>{{lu_label}}</th>
+                <th>{{level_label}}</th>
+                <th>{{semester_label}}</th>
+                <th>{{actions_label}}</th>
+                <th>{{selection_label}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#training_links_entries}}
+                <tr>
+                    <td>{{training}}</td>
+                    <td>{{lu}}</td>
+                    <td>{{level}}</td>
+                    <td>{{semester}}</td>
+                    <td>
+                        <a href="{{delete_url}}">
+                            {{#pix}}t/delete, core{{/pix}}
+                        </a>
+                    </td>
+                    <td>
+                        <input type="checkbox" name="checkbox-training-links" value="{{checkbox_id}}">
+                    </td>
+                </tr>
+            {{/training_links_entries}}
+
+            {{^training_links_entries}}
+                <tr>
+                    <td colspan="6" class="text-center">
+                        {{#str}}nodata, local_training_architecture{{/str}}
+                    </td>
+                </tr>
+            {{/training_links_entries}}
+        </tbody>
+    </table>
+</div>

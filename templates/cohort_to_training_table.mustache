@@ -1,0 +1,42 @@
+    <div id="cohort-to-training-form">
+    {{{cohort_to_training_form}}}
+</div>
+
+<div class="trainingarchitecture-btn-container">
+    <button id="delete-selected-cohort-to-training" class="trainingarchitecture-delete-selection btn">
+        {{deleteselection_label}}
+    </button>
+</div>
+
+<div class="table-responsive">
+    <table class="generaltable">
+        <thead>
+            <tr>
+                <th>{{training_label}}</th>
+                <th>{{cohort_label}}</th>
+                <th>{{actions_label}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#cohort_to_training_entries}}
+                <tr>
+                    <td>{{training}}</td>
+                    <td>{{cohort}}</td>
+                    <td>
+                        <a href="{{delete_url}}">
+                            {{#pix}}t/delete, core{{/pix}}
+                        </a>
+                    </td>
+                </tr>
+            {{/cohort_to_training_entries}}
+
+            {{^cohort_to_training_entries}}
+                <tr>
+                    <td colspan="3" class="text-center">
+                        {{#str}}nodata, local_training_architecture{{/str}}
+                    </td>
+                </tr>
+            {{/cohort_to_training_entries}}
+        </tbody>
+    </table>
+</div>

@@ -27,11 +27,10 @@ module.exports = function(grunt) {
         }
     });
 
-    // Charger les tâches nécessaires
+    // Load necessary tasks
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
 
-    // Enregistrer la tâche de build
     grunt.registerTask('build', ['uglify:amd']);
     grunt.registerTask('dev', ['watch']);
 };

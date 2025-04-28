@@ -1,38 +1,11 @@
-{{#courses_not_in_architecture_form}}
-    <div class="form-container">
-        {{{courses_not_in_architecture_form}}}
-    </div>
-{{/courses_not_in_architecture_form}}
-
-<div id="courses-not-in-architecture-table-container">
-    <table class="courses-not-in-architecture-table">
-        <thead>
-            <tr>
-                <th>{{training_label}}</th>
-                <th>{{course_label}}</th>
-                <th>{{actions_label}}</th>
-                <th>{{selection_label}}</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#courses_not_in_architecture_data}}
-                <tr>
-                    <td>{{training_fullname}}</td>
-                    <td>{{course_fullname}}</td>
-                    <td>
-                        <a href="{{delete_url}}" class="action-btn">{{#pix}}t/delete{{/pix}} {{delete_label}}</a>
-                    </td>
-                    <td>
-                        <input type="checkbox" name="checkbox-courses-not-in-architecture" value="{{id}}">
-                    </td>
-                </tr>
-            {{/courses_not_in_architecture_data}}
-        </tbody>
-    </table>
-</div>
-
-<div class="trainingarchitecture-btn-container">
-    <button id="delete-selected-courses-not-in-architecture" class="trainingarchitecture-delete-selection btn">
-        {{delete_selection_label}}
-    </button>
+<div class="trainingarchitecture-collapsible">
+    <span class="trainingarchitecture-show-hide-table-title">{{collapsetext}}</span>
+    <input 
+        type="text" 
+        class="trainingarchitecture-search-input" 
+        id="search-input-courses" 
+        data-table-id="{{tableid}}" 
+        placeholder="{{searchtext}}"
+    >
+    <div id="{{tableid}}" class="table-container-training-architecture" style="display: block;"></div>
 </div>

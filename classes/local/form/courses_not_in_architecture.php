@@ -78,11 +78,21 @@ class courses_not_in_architecture extends moodleform {
 
         $tableId = 'courses-not-in-architecture-table-container';
 
-        $mform->addElement('html', '<div class="trainingarchitecture-collapsible">
-            <span class="trainingarchitecture-show-hide-table-title">' . get_string('collapse', 'local_training_architecture') . '</span>
-            <input type="text" class="trainingarchitecture-search-input" id="search-input-courses" data-table-id="' . $tableId . '" placeholder="' . get_string('search') . '">
-            <div id="'. $tableId .'" class="table-container-training-architecture" style="display: block;"></div>
-        </div>');
+        $renderer = $this->page->get_renderer('local_training_architecture');
+
+        $html = $renderer->render_courses_not_in_architecture(
+            $tableId,
+            get_string('collapse', 'local_training_architecture'),
+            get_string('search')
+        );
+
+        $mform->addElement('html', $html);
+
+        // $mform->addElement('html', '<div class="trainingarchitecture-collapsible">
+        //     <span class="trainingarchitecture-show-hide-table-title">' . get_string('collapse', 'local_training_architecture') . '</span>
+        //     <input type="text" class="trainingarchitecture-search-input" id="search-input-courses" data-table-id="' . $tableId . '" placeholder="' . get_string('search') . '">
+        //     <div id="'. $tableId .'" class="table-container-training-architecture" style="display: block;"></div>
+        // </div>');
 
         // $mform->addElement('html', '<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>');
         // $PAGE->requires->jquery();

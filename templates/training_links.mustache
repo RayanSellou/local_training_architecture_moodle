@@ -1,42 +1,11 @@
-{{#training_links_form}}
-    <div class="form-container">
-        {{{training_links_form}}}
-    </div>
-{{/training_links_form}}
-
-<div id="training-links-table-container">
-    <table class="training-links-table">
-        <thead>
-            <tr>
-                <th>{{training_label}}</th>
-                <th>{{lu_label}}</th>
-                <th>{{level_label}}</th>
-                <th>{{semester_label}}</th>
-                <th>{{actions_label}}</th>
-                <th>{{selection_label}}</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#training_links_data}}
-                <tr>
-                    <td>{{training_fullname}}</td>
-                    <td>{{lu_fullname}}</td>
-                    <td>{{level}}</td>
-                    <td>{{semester}}</td>
-                    <td>
-                        <a href="{{delete_url}}" class="action-btn">{{#pix}}t/delete{{/pix}} {{delete_label}}</a>
-                    </td>
-                    <td>
-                        <input type="checkbox" name="checkbox-training-links" value="{{id}}">
-                    </td>
-                </tr>
-            {{/training_links_data}}
-        </tbody>
-    </table>
-</div>
-
-<div class="trainingarchitecture-btn-container">
-    <button id="delete-selected-training-links" class="trainingarchitecture-delete-selection btn">
-        {{delete_selection_label}}
-    </button>
+<div class="trainingarchitecture-collapsible">
+    <span class="trainingarchitecture-show-hide-table-title">{{collapsetext}}</span>
+    <input 
+        type="text" 
+        class="trainingarchitecture-search-input" 
+        id="search-input-training-links" 
+        data-table-id="{{tableid}}" 
+        placeholder="{{searchtext}}"
+    >
+    <div id="{{tableid}}" class="table-container-training-architecture" style="display: block;"></div>
 </div>

@@ -51,7 +51,6 @@
 
 // });
 
-// Déclarer le module AMD
 define(['jquery', 'core/ajax'], function($, Ajax) {
 
     function init() {
@@ -59,7 +58,6 @@ define(['jquery', 'core/ajax'], function($, Ajax) {
         let number_lus = localStorage.getItem('numberOfLus') || 0;
         let luCourse = localStorage.getItem('luCourse');
 
-        // Cacher le champ
         if (luCourse !== 'true') {
             luCourseField.style.display = 'none';
         }
@@ -73,13 +71,11 @@ define(['jquery', 'core/ajax'], function($, Ajax) {
         document.querySelector('#id_luToLuTrainingId').addEventListener('change', function() {
             let trainingId = this.value;
 
-            // Cacher les champs
             for (let i = 1; i <= 2; i++) {
                 document.querySelector('#fitem_id_luToLuId' + i).style.display = 'none';
             }
             luCourseField.style.display = 'none';
 
-            // Requête AJAX avec Moodle
             Ajax.call([{
                 methodname: 'local_training_architecture_get_training_level',
                 args: { trainingId: trainingId }
