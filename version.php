@@ -27,6 +27,6 @@ defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_training_architecture';
 $plugin->release = '4.4';
-$plugin->version = 2025041100;
+$plugin->version = 2025042800;
 $plugin->requires = 2022112800;
 $plugin->maturity = MATURITY_STABLE;
