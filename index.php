@@ -124,10 +124,6 @@ echo $OUTPUT->render_from_template('local_training_architecture/form_links', $te
 
 $create_level_form = new create_level();
 
-// ob_start();
-// $create_level_form->display();
-// $form_html = ob_get_clean();
-
 // Check if the create level form is submitted.
 if ($create_level_form->is_submitted()) {
     $data = $create_level_form->get_data();
@@ -141,6 +137,7 @@ if($create_level_form->is_cancelled()) {
     redirect('index.php');
 }
 
+$create_level_form->display();
 
 // Generate HTML table for displaying levels.
 $levelsData = [];
@@ -152,10 +149,6 @@ if ($levels = $DB->get_records('local_training_architecture_level_names', [], 'f
         $line[] = $level->shortname;
         //$line[] = $level->description;
 
-        // $editUrl = new moodle_url('/local/training_architecture/classes/edit_delete/level.php', ['id' => $level->id]);
-        // $deleteUrl = new moodle_url('/local/training_architecture/classes/edit_delete/level.php', ['id' => $level->id, 'delete' => 1]);
-        // $buttons = html_writer::link($editUrl, $OUTPUT->pix_icon('t/edit', get_string('edit')));
-        // $buttons .= html_writer::link($deleteUrl, $OUTPUT->pix_icon('t/delete', get_string('delete')));
         $buttons = '';
         
         // Edit button URL.
@@ -183,13 +176,6 @@ $level_table->head = [
 ];
 
 $level_table->data = $levelsData;
-
-$templatecontext = [
-    'create_level_form' => $form_html,
-];
-
-echo $OUTPUT->render_from_template('local_training_architecture/create_level', $templatecontext);
-
 
 echo '<script>
     var tableHTML = ' . json_encode(html_writer::table($level_table)) . ';
