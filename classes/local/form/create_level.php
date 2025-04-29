@@ -60,10 +60,12 @@ class create_level extends moodleform {
         $tableId = 'levels-table-container';
 
         // $renderer = $this->page->get_renderer('local_training_architecture');
-        global $PAGE;
+        global $PAGE, $DB;
         $renderer = $PAGE->get_renderer('local_training_architecture');
 
 
+        $levels = $DB->get_records('local_training_architecture_level_names', [], 'fullname');
+        // $html = $renderer->render_create_level($levels);
         $html = $renderer->render_create_level(
             $tableId,
             get_string('collapse', 'local_training_architecture'),

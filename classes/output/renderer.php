@@ -4,6 +4,7 @@ namespace local_training_architecture\output;
 defined('MOODLE_INTERNAL') || die();
 
 use plugin_renderer_base;
+use moodle_url;
 
 class renderer extends plugin_renderer_base {
 
@@ -27,11 +28,42 @@ class renderer extends plugin_renderer_base {
         return $this->render_from_template('local_training_architecture/courses_not_in_architecture', $context);
     }
 
+    // public function render_create_level($tableid, $collapsetext, $searchtext) {
+    //     $context = [
+    //         'tableid' => $tableid,
+    //         'collapsetext' => $collapsetext,
+    //         'searchtext' => $searchtext
+    //     ];
+    
+    //     return $this->render_from_template('local_training_architecture/create_level', $context);
+    // }
+
     public function render_create_level($tableid, $collapsetext, $searchtext) {
+        global $DB;
+    
+        $levels = $DB->get_records('local_training_architecture_level_names', [], 'fullname');
+    
+        $levelrows = [];
+        foreach ($levels as $level) {
+            $editurl = new \moodle_url('/local/training_architecture/classes/edit_delete/level.php', ['id' => $level->id]);
+            $deleteurl = new \moodle_url('/local/training_architecture/classes/edit_delete/level.php', ['id' => $level->id, 'delete' => 1]);
+    
+            $levelrows[] = [
+                'fullname' => $level->fullname,
+                'shortname' => $level->shortname,
+                'edit_url' => $editurl->out(false),   // Important ici !
+                'delete_url' => $deleteurl->out(false) // Important ici aussi !
+            ];
+        }
+    
         $context = [
             'tableid' => $tableid,
             'collapsetext' => $collapsetext,
-            'searchtext' => $searchtext
+            'searchtext' => $searchtext,
+            'fullname_label' => get_string('fullname', 'local_training_architecture'),
+            'shortname_label' => get_string('shortname', 'local_training_architecture'),
+            'actions_label' => get_string('actions', 'local_training_architecture'),
+            'levels' => $levelrows
         ];
     
         return $this->render_from_template('local_training_architecture/create_level', $context);

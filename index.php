@@ -139,48 +139,48 @@ if($create_level_form->is_cancelled()) {
 
 $create_level_form->display();
 
-// Generate HTML table for displaying levels.
-$levelsData = [];
-if ($levels = $DB->get_records('local_training_architecture_level_names', [], 'fullname')) {
+// // Generate HTML table for displaying levels.
+// $levelsData = [];
+// if ($levels = $DB->get_records('local_training_architecture_level_names', [], 'fullname')) {
 
-    foreach ($levels as $level) {
-        $line = [];
-        $line[] = $level->fullname;
-        $line[] = $level->shortname;
-        //$line[] = $level->description;
+//     foreach ($levels as $level) {
+//         $line = [];
+//         $line[] = $level->fullname;
+//         $line[] = $level->shortname;
+//         //$line[] = $level->description;
 
-        $buttons = '';
+//         $buttons = '';
         
-        // Edit button URL.
-        $editUrl = new moodle_url('classes/edit_delete/level.php', ['id' => $level->id]);
-        $editButton = html_writer::link($editUrl, $OUTPUT->pix_icon('t/edit', get_string('edit')));
-        $buttons .= $editButton;
+//         // Edit button URL.
+//         $editUrl = new moodle_url('classes/edit_delete/level.php', ['id' => $level->id]);
+//         $editButton = html_writer::link($editUrl, $OUTPUT->pix_icon('t/edit', get_string('edit')));
+//         $buttons .= $editButton;
         
-        // Delete button URL.
-        $deleteUrl = new moodle_url('classes/edit_delete/level.php', ['id' => $level->id, 'delete' => 1]);
-        $deleteButton = html_writer::link($deleteUrl, $OUTPUT->pix_icon('t/delete', get_string('delete')));
-        $buttons .= $deleteButton;
-        $line[] = $buttons;
+//         // Delete button URL.
+//         $deleteUrl = new moodle_url('classes/edit_delete/level.php', ['id' => $level->id, 'delete' => 1]);
+//         $deleteButton = html_writer::link($deleteUrl, $OUTPUT->pix_icon('t/delete', get_string('delete')));
+//         $buttons .= $deleteButton;
+//         $line[] = $buttons;
         
-        $levelsData[] = $line;
-    }
-}
+//         $levelsData[] = $line;
+//     }
+// }
 
-// Create HTML table for displaying levels data.
-$level_table = new html_table();
-$level_table->head = [
-    get_string('fullname', 'local_training_architecture'),
-    get_string('shortname', 'local_training_architecture'),
-    //get_string('description', 'local_training_architecture'),
-    get_string('actions', 'local_training_architecture')
-];
+// // Create HTML table for displaying levels data.
+// $level_table = new html_table();
+// $level_table->head = [
+//     get_string('fullname', 'local_training_architecture'),
+//     get_string('shortname', 'local_training_architecture'),
+//     //get_string('description', 'local_training_architecture'),
+//     get_string('actions', 'local_training_architecture')
+// ];
 
-$level_table->data = $levelsData;
+// $level_table->data = $levelsData;
 
-echo '<script>
-    var tableHTML = ' . json_encode(html_writer::table($level_table)) . ';
-    document.getElementById("levels-table-container").innerHTML = tableHTML;
-</script>';
+// echo '<script>
+//     var tableHTML = ' . json_encode(html_writer::table($level_table)) . ';
+//     document.getElementById("levels-table-container").innerHTML = tableHTML;
+// </script>';
 
 //--------------
 
