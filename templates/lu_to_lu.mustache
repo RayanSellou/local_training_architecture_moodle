@@ -7,5 +7,49 @@
         data-table-id="{{tableid}}" 
         placeholder="{{searchtext}}"
     >
-    <div id="{{tableid}}" class="table-container-training-architecture" style="display: block;"></div>
+
+    <div class="trainingarchitecture-btn-container">
+        <button id="delete-selected-lu-to-lu" class="trainingarchitecture-delete-selection btn">
+            {{#str}}deleteselection, local_training_architecture{{/str}}
+        </button>
+    </div>
+
+    <div id="{{tableid}}" class="table-container-training-architecture">
+        <table class="generaltable">
+            <thead>
+                <tr>
+                    <th>{{training_label}}</th>
+                    <th>{{lu1_label}}</th>
+                    <th>{{lu2_label}}</th>
+                    <th>{{actions_label}}</th>
+                    <th>{{selection_label}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#rows}}
+                    <tr>
+                        <td>{{training}}</td>
+                        <td>{{luid1}}</td>
+                        <td>{{luid2}}</td>
+                        <td>
+                            <a href="{{delete_url}}">{{#pix}}t/delete, core{{/pix}}</a>
+                        </td>
+                        <td>
+                            <input type="checkbox" name="checkbox-lu-to-lu" value="{{checkbox_value}}"
+                                data-trainingid="{{trainingid}}"
+                                data-luid1="{{luid1_data}}"
+                                data-luid2="{{luid2_data}}"
+                                data-isluid2course="{{isluid2course}}">
+                        </td>
+                    </tr>
+                {{/rows}}
+
+                {{^rows}}
+                    <tr>
+                        <td colspan="5">{{#str}}nodata, local_training_architecture{{/str}}</td>
+                    </tr>
+                {{/rows}}
+            </tbody>
+        </table>
+    </div>
 </div>

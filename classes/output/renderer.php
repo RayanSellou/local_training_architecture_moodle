@@ -10,6 +10,26 @@ use local_training_architecture\local\functions\common_functions;
 
 class renderer extends plugin_renderer_base {
 
+    public function render_form_links() {
+        $links = [
+            ['anchor' => '#id_createLevelcontainer', 'label' => get_string('createleveltitle', 'local_training_architecture')],
+            ['anchor' => '#id_createTrainingcontainer', 'label' => get_string('createtraining', 'local_training_architecture')],
+            ['anchor' => '#id_createLucontainer', 'label' => get_string('createlutitle', 'local_training_architecture')],
+            ['anchor' => '#id_trainingToLevelcontainer', 'label' => get_string('trainingtolevel', 'local_training_architecture')],
+            ['anchor' => '#id_cohortToTrainingcontainer', 'label' => get_string('cohorttotraining', 'local_training_architecture')],
+            ['anchor' => '#id_coursesNotInArchitectureTitlecontainer', 'label' => get_string('coursesnotinarchitecturetitle', 'local_training_architecture')],
+            ['anchor' => '#id_trainingLinkscontainer', 'label' => get_string('traininglinks', 'local_training_architecture')],
+            ['anchor' => '#id_luToLucontainer', 'label' => get_string('lutolu', 'local_training_architecture')],
+        ];
+    
+        $context = [
+            'title' => get_string('allforms', 'local_training_architecture'),
+            'links' => $links
+        ];
+    
+        return $this->render_from_template('local_training_architecture/form_links', $context);
+    }
+
     public function render_cohort_to_training($tableid, $collapsetext, $searchtext) {
         global $DB;
         $commonFunctions = new common_functions();
@@ -195,14 +215,52 @@ class renderer extends plugin_renderer_base {
     }
 
     public function render_lu_to_lu($tableid, $collapsetext, $searchtext) {
+        global $DB;
+        $commonFunctions = new common_functions();
+    
+        $records = $DB->get_records('local_training_architecture_lu_to_lu');
+        $rows = [];
+    
+        foreach ($records as $record) {
+            $target2 = $record->isluid2course === 'true'
+                ? $commonFunctions->getCourseFullName($record->luid2) . ' (' . get_string('course', 'local_training_architecture') . ')'
+                : $commonFunctions->getluFullName($record->luid2);
+    
+            $rows[] = [
+                'training' => $commonFunctions->getTrainingFullName($record->trainingid),
+                'luid1' => $commonFunctions->getluFullName($record->luid1),
+                'luid2' => $target2,
+                'delete_url' => (new \moodle_url('/local/training_architecture/classes/edit_delete/lu_to_lu.php', [
+                    'id' => $record->id,
+                    'delete' => 1
+                ]))->out(false),
+                'checkbox_value' => $record->id,
+                'trainingid' => $record->trainingid,
+                'luid1_data' => $record->luid1,
+                'luid2_data' => $record->luid2,
+                'isluid2course' => $record->isluid2course
+            ];
+        }
+    
+        // Tri
+        usort($rows, function($a, $b) {
+            return strcmp($a['training'] . $a['luid1'], $b['training'] . $b['luid1']);
+        });
+    
         $context = [
             'tableid' => $tableid,
             'collapsetext' => $collapsetext,
-            'searchtext' => $searchtext
+            'searchtext' => $searchtext,
+            'training_label' => get_string('training', 'local_training_architecture'),
+            'lu1_label' => get_string('lu', 'local_training_architecture') . ' 1',
+            'lu2_label' => get_string('lu', 'local_training_architecture') . ' 2',
+            'actions_label' => get_string('actions', 'local_training_architecture'),
+            'selection_label' => get_string('selection', 'local_training_architecture'),
+            'rows' => $rows
         ];
     
         return $this->render_from_template('local_training_architecture/lu_to_lu', $context);
-    }
+    }    
 
     public function render_training_links($tableid, $collapsetext, $searchtext) {
         global $DB;

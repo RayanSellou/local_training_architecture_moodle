@@ -114,14 +114,17 @@ class training_links extends moodleform {
 
         $tableId = 'training-links-table-container';
 
-        $renderer = $this->page->get_renderer('local_training_architecture');
+        global $PAGE, $DB;
+        $renderer = $PAGE->get_renderer('local_training_architecture');
 
+
+        $trainingsLinks = $DB->get_records('local_training_architecture_training_links');
+        
         $html = $renderer->render_training_links(
             $tableId,
             get_string('collapse', 'local_training_architecture'),
-            get_string('search', 'local_training_architecture')
+            get_string('search')
         );
-
         $mform->addElement('html', $html);
 
         // $mform->addElement('html', '<div class="trainingarchitecture-collapsible">

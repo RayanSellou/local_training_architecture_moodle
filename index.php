@@ -90,17 +90,6 @@ $commonFunctions = new common_functions();
 //     '#id_luToLucontainer' => get_string('lutolu', 'local_training_architecture')
 // ];
 
-$links = [
-    ['href' => '#id_createLevelcontainer', 'text' => get_string('createleveltitle', 'local_training_architecture')],
-    ['href' => '#id_createTrainingcontainer', 'text' => get_string('createtraining', 'local_training_architecture')],
-    ['href' => '#id_createLucontainer', 'text' => get_string('createlutitle', 'local_training_architecture')],
-    ['href' => '#id_trainingToLevelcontainer', 'text' => get_string('trainingtolevel', 'local_training_architecture')],
-    ['href' => '#id_cohortToTrainingcontainer', 'text' => get_string('cohorttotraining', 'local_training_architecture')],
-    ['href' => '#id_coursesNotInArchitectureTitlecontainer', 'text' => get_string('coursesnotinarchitecturetitle', 'local_training_architecture')],
-    ['href' => '#id_trainingLinkscontainer', 'text' => get_string('traininglinks', 'local_training_architecture')],
-    ['href' => '#id_luToLucontainer', 'text' => get_string('lutolu', 'local_training_architecture')]
-];
-
 // foreach ($links as $href => $text) {
 //     echo html_writer::start_tag('li');
 //     echo '<span><a href="' . $href . '">' . $text . '</a></span>';
@@ -109,14 +98,11 @@ $links = [
 
 // echo html_writer::end_tag('ul');
 
-// Render the template with the data
-$templatecontext = [
-    'links' => $links,
-    'fullname_label' => get_string('allforms', 'local_training_architecture'),
-];
+global $PAGE;
 
-// Output the template
-echo $OUTPUT->render_from_template('local_training_architecture/form_links', $templatecontext);
+$renderer = $PAGE->get_renderer('local_training_architecture');
+
+echo $renderer->render_form_links();
 
 //-----------------------------------
 
@@ -681,68 +667,49 @@ if($lu_to_lu_form->is_cancelled()) {
     redirect('index.php');
 }
 
-ob_start();
 $lu_to_lu_form->display();
-$lu_to_lu_form_html = ob_get_clean();
 
 
-// Generate HTML table for displaying LU to LU data.
-$luToluData = [];
+// // Generate HTML table for displaying LU to LU data.
+// $luToluData = [];
 
-if ($luslus = $DB->get_records('local_training_architecture_lu_to_lu')) {
-    foreach ($luslus as $lu) {
-        // $line = [];
+// if ($luslus = $DB->get_records('local_training_architecture_lu_to_lu')) {
+//     foreach ($luslus as $lu) {
+//         $line = [];
 
-        // // Display informations.
-        // $line[] = $commonFunctions->getTrainingFullName($lu->trainingid);
-        // $line[] = $commonFunctions->getluFullName($lu->luid1);
+//         // Display informations.
+//         $line[] = $commonFunctions->getTrainingFullName($lu->trainingid);
+//         $line[] = $commonFunctions->getluFullName($lu->luid1);
 
-        // // Checks if the entity is a lu or a course.
-        // if($lu->isluid2course === 'true') {
-        //     $line[] = $commonFunctions->getCourseFullName($lu->luid2) . ' (' . get_string('course', 'local_training_architecture') . ')';
-        // }
-        // else {
-        //     $line[] = $commonFunctions->getluFullName($lu->luid2);
-        // }
+//         // Checks if the entity is a lu or a course.
+//         if($lu->isluid2course === 'true') {
+//             $line[] = $commonFunctions->getCourseFullName($lu->luid2) . ' (' . get_string('course', 'local_training_architecture') . ')';
+//         }
+//         else {
+//             $line[] = $commonFunctions->getluFullName($lu->luid2);
+//         }
 
-        // $buttons = '';
+//         $buttons = '';
 
-        // // Delete button URL.
-        // $deleteUrl = new moodle_url('classes/edit_delete/lu_to_lu.php', ['id' => $lu->id, 'delete' => 1]);
-        // $deleteButton = html_writer::link($deleteUrl, $OUTPUT->pix_icon('t/delete', get_string('delete')));
-        // $buttons .= $deleteButton;
+//         // Delete button URL.
+//         $deleteUrl = new moodle_url('classes/edit_delete/lu_to_lu.php', ['id' => $lu->id, 'delete' => 1]);
+//         $deleteButton = html_writer::link($deleteUrl, $OUTPUT->pix_icon('t/delete', get_string('delete')));
+//         $buttons .= $deleteButton;
 
-        // $line[] = $buttons;
+//         $line[] = $buttons;
 
-        // // Multiple selection.
-        // $line[] = '<input type="checkbox" name="checkbox-lu-to-lu" value="' . $lu->id . '" 
-        // data-trainingid="' . $lu->trainingid . '" 
-        // data-luid1="' . $lu->luid1 . '" 
-        // data-luid2="' . $lu->luid2 . '" 
-        // data-isluid2course="' . $lu->isluid2course . '" >';
+//         // Multiple selection.
+//         $line[] = '<input type="checkbox" name="checkbox-lu-to-lu" value="' . $lu->id . '" 
+//         data-trainingid="' . $lu->trainingid . '" 
+//         data-luid1="' . $lu->luid1 . '" 
+//         data-luid2="' . $lu->luid2 . '" 
+//         data-isluid2course="' . $lu->isluid2course . '" >';
 
-        // $luToluData[] = $line;
-        $entry = [
-            'training' => $commonFunctions->getTrainingFullName($lu->trainingid),
-            'luid1' => $commonFunctions->getluFullName($lu->luid1),
-            'luid2' => ($lu->isluid2course === 'true') 
-                ? $commonFunctions->getCourseFullName($lu->luid2) . ' (' . get_string('course', 'local_training_architecture') . ')'
-                : $commonFunctions->getluFullName($lu->luid2),
-            'delete_url' => (new moodle_url('classes/edit_delete/lu_to_lu.php', ['id' => $lu->id, 'delete' => 1]))->out(),
-            'checkbox_data' => [
-                'id' => $lu->id,
-                'trainingid' => $lu->trainingid,
-                'luid1' => $lu->luid1,
-                'luid2' => $lu->luid2,
-                'isluid2course' => $lu->isluid2course
-            ]
-        ];
+//         $luToluData[] = $line;
+//     }
+// }
 
-        $luToluData[] = $entry;
-    }
-}
-
-// Sort.
+// // Sort.
 // usort($luToluData, function($a, $b) {
 //     $numFields = count($a);
 //     for ($i = 0; $i < $numFields; $i++) {
@@ -753,15 +720,6 @@ if ($luslus = $DB->get_records('local_training_architecture_lu_to_lu')) {
 //     }
 //     return 0;
 // });
-// Sort the data
-usort($luToluData, function($a, $b) {
-    $fields = ['training', 'luid1', 'luid2'];
-    foreach ($fields as $field) {
-        $compare = strcmp($a[$field], $b[$field]);
-        if ($compare !== 0) return $compare;
-    }
-    return 0;
-});
 
 // // Create HTML table for displaying LU to LU data.
 // $lu_to_lu_table = new html_table();
@@ -780,19 +738,5 @@ usort($luToluData, function($a, $b) {
 
 // // Output JavaScript to replace content with LU to LU table.
 // echo '<script>document.getElementById("lu-to-lu-table-container").innerHTML = ' . json_encode(html_writer::table($lu_to_lu_table)) . ';</script>';
-
-// Create context for Mustache
-$templatecontext = [
-    'lu_to_lu_form' => $lu_to_lu_form_html,
-    'lu_to_lu_entries' => $luToluData,
-    'deleteselection_label' => get_string('deleteselection', 'local_training_architecture'),
-    'training_label' => get_string('training', 'local_training_architecture'),
-    'lu1_label' => get_string('lu', 'local_training_architecture') . ' 1',
-    'lu2_label' => get_string('lu', 'local_training_architecture') . ' 2',
-    'actions_label' => get_string('actions', 'local_training_architecture'),
-    'selection_label' => get_string('selection', 'local_training_architecture'),
-];
-
-echo $OUTPUT->render_from_template('local_training_architecture/lu_to_lu_table', $templatecontext);
 
 echo $OUTPUT->footer();

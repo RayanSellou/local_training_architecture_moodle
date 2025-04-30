@@ -95,12 +95,16 @@ class lu_to_lu extends moodleform {
 
         $tableId = 'lu-to-lu-table-container';
 
-        $renderer = $this->page->get_renderer('local_training_architecture');
+        global $PAGE, $DB;
+        $renderer = $PAGE->get_renderer('local_training_architecture');
 
+
+        $luslus = $DB->get_records('local_training_architecture_lu_to_lu');
+        
         $html = $renderer->render_lu_to_lu(
             $tableId,
             get_string('collapse', 'local_training_architecture'),
-            get_string('search', 'local_training_architecture')
+            get_string('search')
         );
 
         $mform->addElement('html', $html);
