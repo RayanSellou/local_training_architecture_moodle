@@ -78,8 +78,12 @@ class courses_not_in_architecture extends moodleform {
 
         $tableId = 'courses-not-in-architecture-table-container';
 
-        $renderer = $this->page->get_renderer('local_training_architecture');
+        global $PAGE, $DB;
+        $renderer = $PAGE->get_renderer('local_training_architecture');
 
+
+        $coursesNotInArchitecture = $DB->get_records('local_training_architecture_courses_not_architecture');
+        
         $html = $renderer->render_courses_not_in_architecture(
             $tableId,
             get_string('collapse', 'local_training_architecture'),

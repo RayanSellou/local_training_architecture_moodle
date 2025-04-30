@@ -75,8 +75,12 @@ class cohort_to_training extends moodleform {
 
         $tableId = 'cohort-to-training-table-container';
 
-        $renderer = $this->page->get_renderer('local_training_architecture');
+        global $PAGE, $DB;
+        $renderer = $PAGE->get_renderer('local_training_architecture');
 
+
+        $cohortsTrainings = $DB->get_records('local_training_architecture_cohort_to_training');
+        
         $html = $renderer->render_cohort_to_training(
             $tableId,
             get_string('collapse', 'local_training_architecture'),

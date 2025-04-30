@@ -76,8 +76,13 @@ class create_training extends moodleform {
 
         $tableId = 'training-table-container';
 
-        $renderer = $this->page->get_renderer('local_training_architecture');
+        // $renderer = $this->page->get_renderer('local_training_architecture');
+        global $PAGE, $DB;
+        $renderer = $PAGE->get_renderer('local_training_architecture');
 
+
+        $trainings = $DB->get_records('local_training_architecture_training', [], 'fullname');
+        
         $html = $renderer->render_create_training(
             $tableId,
             get_string('collapse', 'local_training_architecture'),

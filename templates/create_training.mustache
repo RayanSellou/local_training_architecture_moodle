@@ -7,5 +7,34 @@
         data-table-id="{{tableid}}" 
         placeholder="{{searchtext}}"
     >
-    <div id="{{tableid}}" class="table-container-training-architecture" style="display: block;">{{{training_table}}}</div>
+    <div id="{{tableid}}" class="table-container-training-architecture" style="display: block;">
+        <table class="generaltable">
+            <thead>
+                <tr>
+                    <th>{{fullname_label}}</th>
+                    <th>{{shortname_label}}</th>
+                    <th>{{idnumber_label}}</th>
+                    <th>{{level_label}}</th>
+                    <th>{{semester_label}}</th>
+                    <th>{{actions_label}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#trainings}}
+                    <tr>
+                        <td>{{fullname}}</td>
+                        <td>{{shortname}}</td>
+                        <td>{{idnumber}}</td>
+                        <td>{{granularitylevel}}</td>
+                        <td>{{issemester}}</td>
+                        <td>
+                            <a href="{{sort_url}}">{{#pix}}t/sort,core,{{/pix}}</a>
+                            <a href="{{edit_url}}">{{#pix}}t/edit,core,{{/pix}}</a>
+                            <a href="{{delete_url}}">{{#pix}}t/delete,core,{{/pix}}</a>
+                        </td>
+                    </tr>
+                {{/trainings}}
+            </tbody>
+        </table>
+    </div>
 </div>

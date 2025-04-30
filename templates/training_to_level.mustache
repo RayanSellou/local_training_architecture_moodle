@@ -7,5 +7,36 @@
         data-table-id="{{tableid}}" 
         placeholder="{{searchtext}}"
     >
-    <div id="{{tableid}}" class="table-container-training-architecture" style="display: block;"></div>
+
+    <div id="{{tableid}}" class="table-container-training-architecture">
+        <table class="generaltable">
+            <thead>
+                <tr>
+                    <th>{{training_label}}</th>
+                    <th>{{level1_label}}</th>
+                    <th>{{level2_label}}</th>
+                    <th>{{actions_label}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#rows}}
+                    <tr>
+                        <td>{{training_name}}</td>
+                        <td>{{level1_name}}</td>
+                        <td>{{level2_name}}</td>
+                        <td>
+                            <a href="{{delete_url}}">{{#pix}}t/delete, core{{/pix}}</a>
+                        </td>
+                    </tr>
+                {{/rows}}
+
+                {{^rows}}
+                    <tr>
+                        <td colspan="4">{{#str}}nodata, local_training_architecture{{/str}}</td>
+                    </tr>
+                {{/rows}}
+            </tbody>
+        </table>
+    </div>
 </div>
+

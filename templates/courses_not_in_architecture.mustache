@@ -3,9 +3,47 @@
     <input 
         type="text" 
         class="trainingarchitecture-search-input" 
-        id="search-input-courses" 
+        id="search-input-courses-not-in-architecture" 
         data-table-id="{{tableid}}" 
         placeholder="{{searchtext}}"
     >
-    <div id="{{tableid}}" class="table-container-training-architecture" style="display: block;"></div>
+
+    <div class="trainingarchitecture-btn-container">
+        <button id="delete-selected-courses-not-in-architecture" class="trainingarchitecture-delete-selection btn">
+            {{#str}}deleteselection, local_training_architecture{{/str}}
+        </button>
+    </div>
+
+    <div id="{{tableid}}" class="table-container-training-architecture">
+        <table class="generaltable">
+            <thead>
+                <tr>
+                    <th>{{training_label}}</th>
+                    <th>{{course_label}}</th>
+                    <th>{{actions_label}}</th>
+                    <th>{{selection_label}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#rows}}
+                    <tr>
+                        <td>{{training}}</td>
+                        <td>{{course}}</td>
+                        <td>
+                            <a href="{{delete_url}}">{{#pix}}t/delete, core{{/pix}}</a>
+                        </td>
+                        <td>
+                            <input type="checkbox" name="checkbox-courses-not-in-architecture" value="{{checkbox_value}}">
+                        </td>
+                    </tr>
+                {{/rows}}
+
+                {{^rows}}
+                    <tr>
+                        <td colspan="4">{{#str}}nodata, local_training_architecture{{/str}}</td>
+                    </tr>
+                {{/rows}}
+            </tbody>
+        </table>
+    </div>
 </div>

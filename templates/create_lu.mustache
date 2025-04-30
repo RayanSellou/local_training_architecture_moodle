@@ -7,5 +7,35 @@
         data-table-id="{{tableid}}" 
         placeholder="{{searchtext}}"
     >
-    <div id="{{tableid}}" class="table-container-training-architecture" style="display: block;"></div>
+
+    <div id="{{tableid}}" class="table-container-training-architecture" style="display: block;">
+        <table class="generaltable">
+            <thead>
+                <tr>
+                    <th>{{fullname_label}}</th>
+                    <th>{{shortname_label}}</th>
+                    <th>{{idnumber_label}}</th>
+                    <th>{{actions_label}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#lus}}
+                    <tr>
+                        <td>{{fullname}}</td>
+                        <td>{{shortname}}</td>
+                        <td>{{idnumber}}</td>
+                        <td>
+                            <a href="{{edit_url}}">{{#pix}}t/edit,core,{{/pix}}</a>
+                            <a href="{{delete_url}}">{{#pix}}t/delete,core,{{/pix}}</a>
+                        </td>
+                    </tr>
+                {{/lus}}
+                {{^lus}}
+                    <tr>
+                        <td colspan="4">{{#str}}nolusfound, local_training_architecture{{/str}}</td>
+                    </tr>
+                {{/lus}}
+            </tbody>
+        </table>
+    </div>
 </div>

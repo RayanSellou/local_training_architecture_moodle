@@ -85,12 +85,16 @@ class training_level extends moodleform {
 
         $tableId = 'training-levels-table-container';
 
-        $renderer = $this->page->get_renderer('local_training_architecture');
+        global $PAGE, $DB;
+        $renderer = $PAGE->get_renderer('local_training_architecture');
 
+
+        $levelsTrainings = $DB->get_records('local_training_architecture_level_names_to_training');
+        
         $html = $renderer->render_training_to_level(
             $tableId,
             get_string('collapse', 'local_training_architecture'),
-            get_string('search', 'local_training_architecture')
+            get_string('search')
         );
 
         $mform->addElement('html', $html);

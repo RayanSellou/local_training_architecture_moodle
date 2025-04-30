@@ -62,8 +62,12 @@ class create_lu extends moodleform {
 
         $tableId = 'lu-table-container';
 
-        $renderer = $this->page->get_renderer('local_training_architecture');
+        global $PAGE, $DB;
+        $renderer = $PAGE->get_renderer('local_training_architecture');
 
+
+        $lus = $DB->get_records('local_training_architecture_lu', [], 'fullname');
+        
         $html = $renderer->render_create_lu(
             $tableId,
             get_string('collapse', 'local_training_architecture'),
