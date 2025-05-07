@@ -201,3 +201,6 @@ $string['coursetask'] = 'Synchroniser les données de lu_to_course en fonction d
 
 //Privacy.
 $string['privacy:metadata'] = 'Le plugin Training Architecture ne stocke aucune donnée personnelle.';
+
+//Success.
+$string['deletesuccess'] = 'L’élément a été supprimé avec succès.';
