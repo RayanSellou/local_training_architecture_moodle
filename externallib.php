@@ -117,26 +117,25 @@ class local_training_architecture_external extends external_api {
     }
 
     public static function delete_courses_not_in_architecture($selectedIds) {
-        global $DB, $CFG;
-
+        global $CFG;
+    
         if (empty($selectedIds)) {
             throw new invalid_parameter_exception('Aucun ID de lien fourni.');
         }
-
-        error_log('Selected IDs: ' . implode(',', $selectedIds));
-
-        // Deletion of the links in the table'local_training_architecture_courses_not_architecture'
-        foreach ($selectedIds as $id) {
-            // On supprime uniquement les enregistrements de la table local_training_architecture_courses_not_architecture
-            // où l'ID correspond au lien entre le cours et l'architecture
-            $DB->delete_records('local_training_architecture_courses_not_architecture', ['id' => $id]);
-        }
-
-        // Return the redirection URL after the links'deletion 
+    
+        // Convertir le tableau en string séparée par des virgules
+        $ids_string = implode(',', $selectedIds);
+        
+        $url = new moodle_url('/local/training_architecture/classes/multiple_delete/courses_not_in_architecture.php', [
+            'ids' => $ids_string,  // Envoie comme string
+            'sesskey' => sesskey()
+        ]);
+    
         return [
-            'redirectUrl' => $CFG->wwwroot . '/local/training_architecture/index.php',
+            'redirectUrl' => $url->out(false),
         ];
     }
+    
 
     public static function delete_courses_not_in_architecture_returns() {
         return new external_single_structure([
@@ -159,26 +158,29 @@ class local_training_architecture_external extends external_api {
 
 
     public static function multiple_delete_lu_to_lu($selectedIds) {
-        global $DB;
-
+        global $CFG;
+    
         // Validate parameters
         $params = self::validate_parameters(self::multiple_delete_lu_to_lu_parameters(), ['selectedIds' => $selectedIds]);
-
+    
         if (empty($params['selectedIds'])) {
             throw new invalid_parameter_exception('No IDs provided.');
         }
-
-        $luFunctions = new lu_lu_functions();
-
-        foreach ($params['selectedIds'] as $id) {
-            if (!$DB->record_exists('local_training_architecture_lu_to_lu', ['id' => $id])) {
-                throw new invalid_parameter_exception("Invalid ID: $id");
-            }
-            $luFunctions->deleteLink($id);
-        }
-
-        return ['status' => 'success', 'message' => count($params['selectedIds']) . ' LU-to-LU links deleted.'];
+    
+        // Convert array to comma-separated string
+        $ids_string = implode(',', $params['selectedIds']);
+        
+        // Build confirmation URL
+        $url = new moodle_url('/local/training_architecture/classes/multiple_delete/lu_to_lu.php', [
+            'ids' => $ids_string,
+            'sesskey' => sesskey()
+        ]);
+    
+        return [
+            'redirectUrl' => $url->out(false),
+        ];
     }
+    
 
     /**
      * Define return structure for delete multiple LU-to-LU links.
@@ -187,8 +189,7 @@ class local_training_architecture_external extends external_api {
      */
     public static function multiple_delete_lu_to_lu_returns() {
         return new external_single_structure([
-            'status' => new external_value(PARAM_TEXT, 'Status of the operation'),
-            'message' => new external_value(PARAM_TEXT, 'Message about the operation result')
+            'redirectUrl' => new external_value(PARAM_URL, 'Redirection URL after deletion'),
         ]);
     }
 
@@ -207,30 +208,27 @@ class local_training_architecture_external extends external_api {
     }
 
     public static function multiple_delete_training_links($selectedIds) {
-        global $DB;
-
-        $params = self::validate_parameters(self::multiple_delete_training_links_parameters(), ['selectedIds' => $selectedIds]);
-
-        if (empty($params['selectedIds'])) {
-            throw new moodle_exception('invalid_parameter', 'error', '', 'Aucun ID fourni.');
+        global $CFG;
+        
+        // Validation
+        if (empty($selectedIds)) {
+            throw new invalid_parameter_exception('Aucun ID de lien fourni.');
         }
-
-        $trainingLinksFunctions = new training_links_functions();
-
-        foreach ($params['selectedIds'] as $id) {
-            if (!$DB->record_exists('local_training_architecture_training_links', ['id' => $id])) {
-                throw new moodle_exception('invalid_parameter', 'error', '', "L'ID $id n'existe pas.");
-            }
-            $trainingLinksFunctions->deleteLink($id);
-        }
-
-        return ['status' => 'success', 'message' => count($params['selectedIds']) . ' training links supprimés.'];
+        
+        // Construction de l'URL
+        $url = new moodle_url('/local/training_architecture/classes/multiple_delete/training_links.php', [
+            'ids' => implode(',', $selectedIds),
+            'sesskey' => sesskey()
+        ]);
+        
+        return [
+            'redirectUrl' => $url->out(false),
+        ];
     }
 
     public static function multiple_delete_training_links_returns() {
         return new external_single_structure([
-            'status'  => new external_value(PARAM_TEXT, 'Succès ou échec'),
-            'message' => new external_value(PARAM_TEXT, 'Message de confirmation'),
+            'redirectUrl' => new external_value(PARAM_URL, 'L\'URL de redirection après suppression'),
         ]);
     }
 

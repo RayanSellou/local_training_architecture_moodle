@@ -56,7 +56,7 @@ $functions = [
         'classpath'   => 'local/training_architecture/externallib.php',
         'description' => 'Delete multiple training links',
         'type'        => 'write',
-        // 'ajax'        => true,
+        'ajax'        => true,
     ],
     'local_training_architecture_get_training_level' => [
     'classname'   => 'local_training_architecture_external',

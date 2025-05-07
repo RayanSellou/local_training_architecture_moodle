@@ -181,8 +181,8 @@
 //   }
 // });
 
-define(['jquery', 'core/ajax'], function($, Ajax) {
-
+define(['jquery', 'core/ajax', 'core/notification'], function($, Ajax, Notification) {
+    
   function init() {
       const buttonLinks = document.getElementById('delete-selected-training-links');
       const buttonLu = document.getElementById('delete-selected-lu-to-lu');
@@ -214,27 +214,40 @@ define(['jquery', 'core/ajax'], function($, Ajax) {
       setupCheckboxHandler(allCheckboxesCourses, buttonCourses);
 
       function deleteSelected(button, checkboxes, methodName) {
-          button.addEventListener("click", function() {
-              let selectedIds = Array.from(checkboxes)
-                  .filter(checkbox => checkbox.checked)
-                  .map(checkbox => checkbox.value);
+        button.addEventListener("click", function(e) {
+            e.preventDefault(); // Empêche le rechargement
+            
+            let selectedIds = Array.from(checkboxes)
+                .filter(checkbox => checkbox.checked)
+                .map(checkbox => checkbox.value);
+    
+            if (selectedIds.length === 0) {
+                Notification.alert("Aucun élément sélectionné");
+                return;
+            }
+    
+            console.log("Envoi des IDs :", selectedIds); // Debug
+    
+            Ajax.call([{
+                methodname: methodName,
+                args: { selectedIds: selectedIds },
+                fail: function(error) {
+                    console.error("Erreur AJAX :", error);
+                    Notification.exception(error);
+                }
+            }])[0].done(function(response) {
+                if (!response || !response.redirectUrl) {
+                    throw new Error("Réponse invalide");
+                }
+                window.location.href = response.redirectUrl;
+            });
+        });
+    }
+    
 
-              if (selectedIds.length > 0) {
-                  Ajax.call([{
-                      methodname: methodName,
-                      args: { selectedIds: selectedIds }
-                  }])[0].done(function(url) {
-                      window.location.href = url;
-                  }).fail(function(error) {
-                      console.error('Erreur AJAX:', error);
-                  });
-              }
-          });
-      }
-
-      deleteSelected(buttonLinks, allCheckboxesLinks, 'local_training_architecture_delete_training_links');
-      deleteSelected(buttonLu, allCheckboxesLu, 'local_training_architecture_delete_lu_to_lu');
-      deleteSelected(buttonCourses, allCheckboxesCourses, 'local_training_architecture_delete_courses');
+      deleteSelected(buttonLinks, allCheckboxesLinks, 'local_training_architecture_multiple_delete_training_links');
+      deleteSelected(buttonLu, allCheckboxesLu, 'local_training_architecture_multiple_delete_lu_to_lu');
+      deleteSelected(buttonCourses, allCheckboxesCourses, 'local_training_architecture_delete_courses_not_in_architecture');
   }
 
   return {

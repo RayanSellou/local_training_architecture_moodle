@@ -25,99 +25,103 @@
  * @package   training_architecture
  */
 
-namespace local_training_architecture\local\multiple_delete;
+ namespace local_training_architecture\local\multiple_delete;
 
-use local_training_architecture\local\functions\common_functions;
-use local_training_architecture\local\functions\lu_lu_functions;
-
-require_once(dirname(__FILE__) . '/../../../../config.php');
-// require_once(dirname(__FILE__) . '/../functions/lu_lu_functions.php');
-// require_once(dirname(__FILE__) . '/../functions/common_functions.php');
-
-global $DB;
-$commonFunctions = new common_functions();
-$luFunctions = new lu_lu_functions();
-
-$ids = isset($_GET['id']) ? $_GET['id'] : [];
-$confirm  = optional_param('confirm', 0, PARAM_BOOL);
-$returnUrl = $CFG->wwwroot.'/local/training_architecture/index.php';
-$url = '';
-
-if (!empty($ids)) {
-    if(!is_array($ids)) {
-        throw new \moodle_exception('invalid_parameter_exception');
-    }
-    foreach ($ids as $id) {
-        if (!$lu = $DB->get_record('local_training_architecture_lu_to_lu', ['id' => $id])) {
-            throw new \moodle_exception('invalid_parameter_exception');
-        }
-    }
-
-    $string = '';
-    $count = count($ids);
-    foreach ($ids as $key => $id) {
-        $string .= 'id[]='.$id;
-        if ($key < $count - 1) {
-            $string .= '&';
-        }
-    }
-    $url = $CFG->wwwroot . '/local/training_architecture/classes/multiple_delete/lu_to_lu.php?' . $string;
-} else {
-    redirect($returnUrl);
-}
-
-$PAGE->set_url($url);
-require_login();
-$context = context_system::instance();
-require_capability('local/training_architecture:manage',$context);
-$PAGE->set_context($context);
-$PAGE->set_title(get_string('deletelulutitle', 'local_training_architecture'));
-$PAGE->set_heading(get_string('deletelulutitle', 'local_training_architecture'));
-$PAGE->set_pagelayout('admin');
-
-// DELETE
-if ($ids) {
-
-    // lu_lu has references
-    foreach ($ids as $id) {
-        if ($luFunctions->isLinkAlreadyUsedMultiple($id, $ids)) {
-            $PAGE->set_title(get_string('deletemultipletitle1', 'local_training_architecture') . 
-            count($ids) . get_string('deletemultiplelulutitle2', 'local_training_architecture'));
-
-            $PAGE->set_heading(get_string('deletemultipletitle1', 'local_training_architecture') . 
-            count($ids) . get_string('deletemultiplelulutitle2', 'local_training_architecture'));
-            
-            echo $OUTPUT->header();        
-            echo $OUTPUT->notification(get_string('notifyerrormultiplelutolu', 'local_training_architecture'), 'notifyproblem');
-            echo $OUTPUT->continue_button(new moodle_url('/local/training_architecture/index.php'));
-            echo $OUTPUT->footer();
-            die;
-        }
-    }
-
-    if (!$confirm) { // Cancel
-        $PAGE->set_title(get_string('deletemultipletitle1', 'local_training_architecture') . 
-        count($ids) . get_string('deletemultiplelulutitle2', 'local_training_architecture'));
-
-        $PAGE->set_heading(get_string('deletemultipletitle1', 'local_training_architecture') . 
-        count($ids) . get_string('deletemultiplelulutitle2', 'local_training_architecture'));
-
-        echo $OUTPUT->header();
-
-        $optionsYes = $url .= '&sesskey='.sesskey().'&confirm='.'1';
-        $formcontinue = new single_button(new moodle_url($optionsYes), get_string('confirmyes', 'local_training_architecture'), 'get');
-        
-        $formcancel = new single_button(new moodle_url('/local/training_architecture/index.php'), get_string('confirmno', 'local_training_architecture'), 'get');
-        echo $OUTPUT->confirm(get_string('deletemultiplewarning', 'local_training_architecture'), $formcontinue, $formcancel);
-        echo $OUTPUT->footer();
-        die;
-
-    } else { // Confirm
-        foreach ($ids as $id) {
-            $luFunctions->deleteLink($id);
-        }
-        redirect($returnUrl);
-    }
-}
-echo $OUTPUT->header();
-echo $OUTPUT->footer();
+ use moodle_url;
+ use context_system;
+ use core\output\notification;
+ use single_button;
+ use core_exception;
+ 
+ use local_training_architecture\local\functions\common_functions;
+ use local_training_architecture\local\functions\lu_lu_functions;
+ 
+ require_once(dirname(__FILE__) . '/../../../../config.php');
+ 
+ global $DB;
+ $commonFunctions = new common_functions();
+ $luFunctions = new lu_lu_functions();
+ 
+ // MODIFICATION : Récupération des IDs sous forme de string séparée par des virgules
+ $ids_string = optional_param('ids', '', PARAM_TEXT);
+ $ids = !empty($ids_string) ? explode(',', $ids_string) : [];
+ $ids = array_map('intval', $ids); // Conversion en entiers
+ $ids = array_filter($ids); // Supprime les valeurs vides
+ 
+ $confirm = optional_param('confirm', 0, PARAM_BOOL);
+ $returnUrl = $CFG->wwwroot.'/local/training_architecture/index.php';
+ 
+ // Validation des paramètres
+ if (!empty($ids)) {
+     foreach ($ids as $id) {
+         if (!$lu = $DB->get_record('local_training_architecture_lu_to_lu', ['id' => $id])) {
+             throw new moodle_exception('invalid_parameter_exception');
+         }
+     }
+ 
+     // MODIFICATION : Construction de l'URL avec moodle_url
+     $url = new moodle_url('/local/training_architecture/classes/multiple_delete/lu_to_lu.php', [
+         'ids' => implode(',', $ids),
+         'sesskey' => sesskey()
+     ]);
+ } else {
+     redirect($returnUrl);
+ }
+ 
+ $PAGE->set_url($url);
+ require_login();
+ $context = context_system::instance();
+ require_capability('local/training_architecture:manage', $context);
+ $PAGE->set_context($context);
+ $PAGE->set_title(get_string('deletelulutitle', 'local_training_architecture'));
+ $PAGE->set_heading(get_string('deletelulutitle', 'local_training_architecture'));
+ $PAGE->set_pagelayout('admin');
+ 
+ // DELETE
+ if ($ids) {
+     // Vérification des références
+     foreach ($ids as $id) {
+         if ($luFunctions->isLinkAlreadyUsedMultiple($id, $ids)) {
+             $PAGE->set_title(get_string('deletemultipletitle1', 'local_training_architecture') . 
+             count($ids) . get_string('deletemultiplelulutitle2', 'local_training_architecture'));
+ 
+             $PAGE->set_heading(get_string('deletemultipletitle1', 'local_training_architecture') . 
+             count($ids) . get_string('deletemultiplelulutitle2', 'local_training_architecture'));
+             
+             echo $OUTPUT->header();        
+             echo $OUTPUT->notification(get_string('notifyerrormultiplelutolu', 'local_training_architecture'), 'notifyproblem');
+             echo $OUTPUT->continue_button(new moodle_url('/local/training_architecture/index.php'));
+             echo $OUTPUT->footer();
+             die;
+         }
+     }
+ 
+     if (!$confirm) {
+         $PAGE->set_title(get_string('deletemultipletitle1', 'local_training_architecture') . 
+         count($ids) . get_string('deletemultiplelulutitle2', 'local_training_architecture'));
+ 
+         $PAGE->set_heading(get_string('deletemultipletitle1', 'local_training_architecture') . 
+         count($ids) . get_string('deletemultiplelulutitle2', 'local_training_architecture'));
+ 
+         echo $OUTPUT->header();
+ 
+         // MODIFICATION : Construction du bouton de confirmation
+         $formcontinue = new single_button(new moodle_url($url, ['confirm' => 1]), 
+             get_string('confirmyes', 'local_training_architecture'), 'get');
+         
+         $formcancel = new single_button(new moodle_url('/local/training_architecture/index.php'), 
+             get_string('confirmno', 'local_training_architecture'), 'get');
+             
+         echo $OUTPUT->confirm(get_string('deletemultiplewarning', 'local_training_architecture'), $formcontinue, $formcancel);
+         echo $OUTPUT->footer();
+         die;
+     } else {
+         foreach ($ids as $id) {
+             $luFunctions->deleteLink($id);
+         }
+         redirect($returnUrl, get_string('deletesuccess', 'local_training_architecture'), null, notification::NOTIFY_SUCCESS);
+     }
+ }
+ 
+ echo $OUTPUT->header();
+ echo $OUTPUT->footer();

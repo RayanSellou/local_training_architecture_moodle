@@ -205,12 +205,13 @@ class lu_to_lu extends moodleform {
                 $luIds[$i] = $data['luToLuId' . $i];
             }
 
-            $linkedLUs = $DB->get_records_sql_menu(
-                "SELECT luid, 1
-                FROM {local_training_architecture_training_links}
-                WHERE trainingid = :trainingid AND luid IN (" . implode(',', array_fill(0, count($luIds), '?')) . ")",
-                array_merge(['trainingid' => $data['luToLuTrainingId']], array_values($luIds))
-            );
+            list($inLuSql, $inLuParams) = $DB->get_in_or_equal($luIds, SQL_PARAMS_QM);
+            $sql = "SELECT luid, 1
+                    FROM {local_training_architecture_training_links}
+                    WHERE trainingid = ? AND luid $inLuSql";
+            $params = array_merge([$data['luToLuTrainingId']], $inLuParams);
+
+            $linkedLUs = $DB->get_records_sql_menu($sql, $params);
 
             foreach ($luIds as $i => $luId) {
                 if (!isset($linkedLUs[$luId])) {
@@ -254,15 +255,15 @@ class lu_to_lu extends moodleform {
             $linkedCourses = $DB->get_records_sql_menu(
                 "SELECT courseid, 1
                 FROM {local_training_architecture_training_links}
-                WHERE trainingid = :trainingid AND courseid IN (" . implode(',', array_fill(0, count($courseIds), '?')) . ")",
-                array_merge(['trainingid' => $data['luToLuTrainingId']], $courseIds)
+                WHERE trainingid = ? AND courseid IN (" . implode(',', array_fill(0, count($courseIds), '?')) . ")",
+                array_merge([$data['luToLuTrainingId']], $courseIds)
             );
 
             $coursesNotInArch = $DB->get_records_sql_menu(
                 "SELECT courseid, 1
                 FROM {local_training_architecture_courses_not_architecture}
-                WHERE trainingid = :trainingid AND courseid IN (" . implode(',', array_fill(0, count($courseIds), '?')) . ")",
-                array_merge(['trainingid' => $data['luToLuTrainingId']], $courseIds)
+                WHERE trainingid = ? AND courseid IN (" . implode(',', array_fill(0, count($courseIds), '?')) . ")",
+                array_merge([$data['luToLuTrainingId']], $courseIds)
             );
 
             $coursesNotLinked = '';
