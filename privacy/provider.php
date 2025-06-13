@@ -13,9 +13,7 @@ use core_privacy\local\metadata\null_provider;
 defined('MOODLE_INTERNAL') || die();
 
 class provider implements null_provider {
-    /**
-     * Déclaration officielle que le plugin ne stocke aucune donnée personnelle
-     */
+
     public static function get_reason() : string {
         return 'privacy:metadata';
     }
